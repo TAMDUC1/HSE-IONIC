@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="realgreen-invert">
+    <ion-buttons slot="start">
+      <ion-button (click)="toggleSideMenu()">
+        <ion-icon class="menu-icon"  name="md-menu" color="realgreen" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="realgreen" class="main-b-header7">Hệ thống kiểm tra</ion-title>
+  </ion-toolbar >
+  <ion-toolbar color="realgreen-invert">
+    <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="openSearchModal()" search-icon="ion-pin" ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+  <div id="card-list">
+    <ion-list >
+     <!-- <ion-card *ngFor="let audit of CompArrs">
+        <ion-card-header>
+          {{audit.data.comp.title.vi}}
+        </ion-card-header>
+        <div text-right padding>
+          <ion-button fill="clear" slot="primary"  color="primary" [routerLink]="['/','tabs','tab2','audits-detail',audit.uuid]"> Process</ion-button>
+        </div>
+      </ion-card>-->
+      <ion-card class="real-card2 slide-up"  *ngFor="let audit of CompArrs"   (click)="openDetail('side-menu/audit/tabs/tab1/audit-detail',audit.uuid)" >
+        <div   class="ribbon pop-in">Done</div>
+        <ion-card-content class="card1">
+
+          <ion-label><ion-text color="realgreen"><h2 class="main-b-header7">{{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+
+          <!--<ion-item lines="none">
+            <ion-button fill="outline" expand="block" slot="end" color="success"  [routerLink]="['/','side-menu','audit']" >
+              Xem
+              </ion-button>
+          </ion-item>-->
+
+        </ion-card-content>
+      </ion-card>
+
+    </ion-list>
+  </div>
+</ion-content>

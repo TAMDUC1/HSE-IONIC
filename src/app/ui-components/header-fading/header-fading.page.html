@@ -1,0 +1,41 @@
+
+
+<ion-header no-border>
+    <ion-toolbar class="first" color="orange" [class.show-background]="showToolbar">
+        <ion-buttons slot="start">
+          <ion-button (click)="toggleSideMenu()">
+              <ion-icon color="white"  class="menu-icon"  name="md-menu"  slot="start"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title  [class.show-title]="showTitle">Fading header</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content  no-padding fullscreen (ionScroll)="onScroll($event)" [scrollEvents]="true" [class.transition]="transition">
+  
+
+
+
+ <!-- skeleton thumbnail -->
+ <div class="top-grey-box" ></div>
+ <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+    <ion-thumbnail slot="start">
+      <ion-skeleton-text ></ion-skeleton-text>
+    </ion-thumbnail>
+    <!-- <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar> -->
+    <ion-label>
+      <h3>
+        <ion-skeleton-text  style="width: 50%"></ion-skeleton-text>
+      </h3>
+      <p>
+        <ion-skeleton-text  style="width: 80%"></ion-skeleton-text>
+      </p>
+      <p>
+        <ion-skeleton-text  style="width: 60%"></ion-skeleton-text>
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-content>

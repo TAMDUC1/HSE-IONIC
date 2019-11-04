@@ -1,0 +1,45 @@
+<ion-header no-border >
+    <ion-toolbar [class.show-liner]="showLiner" mode="ios">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon color="tertiary"  class="menu-icon"  name="md-menu"  slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      <ion-title color="tertiary" slot="start"  [class.show-title]="showTitle">Header title</ion-title>
+    </ion-toolbar>
+  
+  </ion-header>
+  
+<ion-content  no-padding (ionScroll)="onScroll($event)" [scrollEvents]="true" [class.transition]="transition">
+    <ion-item lines="none">
+        <ion-label>
+          <ion-text color="tertiary">
+              <h1 class="main-b-header1">Header title</h1>
+          </ion-text>
+        </ion-label>
+    </ion-item>    
+
+
+     <!-- skeleton thumbnail -->
+     <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+        <ion-thumbnail animated slot="start">
+          <ion-skeleton-text ></ion-skeleton-text>
+        </ion-thumbnail>
+        <!-- <ion-avatar slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-avatar> -->
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+</ion-content>
+
+

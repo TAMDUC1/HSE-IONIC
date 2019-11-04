@@ -1,0 +1,69 @@
+<ion-header no-border>
+    <ion-toolbar color="">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon class="menu-icon"  name="md-menu" color="greengrab" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <!-- <div class="logo-box">
+      <img src="https://pbs.twimg.com/profile_images/1148952014036054016/xxv7lLvp.jpg" alt="">
+    </div> -->
+    <ion-item lines="none">
+        <ion-label>
+            <ion-text color="greengrab">
+                <h1 class="main-header1">Sign in</h1>
+            </ion-text>
+        </ion-label>
+    </ion-item>    
+    
+    <form [formGroup]="loginForm" novalidate>
+      <div class="login-form">
+        <ion-text color="dark">
+            <h2 text-center class="ion-margin-bottom main-header7">
+                Sign in to continue
+            </h2>
+        </ion-text>
+        <ion-list lines="none" class="ion-margin-top">
+              <ion-item>
+                <ion-icon slot="start" color="lightgrey" name="ios-mail-outline"></ion-icon>
+                <ion-input formControlName="username" type="email" placeholder="Username" ></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon slot="start" color="lightgrey" name="ios-key-outline"></ion-icon>
+                <ion-input formControlName="password" type="password" placeholder="Password" ></ion-input>
+              </ion-item>
+
+        </ion-list>
+         <!-- Error meassage -->
+        <ion-text color="danger">
+            <p *ngIf="!loginForm.controls.username.valid && loginForm.controls.username.touched">
+                <ion-icon name="information-circle-outline"></ion-icon> This field must be at least 3 characters long!
+            </p>
+        </ion-text>
+        <ion-text color="danger">
+            <p *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.touched">
+                <ion-icon name="information-circle-outline"></ion-icon> This field must be at least 3 characters long!
+            </p>
+        </ion-text>
+
+
+        <ion-button mode="ios" color="realgreen" expand="block"  [disabled]="!loginForm.valid"  (click)="login()" >
+          Sign in
+        </ion-button>
+        <ion-button mode="ios" color="pink" expand="block"  class="ion-margin-top"  routerLink="/side-menu/register">
+            Create new user
+        </ion-button>
+        <ion-text color="dark">
+                <h2 text-center class="ion-margin-bottom main-header8">
+                    By clicking Sign up you agree to the following Terms ans Conditions without reservation
+                </h2>
+            </ion-text>
+      </div>
+   </form>
+  </ion-content>

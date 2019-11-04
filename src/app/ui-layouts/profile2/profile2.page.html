@@ -1,0 +1,81 @@
+<ion-header >
+    <ion-toolbar class="first" color="dark">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title slot="start">PROFILE 2</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen no-padding>
+
+    <div class="profile-header" [ngStyle]="{'background-image': 'url(' + (profile2 | async)?.imgCover + ')'}"></div>
+    <div class="profile">
+      <div class="profile-box">
+          <ion-img  class="profile-image" src="{{(profile2 | async)?.imgProfile}}"></ion-img>
+          <h3 id="profile2-name" padding-top>{{(profile2 | async)?.name}}</h3>
+
+          <ion-button  *ngIf="!following"  color="green" (click)="follow()">Follow</ion-button>
+          <ion-button *ngIf="following"  color="light" (click)="follow()">
+            <ion-icon slot="start" name="checkmark"></ion-icon>
+            Following
+          </ion-button>
+      
+
+              <ion-list>
+                    <ion-item lines="none">
+                        <ion-icon slot="start" name="md-cafe" item-left></ion-icon>
+                        <ion-label>
+                            <h2>Opening time</h2>
+                            <div [innerHTML]="(profile2 | async)?.openingTime" class="opening-time"></div>
+                        </ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                      <ion-icon slot="start" name="ios-mail" item-left></ion-icon>
+                      <ion-label>
+                          <h2>ceo@cemo.com</h2>
+                          <p>work email</p>
+                      </ion-label>
+            
+                  </ion-item>
+            
+                  <ion-item lines="none">
+                    <ion-icon slot="start" name="ios-call" item-left></ion-icon>
+                    <ion-label>
+                        <h2>009923124322</h2>
+                        <p>mobile phone</p>
+                    </ion-label>
+            
+                  </ion-item>
+            
+                  <ion-item lines="none">
+                      <ion-icon slot="start" name="logo-linkedin" item-left></ion-icon>
+                      <ion-label>
+                          <h2>linkedin.com/cemo</h2>
+                          <p>linked in </p>
+                      </ion-label>
+            
+                  </ion-item>
+                  <ion-item lines="none">
+                    <ion-icon slot="start" name="logo-facebook" item-left></ion-icon>
+                    <ion-label>
+                        <h2>facebook.com/cemo</h2>
+                        <p>facebook</p>
+                    </ion-label>
+            
+                  </ion-item>
+                  <ion-item lines="none">
+                      <ion-icon slot="start" name="logo-skype" item-left></ion-icon>
+                      <ion-label>
+                          <h2>cemo@outlook.com</h2>
+                          <p>skype</p>
+                      </ion-label>
+            
+                  </ion-item>
+                </ion-list>
+
+      </div>
+    </div>
+</ion-content>

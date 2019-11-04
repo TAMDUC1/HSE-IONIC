@@ -1,0 +1,57 @@
+<ion-header no-border>
+    <ion-toolbar color="">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon class="menu-icon"  name="md-menu" color="greengrab" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-item lines="none">
+        <ion-label>
+            <ion-text color="greengrab">
+                <h1 class="main-header1">Forgot</h1>
+            </ion-text>
+        </ion-label>
+    </ion-item>    
+
+
+    <form [formGroup]="forgotForm" novalidate>
+            <div class="forgot-form">            npm install --save-dev @angular-devkit/build-angular
+
+
+                <ion-text color="dark">
+                    <h2 text-center class="ion-margin-bottom main-header7">
+                            Please enter your email address. You will receive a link to create a new password via email.
+                    </h2>
+                </ion-text>
+              <ion-list lines="none" class="ion-margin-top">
+                    <ion-item>
+                      <ion-icon slot="start" color="lightgrey" name="ios-mail-outline"></ion-icon>
+                      <ion-input formControlName="username" type="email" placeholder="Username"></ion-input>
+                    </ion-item>
+              </ion-list>
+              <!-- Error meassage -->
+              <ion-text color="danger">
+                  <p *ngIf="!forgotForm.controls.username.valid && forgotForm.controls.username.touched">
+                      <ion-icon name="information-circle-outline"></ion-icon> Username must be email!
+                  </p>
+              </ion-text>
+
+              <!--Submit buttton -->
+              <ion-button mode="ios" color="greengrab" expand="block"  [disabled]="!forgotForm.valid"  (click)="resetPassword()" >
+                Request password
+              </ion-button>
+              <ion-button mode="ios" color="pink" expand="block" fill="outline" class="ion-margin-top"  routerLink="/side-menu/login">
+                  Login
+              </ion-button>
+              <ion-text color="dark">
+                    <h2 text-center class="ion-margin-bottom main-header8">
+                        By clicking Sign up you agree to the following Terms ans Conditions without reservation
+                    </h2>
+                </ion-text>
+            </div>
+     </form>
+    </ion-content>

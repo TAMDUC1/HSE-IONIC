@@ -1,0 +1,27 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-title >Modal detail</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="medium" (click)="onCancel()">
+        <ion-icon slot="icon-only"  name="ios-arrow-down"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="">
+  <ion-card class="info-card-2">
+    <ion-list>
+      <ion-list-header color="white">
+        Danh sách nội dung kiểm tra
+      </ion-list-header>
+
+      <ion-item (click)="openItemDetail('side-menu/audit/tabs/tab1/audit-item-details',nnName,lvName,c.name)" *ngFor="let c of content[0]">
+               <ion-label color="green">
+                 {{c.name}}
+               </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>
+

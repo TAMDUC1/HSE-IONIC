@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      <ion-title slot="start">Masonry</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content no-padding>
+
+<!--***********  Masonry  ***********-->
+
+<div class="masonry-layout">
+  <div class="masonry-content " *ngFor="let masonry of lists | async">
+      <img [src]="masonry.url"  />      
+      <div class="content-padding">
+        <p><strong>{{masonry.title}}</strong></p>
+        <p>{{masonry.description}}</p>
+      </div>
+
+       <ion-list>
+        <ion-item lines="none">
+          <ion-avatar>
+            <img [src]="masonry.profileImg">
+          </ion-avatar>
+          <ion-label slot="">
+            <h3>{{masonry.profileName}}</h3>
+          </ion-label>
+        </ion-item>    
+      </ion-list>     
+  </div>
+</div> 
+</ion-content>

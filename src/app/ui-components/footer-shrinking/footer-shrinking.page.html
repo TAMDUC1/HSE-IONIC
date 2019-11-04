@@ -1,0 +1,41 @@
+<ion-header no-border >
+  <ion-toolbar color="lightgrey">
+      <ion-buttons slot="start">
+          <ion-button (click)="toggleSideMenu()">
+              <ion-icon color="white"  class="menu-icon"  name="md-menu"  slot="start"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+    <ion-title color="white" slot="start">shrinking footer</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content #pageContent no-padding>
+    <!-- skeleton thumbnail -->
+    <ion-item *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+       <ion-thumbnail animated slot="start">
+         <ion-skeleton-text ></ion-skeleton-text>
+       </ion-thumbnail>
+       <!-- <ion-avatar slot="start">
+           <ion-skeleton-text animated></ion-skeleton-text>
+         </ion-avatar> -->
+       <ion-label>
+         <h3>
+           <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+         </h3>
+         <p>
+           <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+         </p>
+         <p>
+           <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+         </p>
+       </ion-label>
+     </ion-item>
+   </ion-content>
+   
+   <ion-footer [scrollHide]="footerScrollConfig" [scrollContent]="pageContent">
+    <ion-toolbar color="tertiary">
+      <ion-searchbar  placeholder="Search.." (ionFocus)="openSearchModal()" search-icon="ios-search" ></ion-searchbar>
+  </ion-toolbar>
+  </ion-footer>

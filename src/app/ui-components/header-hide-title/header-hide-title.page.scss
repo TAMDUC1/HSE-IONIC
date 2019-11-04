@@ -1,0 +1,96 @@
+
+
+ion-toolbar {
+    // --background: transparent;
+    // --ion-color-base: transparent !important;
+  //opacity: 0;
+}
+
+
+
+
+//******** hide toolbar tille by default  ******//
+
+ion-title{
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+// .show-title  ion-toolbar:last-child {
+//     --border-width: 0 0 0.55px;
+// }
+
+//***** show toolbar liner when showLiner = true ********//
+ion-toolbar:last-child.show-liner{//.header-ios ion-toolbar:last-child 
+        --border-width: 0 0 0.55px;
+}
+//***** show toolbar title when showTitle = true ********//
+.show-title{
+
+    // animation: fadein 0.4s;
+    // -moz-animation: fadein 0.4s; /* Firefox */
+    // -webkit-animation: fadein 0.4s; /* Safari and Chrome */
+    // -o-animation: fadein 0.4s; /* Opera */
+    // --color: #fff !important;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -ms-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+    visibility: visible;
+     opacity: 1;
+         
+   // background: var(--ion-color-danger);
+
+}
+/* Show background if class is active */
+.show-background {
+    border-style: none;
+    animation: fadein 0.1s;
+    -moz-animation: fadein 0.1s; /* Firefox */
+    -webkit-animation: fadein 0.1s; /* Safari and Chrome */
+    -o-animation: fadein 0.1s; /* Opera */
+    
+    //background: var(--ion-color-danger);
+}
+
+
+.hide-title {
+    border-style: none;
+    animation: fadeout 0.5s;
+    -moz-animation: fadein 0.5s; /* Firefox */
+    -webkit-animation: fadein 0.5s; /* Safari and Chrome */
+    -o-animation: fadein 0.5s; /* Opera */
+
+    //background: var(--ion-color-danger);
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+
+
+
+
+

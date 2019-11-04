@@ -1,0 +1,106 @@
+<ion-header >
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      <ion-title slot="start">PROFILE 1</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+
+    <div id="profile1-info" class="test-class" padding>
+        <img id="profile1-image" class="pop-in" [src]="(profile | async)?.imgProfile"/>
+        <h3 id="profile1-name">{{(profile | async)?.name}}</h3>
+        <!--<p>{{(profile2 | async)?.company}} &bull; {{(profile2 | async)?.position}}</p> -->
+        <p class="profile1-description">{{(profile | async)?.position}} of {{(profile | async)?.company}}</p>
+        <ion-button  *ngIf="!following"  color="green" (click)="follow()">Follow</ion-button>
+        <ion-button *ngIf="following"  color="light" (click)="follow()">
+          <ion-icon slot="start" name="checkmark"></ion-icon>
+          Following
+        </ion-button>
+    
+     
+        <ion-grid >
+          <ion-row class="profile1-numbers">
+    
+            <ion-col size="4">
+              <span>{{(profile | async)?.follower}}</span>
+              <p>Followers</p>
+            </ion-col>
+    
+            <ion-col size="4">   
+              <span>{{(profile | async)?.following}}</span>
+              <p>Following</p>
+            </ion-col>
+    
+            <ion-col size="4">
+              <span>{{(profile | async)?.following}}</span>
+              <p>Following</p>
+            </ion-col>
+    
+          </ion-row>
+        </ion-grid>
+    
+      </div>
+    
+    
+    <!--***********  About  ***********-->
+    <ion-item class="margin-top-5" lines="none">
+        <h1 class="margin-top-5 main-header5">About</h1>
+    </ion-item>
+    <ion-item lines="none">
+      <p >{{(profile | async)?.aboutMe}}</p>
+    </ion-item>
+    
+    <!--***********  Contact  ***********-->
+    <ion-item class="margin-top-5" lines="none">
+        <h1 class="margin-top-5 main-header5">Contact</h1>
+    </ion-item>
+      <ion-list>
+          <ion-item lines="none">
+            <ion-icon slot="start" name="ios-mail" item-left></ion-icon>
+            <ion-label>
+                <h2>ceo@cemo.com</h2>
+                <p>work email</p>
+            </ion-label>
+  
+        </ion-item>
+  
+        <ion-item lines="none">
+          <ion-icon slot="start" name="ios-call" item-left></ion-icon>
+          <ion-label>
+              <h2>009923124322</h2>
+              <p>mobile phone</p>
+          </ion-label>
+  
+        </ion-item>
+  
+        <ion-item lines="none">
+            <ion-icon slot="start" name="logo-linkedin" item-left></ion-icon>
+            <ion-label>
+                <h2>linkedin.com/cemo</h2>
+                <p>linked in </p>
+            </ion-label>
+  
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="logo-facebook" item-left></ion-icon>
+          <ion-label>
+              <h2>facebook.com/cemo</h2>
+              <p>facebook</p>
+          </ion-label>
+  
+        </ion-item>
+        <ion-item lines="none">
+            <ion-icon slot="start" name="logo-skype" item-left></ion-icon>
+            <ion-label>
+                <h2>cemo@outlook.com</h2>
+                <p>skype</p>
+            </ion-label>
+  
+        </ion-item>
+      </ion-list>
+</ion-content>

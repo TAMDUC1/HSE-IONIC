@@ -1,0 +1,61 @@
+
+    
+<ion-header>
+    <ion-toolbar color="danger">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title slot="start">GALERY</ion-title>
+    </ion-toolbar>
+    <ion-toolbar no-border-top color="danger">
+      <ion-segment [(ngModel)]="galleryView" >
+        <ion-segment-button value="two">
+             <ion-label>Two columns </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="three">
+            <ion-label>Three columns </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="four">
+            <ion-label>Four columns</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content >
+
+  
+  <!--***********  2 columns  ***********-->
+  <ion-grid  *ngIf="galleryView==='two'">
+      <ion-row wrap color="gray">
+        <ion-col size="6"  *ngFor="let image of imagesArray,let i = index">
+            <img [src]="image.url"   (click)="openImageViewer(i)"/>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+  
+  <!--***********  3 columns  ***********-->
+  
+  <ion-grid *ngIf="galleryView==='three'">
+      <ion-row wrap color="gray">
+        <ion-col size="4"  *ngFor="let image of imagesArray,let i = index"  >
+          <img [src]="image.url"   (click)="openImageViewer(i)"/>
+        
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+  
+  
+  <!--***********  4 columns  ***********-->
+  <ion-grid *ngIf="galleryView==='four'">
+      <ion-row wrap color="gray">
+        <ion-col  size="3" *ngFor="let image of imagesArray,let i = index" >
+            <img [src]="image.url"   (click)="openImageViewer(i)"/>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+  
+  </ion-content>
+  

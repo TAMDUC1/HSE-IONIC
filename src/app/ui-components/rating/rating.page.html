@@ -1,0 +1,28 @@
+<ion-header >
+    <ion-toolbar color="gold">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon color="dark"  class="menu-icon"  name="md-menu"  slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      <ion-title slot="start">Rating</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-card  class="info-card ion-margin ion-padding-top ion-padding-bottom"  >
+        <ion-card-content>
+
+                  <!-- ****** rating ******* -->
+                  <rating [(ngModel)]="rating"
+                  readonly="false"
+                  size="default" 
+                  resettable= "true">
+                  </rating>
+                  <br>
+                  <h1 class="ion-text-center">Rating: {{rating}}</h1>
+
+        </ion-card-content>
+    </ion-card>
+  </ion-content>
+     

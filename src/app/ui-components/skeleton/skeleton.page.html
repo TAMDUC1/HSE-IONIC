@@ -1,0 +1,74 @@
+
+<ion-header no-border >
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start">
+            <ion-button (click)="toggleSideMenu()">
+                <ion-icon color="white"  class="menu-icon"  name="md-menu"  slot="start"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      <ion-title color="white" slot="start">skeleton</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content no-padding>
+    <div class="top-grey-box" ></div>
+    <ion-thumbnail class="large" slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+    <ion-list class="ion-padding">
+   
+        <!-- skeleton text -->
+    <div class="ion-margin-top ion-padding custom-skeleton" >
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      <ion-skeleton-text animated></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    </div>
+
+
+        <!-- skeleton header  -->
+        <ion-list-header>
+          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+        </ion-list-header>
+
+        <!-- skeleton thumbnail -->
+        <ion-item *ngFor="let i of [0,1,2]">
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-thumbnail>
+          <!-- <ion-avatar slot="start">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-avatar> -->
+          <ion-label>
+            <h3>
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            </h3>
+            <p>
+              <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+            </p>
+          </ion-label>
+        </ion-item>
+
+
+        <!-- skeleton avatar -->
+        <ion-item *ngFor="let i of [0,1,2]">
+            <ion-avatar slot="start">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-avatar>
+            <ion-label>
+              <h3>
+                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+              </h3>
+              <p>
+                <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+              </p>
+            </ion-label>
+          </ion-item>
+          
+      </ion-list>
+</ion-content>

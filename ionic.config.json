@@ -1,0 +1,7 @@
+{
+  "name": "ionic4RC_firebase_v1.0",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
