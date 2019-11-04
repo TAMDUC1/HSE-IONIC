@@ -1,2 +1,2 @@
-ionic 4 firebase fullapp v1
-created by: methee1979@gmail.com
+ionic-hse
+created by: phamductam2004@gmail.com
