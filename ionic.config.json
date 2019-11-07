@@ -1,7 +1,9 @@
 {
   "name": "ionic4RC_firebase_v1.0",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "id": "575355d9"
 }

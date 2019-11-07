@@ -4,6 +4,7 @@ import { catchError, tap , map } from 'rxjs/operators';
 import { Observable, from, of, throwError  } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { Audit } from '../../app-audit/model/audit.model';
+import { DummyModel } from '../../app-audit/model/dummy.model';
 import { IAudit } from '../../app-audit/audit';
 import { NetworkService,ConnectionStatus } from '../network.service';
 import { OfflineManagerService } from '../offline-manager.service';
@@ -11,6 +12,8 @@ import { OfflineManagerService } from '../offline-manager.service';
 const API_STORAGE_KEY = 'specialkey';
 const headerDict = {
     'Accept': 'application/json',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
     'Access-Control-Allow-Origin': '*'
 };
 //Access-Control-Allow-Origin
@@ -18,7 +21,11 @@ let headers : HttpHeaders = new HttpHeaders();
 headers.append('','');
 
 const httpOptions = {
-    headers: new HttpHeaders(headerDict)
+    headers: new HttpHeaders(headerDict),
+  //  header('Access-Control-Allow-Origin: *');
+
+// Access-Control-Allow-Origin: *
+    // “Access-Control-Allow-Origin: *”)
 };
 @Injectable({
   providedIn: 'root'
@@ -43,12 +50,20 @@ export class ApiService {
 
     private auditUrl : string ='https://localhost:5001/api/HseAudits/';
 
+    // dummy url get
+    private dummyUrl : string = 'http://dummy.restapiexample.com/api/v1/employees';
     constructor(private Http: HttpClient,
                 private  networkService: NetworkService,
                 private storage: Storage,
                 private offlineManager: OfflineManagerService)
     { }
-
+    getAllDummy(): Observable<DummyModel[]>{
+        return this.Http.get<DummyModel[]>(this.dummyUrl, httpOptions)
+            .pipe(
+                catchError(this.handleError)
+            )
+            ;
+    }
     getAllAudits(): Observable<IAudit[]>{
         return this.Http.get<IAudit[]>(this.auditUrl, httpOptions)
             .pipe(

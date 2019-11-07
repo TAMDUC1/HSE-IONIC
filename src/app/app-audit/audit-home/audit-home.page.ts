@@ -19,6 +19,7 @@ export class AuditHomePage implements OnInit {
     public audit:IAudit;
     public CompArrs = [];
     page = 0;
+    public dummy ={};
   constructor(
       private activatedRoute: ActivatedRoute,
       private navController: NavController,
@@ -60,6 +61,7 @@ export class AuditHomePage implements OnInit {
                 }
 
             });
+
            // console.log('temp',temp);
             this.audits = res;
             this.dataService.setData(1,this.audits);
@@ -70,6 +72,10 @@ export class AuditHomePage implements OnInit {
                 refresher.target.complete();
             }
         })
+       /* this.apiService.getAllDummy().subscribe((res)=>{
+            console.log('dummy',res);
+            this.dummy = res[0];
+        })*/
     }
 
 
