@@ -8,3 +8,27 @@
   -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, 0)  !important;
   box-shadow: 0 4px 16px rgba(0,0,0,0) !important;
 }
+.horizontal-scroll {
+  margin-left: 12px;
+  white-space: nowrap;
+  height: auto;
+  overflow-X: scroll;
+  overflow-y: auto;
+
+}
+.img-gallery-box{
+  display: inline-block;
+  padding: 4px;
+}
+.img-gallery{
+  margin-left: 8px;
+  width:104px;
+  height: 72px;
+  display: inline-block;
+  border-radius: 8px;
+}
+.img-gallery img{
+  border-radius: 5px;
+  width:80px;
+  height: 60px;
+}

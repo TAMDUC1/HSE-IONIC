@@ -8,30 +8,38 @@ import { DummyModel } from '../../app-audit/model/dummy.model';
 import { IAudit } from '../../app-audit/audit';
 import { NetworkService,ConnectionStatus } from '../network.service';
 import { OfflineManagerService } from '../offline-manager.service';
+import { HTTP } from '@ionic-native/http/ngx';
 
 const API_STORAGE_KEY = 'specialkey';
 const headerDict = {
     'Accept': 'application/json',
     'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials':'true'
 };
 //Access-Control-Allow-Origin
 let headers : HttpHeaders = new HttpHeaders();
+const newHeaders = new HttpHeaders().set("X-CustomHeader", "custom header value")
+    .append('Content-Type', 'application/json')
+    .append("'Access-Control-Allow-Origin", "*")
+    .append("Accept", "application/json")
+    .append("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+
 headers.append('','');
 
+/*const httpOptions = {
+    headers: new HttpHeaders(headerDict)
+};*/
 const httpOptions = {
-    headers: new HttpHeaders(headerDict),
-  //  header('Access-Control-Allow-Origin: *');
-
-// Access-Control-Allow-Origin: *
-    // “Access-Control-Allow-Origin: *”)
+    headers: newHeaders
 };
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
+    requestObject : any = null;
     private Audit = new Audit(
         '',
         'any',
@@ -48,28 +56,39 @@ export class ApiService {
         '',
         '');
 
-    private auditUrl : string ='https://localhost:5001/api/HseAudits/';
+    private auditUrl : string ='http://54.169.202.105:5000/api/HseAudits/';
 
     // dummy url get
     private dummyUrl : string = 'http://dummy.restapiexample.com/api/v1/employees';
     constructor(private Http: HttpClient,
                 private  networkService: NetworkService,
                 private storage: Storage,
-                private offlineManager: OfflineManagerService)
+                private offlineManager: OfflineManagerService,
+                private HTTP :HTTP
+
+    )
     { }
-    getAllDummy(): Observable<DummyModel[]>{
+   /* getAllDummy(): Observable<DummyModel[]>{
         return this.Http.get<DummyModel[]>(this.dummyUrl, httpOptions)
             .pipe(
                 catchError(this.handleError)
             )
             ;
-    }
+    }*/
     getAllAudits(): Observable<IAudit[]>{
         return this.Http.get<IAudit[]>(this.auditUrl, httpOptions)
             .pipe(
                 catchError(this.handleError)
             )
             ;
+    }
+    getAllAuditsNative(){
+      return this.HTTP.get(this.auditUrl,{},{
+            'Content-Type' : 'application/json'
+        }).then(res =>
+            this.requestObject = JSON.parse(res.data))
+            .catch(err => this.requestObject = err)
+        ;
     }
     getAuditSingle(uuid:string): Observable<IAudit>{
         var url = this.auditUrl.concat(uuid);

@@ -70,6 +70,12 @@
 
 
 //********  top ***********//
+.from-top-modal-filter .modal-wrapper {
+    height: 30%;
+    bottom: 70%;
+    position: absolute;
+    display: block;
+}
 .from-top-modal .modal-wrapper {
     height: 20%;
     bottom: 80%;
@@ -1129,11 +1135,87 @@
         width: 100%;
         text-align: center;
     }
-  
+
+
+.real-card-audit  {
+    position: relative;
+    width: 100% !important;
+
+    height:150px !important;
+    margin: 0px 0px 0px 0px !important;
+
+    //min-height: 150vh !important;
+    //max-height: 160vh !important;
+
+}
+// .card-tall  .card-tall-bg{
+//     height: 230px;
+// }
+.real-card-audit-bg:before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+}
+.real-card-audit-bg {
+    position: relative;
+    height: 158px;
+    background-color: #dddddd;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-size: cover;
+    background-position: center;
+    border-radius: 0px  !important;
+}
+
+.real-card-audit-bg .card1-title {
+    width: 100px;
+    padding:0px 5px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; // This is where the magic happens
+
+    font-style: roboto;
+    font-size: 16px;
+    font-weight: 400;
+
+    color: #FFFFFF;
+    position: absolute;
+    top: 30%;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 100%;
+    text-align: center;
+}
+
+.real-card-audit-bg .card1-star {
+    width: 133px !important;
+    height:133px !important;
+
+    padding:0px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; // This is where the magic happens
+    font-size: 16px;
+    font-weight: normal;
+    color: #FFFFFF;
+    position: absolute;
+    top: 60%;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    width: 100%;
+    text-align: center;
+}
 
 
 
- // ************ Original  wide card ************//  
+
+// ************ Original  wide card ************//
  .card-wide  {
     position: relative;  
 

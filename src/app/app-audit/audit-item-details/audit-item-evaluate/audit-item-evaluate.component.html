@@ -1,0 +1,48 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-title >Đánh giá</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button color="green"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="medium" (click)="onCancel()">
+        <ion-icon slot="icon-only"  name="ios-arrow-down"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="">
+  <div class="profile-form">
+        <form [formGroup]="form" >
+   <!--   <ion-text color="green">
+        <h2 text-center color="green" class="ion-margin-bottom main-header7">
+          Nhóm nghành {{nnName}} <br>
+          Lĩnh vực kiểm tra {{lvName}}.
+        </h2>
+      </ion-text>-->
+      <ion-list lines="none">
+        <ion-item>
+          <ion-textarea type="text" formControlName="description" rows=6 placeholder="Nhận xét" ></ion-textarea>
+        </ion-item>
+        <!--<ion-item color="#ABE99A">
+          <ion-label style="color:#3b493e;">Nhận xét</ion-label>
+          <ion-textarea type="text" color=""  formControlName="description" style="color: #78927e" ></ion-textarea>
+        </ion-item>-->
+        <ion-item color="#0ec254">
+          <ion-label style="color: #3b493e">Đánh giá</ion-label>
+          <ion-select value="" ok-text="ok" style="color: #78927e"  cancel-text="huy" formControlName="evaluate">
+            <ion-select-option value="ok" style="color: #78927e">Đạt</ion-select-option>
+            <ion-select-option value="not"style="color: #78927e">Không đạt</ion-select-option>
+            <ion-select-option value="noapply"style="color: #78927e">Không áp dụng</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-button mode="ios" color="green" fill="outline" expand="block" class="ion-margin-top"  (click)="onEditToBackendNative()">
+          Submit
+      </ion-button>
+
+    </form>
+    </div>
+</ion-content>
+

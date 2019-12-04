@@ -6,18 +6,22 @@
       </ion-button>
     </ion-buttons>
     <ion-title color="realgreen" class="main-b-header7">Hệ thống kiểm tra</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onOpenModal()">
+        <ion-icon class="menu-icon"  name="apps" color="realgreen" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar >
   <ion-toolbar color="realgreen-invert">
-    <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="openSearchModal()" search-icon="ion-pin" ></ion-searchbar>
+    <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="onOpenModal()" search-icon="ion-pin" ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  {{audit.data.comp.title.vi}}
-  <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
+ <!-- <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
     <ion-refresher-content>
     </ion-refresher-content>
-  </ion-refresher>
+  </ion-refresher>-->
   <div id="card-list">
     <ion-list >
      <!-- <ion-card *ngFor="let audit of CompArrs">
@@ -28,8 +32,8 @@
           <ion-button fill="clear" slot="primary"  color="primary" [routerLink]="['/','tabs','tab2','audits-detail',audit.uuid]"> Process</ion-button>
         </div>
       </ion-card>-->
-      <ion-card class="real-card2 slide-up"  *ngFor="let audit of CompArrs"   (click)="openDetail('side-menu/audit/tabs/tab1/audit-detail',audit.uuid)" >
-        <div   class="ribbon pop-in">Done</div>
+      <ion-card class="real-card-audit slide-up"  *ngFor="let audit of CompArrs"   (click)="openDetail('side-menu/audit/tabs/tab1/audit-detail',audit.uuid)" >
+        <div class="ribbon pop-in">Done</div>
         <ion-card-content class="card1">
 
           <ion-label><ion-text color="realgreen"><h2 class="main-b-header7">{{audit.data.comp.title.vi}}</h2></ion-text></ion-label>

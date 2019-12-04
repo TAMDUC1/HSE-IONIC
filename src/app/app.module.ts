@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {HTTP} from '@ionic-native/http/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -12,7 +13,16 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+// media
+
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { File } from '@ionic-native/File/ngx';
+import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { Media } from '@ionic-native/media/ngx';
+import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 //******** Angularfire ********/
 import { AngularFireModule } from '@angular/fire';
@@ -84,7 +94,7 @@ import { Network } from '@ionic-native/network/ngx';
 import {ApiService} from './services/audit/api.service';
 import { DataService } from './services/audit/data.service';
 
-
+import {AuditItemEvaluateComponent} from './app-audit/audit-item-details/audit-item-evaluate/audit-item-evaluate.component';
 
 @NgModule({
   declarations: [AppComponent ], // Autosize
@@ -93,6 +103,7 @@ import { DataService } from './services/audit/data.service';
     BrowserModule,
    // IonicRatingModule, // Put ionic-rating module here
     SharedModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot({
       rippleEffect: false,
       mode: 'ios'
@@ -139,11 +150,18 @@ import { DataService } from './services/audit/data.service';
   ],
   providers: [
     StatusBar,
+    HTTP,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
       ApiService,
       Network,
-      DataService
+      DataService,
+      ImagePicker,
+      MediaCapture,
+      File,
+      Media,
+      StreamingMedia,
+      PhotoViewer
   ],
   bootstrap: [AppComponent]
 })

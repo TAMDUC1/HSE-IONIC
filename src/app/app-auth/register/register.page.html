@@ -23,7 +23,7 @@
     <ion-item lines="none">
         <ion-label>
             <ion-text color="greengrab">
-                <h1 class="main-header1">Sign up</h1>
+                <h1 class="main-header1">Đăng ký</h1>
             </ion-text>
         </ion-label>
     </ion-item>    
@@ -32,7 +32,7 @@
     <div class="register-form ion-margin">
                 <ion-text color="dark">
                     <h2 text-center class="ion-margin-bottom main-header7">
-                        Create new account.
+                        Tạo tài khoản.
                     </h2>
                 </ion-text>
       <form [formGroup]="registerForm" novalidate>
@@ -41,27 +41,27 @@
 
                 <ion-item>
                     <ion-icon slot="start" color="lightgrey" name="ios-person-outline"></ion-icon>
-                    <ion-input type="text"  formControlName="firstname"  placeholder="First name"></ion-input>
+                    <ion-input type="text"  formControlName="firstname"  placeholder="Tên và tên đệm"></ion-input>
                 </ion-item>
 
                 <ion-item>
                     <ion-icon slot="start" color="lightgrey" name="ios-people-outline"></ion-icon>
-                    <ion-input type="text"  formControlName="lastname"  placeholder="Lastname"></ion-input>
+                    <ion-input type="text"  formControlName="lastname"  placeholder="Họ"></ion-input>
                 </ion-item>
        
                 <ion-item>
                         <ion-icon slot="start" color="lightgrey" name="ios-call-outline"></ion-icon>
-                        <ion-input type="number"  formControlName="phone"  placeholder="phone"></ion-input>
+                        <ion-input type="number"  formControlName="phone"  placeholder="Điện thoại"></ion-input>
                 </ion-item>
 
                 <ion-item>
                     <ion-icon slot="start" color="lightgrey" name="ios-mail-outline"></ion-icon>
-                    <ion-input type="text" formControlName="username"  placeholder="Username(email)"></ion-input>
+                    <ion-input type="text" formControlName="username"  placeholder="Tài khoản đăng nhập(email)"></ion-input>
                 </ion-item>
 
                 <ion-item>
                     <ion-icon slot="start"  color="lightgrey" name="ios-key-outline"></ion-icon>
-                    <ion-input type="text" formControlName="password"  placeholder="Password"></ion-input>
+                    <ion-input type="text" formControlName="password"  placeholder="Mật mã"></ion-input>
                 </ion-item>
 
             </ion-list>
@@ -96,16 +96,16 @@
 
            <!-- Submit button -->
             <ion-button mode="ios" color="greengrab" expand="block" class="ion-margin-top" [disabled]="!registerForm.valid"  (click)="registerUser()">
-              Create
+              Tạo tài khoản
             </ion-button>
             <ion-button mode="ios" color="pink" expand="block" fill="outline" class="ion-margin-top" routerLink="/side-menu/login">
-                Cancel
+                Huỷ
             </ion-button>
-            <ion-text color="dark">
+            <!--<ion-text color="dark">
                 <h2 text-center class="ion-margin-bottom main-header8">
                     By clicking Sign up you agree to the following Terms ans Conditions without reservation
                 </h2>
-            </ion-text>
+            </ion-text>-->
       </form>
  
     </div>

@@ -13,10 +13,10 @@ export class SideMenuPage implements OnInit {
   pages = [
 
     {
-        title: 'Audit app',
+        title: 'Hệ thống kiểm ',
         url: '/side-menu/audit',
         icon: ''
-    }/*,
+    },/*,
     {
       title: 'City guide app',
       url: '/side-menu/travel',
@@ -43,19 +43,19 @@ export class SideMenuPage implements OnInit {
       icon: ''
     },
    */
-   
+
     //******************************//
     //********** Authentication*********//
     //******************************//
-  /*  {
-      title: 'Authentication',
+    {
+      title: 'Xác thực',
       children: [
         {
-          title: 'Login',
+          title: 'Đăng nhập',
           url: '/side-menu/login'
         },
         {
-          title: 'Register',
+          title: 'Đăng ký',
           url: '/side-menu/register'
         },
         {
@@ -67,7 +67,7 @@ export class SideMenuPage implements OnInit {
           url: '/side-menu/forgot'
         },
       ]
-    },*/
+    },
     //******************************//
     //********** ui layout *********//
     //******************************//

@@ -10,6 +10,9 @@ import {UserGuard} from '../../services/user.guard';
 import { DataResolverService } from '../../services/audit/data-resolver.service';
 import {SingleAuditResolverService} from '../../services/audit/single-audit-resolver.service';
 import {UuidResolverService} from '../../services/audit/uuid-resolver.service';
+import {NnLvResolverService} from '../../services/audit/nn-lv-resolver.service';
+import {NdResolverService} from '../../services/audit/nd-resolver.service';
+import {FilesResolverService} from '../../services/audit/files-resolver.service';
 
 const routes: Routes = [
   {
@@ -27,6 +30,7 @@ const routes: Routes = [
                   {
                       path: 'audit-detail/:uuid',
                       resolve:{
+                          files: FilesResolverService,
                           audits : DataResolverService,
                           singleAudit : SingleAuditResolverService,
                           uuid : UuidResolverService,
@@ -40,7 +44,8 @@ const routes: Routes = [
                           audits : DataResolverService,
                           singleAudit : SingleAuditResolverService,
                           uuid : UuidResolverService,
-
+                          nnLv : NnLvResolverService,
+                          nd : NdResolverService
                       },
                       loadChildren: '../audit-item-details/audit-item-details.module#AuditItemDetailsPageModule',
                   },

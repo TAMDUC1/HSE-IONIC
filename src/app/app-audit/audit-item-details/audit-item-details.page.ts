@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NavController,LoadingController, AlertController } from '@ionic/angular';
+import {NavController, LoadingController, AlertController, ModalController} from '@ionic/angular';
 import {IAudit} from '../audit';
-import {LvModalComponent} from '../audit-detail/lv-modal/lv-modal.component';
+import {DataService} from '../../services/audit/data.service';
 import {myEnterAnimation} from '../../animation/enter';
 import {myLeaveAnimation} from '../../animation/leave';
 import {ApiService} from '../../services/audit/api.service';
-//import {async} from 'rxjs/internal/scheduler/async';
+import {AuditItemEvaluateComponent} from './audit-item-evaluate/audit-item-evaluate.component';
+//import { HTTP } from '@ionic-native/http/ngx';
+import {json} from '@angular-devkit/core';
 
 @Component({
   selector: 'app-audit-item-details',
@@ -24,8 +26,11 @@ export class AuditItemDetailsPage implements OnInit
   nnName: string; // nhom nganh
   lvName : string; // noi dung kiem tra
   ndName : string; // shouldbe noidung kiem tra
+  ndDescription : string;
+  ndState : string;
+  private files : [];
   private state : string;
-  private Object;
+  private ObjNnLv;
 
   constructor(
       private router: ActivatedRoute,
@@ -33,17 +38,34 @@ export class AuditItemDetailsPage implements OnInit
       private navCtrl : NavController,
       private apiCtrl : ApiService,
       private loadingCtrl :LoadingController,
-      private alertCtrl : AlertController
+      private alertCtrl : AlertController,
+      //private HTTP :HTTP,
+      private dataService : DataService,
+      private modalCtrl : ModalController
+
   ) { }
 
   ngOnInit() {
     //this.router.
+      if(this.router.snapshot.data['nnLv']){
+          this.ObjNnLv = this.router.snapshot.data['nnLv'];
+          console.log('nn lv ... iss ',this.ObjNnLv);
+          this.nnName = this.ObjNnLv.nnName;
+          this.lvName = this.ObjNnLv.lvName;
+         // this.uuid = this.router.snapshot.data['uuid'];
+      }
+      if(this.router.snapshot.data['nd']){
+          this.ndName = this.router.snapshot.data['nd'];
+      }
       if(this.router.snapshot.data['uuid']){
           this.uuid = this.router.snapshot.data['uuid'];
       }
-
+      /*if(this.router.snapshot.data['uuid']){
+          this.uuid = this.router.snapshot.data['uuid'];
+      }*/
       if(this.router.snapshot.data['audits']){
           this.audits = this.router.snapshot.data['audits'];
+         // this.getData();
       }
 
       this.router.paramMap.subscribe(paramMap=>{
@@ -51,18 +73,49 @@ export class AuditItemDetailsPage implements OnInit
               this.navCtrl.navigateBack('tabs/tab1');
           }
           else{
-              this.nnName = paramMap.get('nnName');
-              console.log('nnName',this.nnName);
-              this.lvName = paramMap.get('lvName');
-              console.log('lvName',this.lvName);
-              this.ndName = paramMap.get('ndName');
-              console.log('ndName',this.ndName);
           }
       });
+
+      if(this.router.snapshot.data['singleAudit']){
+          this.singleAudit = this.router.snapshot.data['singleAudit'];
+          console.log('single audit kkkk', this.singleAudit);
+          this.singleAudit.data.checkList.forEach(e =>{
+              console.log('eee',e.name);
+              console.log('eeee',this.nnName);
+              if(e.name == this.nnName){
+                  console.log('e name',e.name);
+                  e.field.forEach((el)=>{
+                      console.log('el name', el.name);
+                      if(el.name==this.lvName){           // linh vuc
+                          el.children.forEach((nd)=>{
+                              if(nd.name == this.ndName){          // noi dung kiem tra
+                                  this.ndDescription = nd.description;
+                                  console.log('description ....',this.ndDescription);
+                                  this.ndState =  nd.state;
+                                  console.log('state ....',this.ndState);
+                              }
+                          })
+                      }
+                  })
+
+              }
+          })
+      }
+      /*this.HTTP.get('http://54.169.202.105:5000/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20',{},{
+          'Content-Type' : 'application/json'
+      }).then(res=> {
+          res.data = JSON.parse(res.data);
+          res.data.forEach(e => {
+              e.data = JSON.parse(e.data);
+              console.log('path idag ...',e.data.path);
+          });
+      }
+      );*/
+
      // this.nnName = this.getData();
      // console.log('nnName',this.nnName);
 
-      if(this.audits){
+      /*if(this.audits){
           this.audits.forEach((e)=>{
               if(e.uuid == this.uuid){// kiem tra dung audit
                   console.log('AUDIT IS :',e);
@@ -70,12 +123,28 @@ export class AuditItemDetailsPage implements OnInit
                  // console.log('nnName',this.nnName);
                   e.data.checkList.forEach((el)=>{
                       if(el.name == this.nnName){
-                          console.log(el.field);
+                          console.log('el.field',el.field);
                       }
+
+                      el.field.forEach((el)=>{
+                          if(el.name==this.lvName){           // linh vuc
+                              el.children.forEach((nd)=>{
+                                  if(nd.name == this.ndName){          // noi dung kiem tra
+                                     this.ndDescription = nd.description;
+                                     console.log('description ....',this.ndDescription);
+                                    this.ndState =  nd.state;
+                                      console.log('state ....',this.ndState);
+
+                                  }
+                              })
+                          }
+                      })
+
+
                   })
               }
           })
-      }
+      }*/
 
       this.form = new FormGroup({
       description : new FormControl('',{
@@ -87,11 +156,12 @@ export class AuditItemDetailsPage implements OnInit
       }),
     });
   }
+
    async getData(){
       var tempData;
        try {
            tempData = await this.getnnName();
-           console.log('nnName',tempData);
+           console.log('nnName async',tempData);
            return tempData;
 
        }
@@ -102,7 +172,6 @@ export class AuditItemDetailsPage implements OnInit
    getnnName(){
         var nnName = '';
        if(this.audits){
-
            this.audits.forEach((e)=>{
                if(e.uuid == this.uuid){// kiem tra dung audit
                    console.log(e.data);
@@ -118,11 +187,6 @@ export class AuditItemDetailsPage implements OnInit
        }
        return Promise.resolve(nnName);
   }
-  updateProfile(){
-
-      console.log(this.form.value);
-  }
-// edit here ....
 
     onEditToBackend()
     {
@@ -149,7 +213,9 @@ export class AuditItemDetailsPage implements OnInit
         this.loadingCtrl.create({
             keyboardClose :true,
             message: 'waiting ...'
-        }).then(loadingEl =>{
+        }).then(loadingEl =>
+
+        {
             loadingEl.present();
             this.apiCtrl.getAuditSingle(this.uuid).subscribe((res)=>
             {
@@ -191,6 +257,9 @@ export class AuditItemDetailsPage implements OnInit
         });
 
     }
+    onUploadFiles(){
+      console.log('upload File')
+    }
     async presentAlertFail() {
         const alert = await this.alertCtrl.create({
             header: 'Alert',
@@ -211,12 +280,56 @@ export class AuditItemDetailsPage implements OnInit
 
         await alert.present();
     } ;
+    onEvaluate(){
+        this.modalCtrl.create({
+            component: AuditItemEvaluateComponent,
+            enterAnimation: myEnterAnimation,
+            leaveAnimation: myLeaveAnimation,
+            //cssClass: 'from-middle-modal',
+            componentProps :{
+                uuid : this.uuid,
+                nnName : this.nnName,
+                lvName : this.lvName,
+                ndName : this.ndName
 
-    onClose(url){
-
-        this.route.navigateByUrl('/'+url+'/'+this.uuid);
+            }
+        }).then(modalEl =>{
+            modalEl.present();
+            return modalEl.onDidDismiss();
+        }).then(resultData =>{
+            if(resultData.role === 'save'){
+                this.ndDescription = resultData.data.ndDescription;
+                this.ndState = resultData.data.ndState;
+            }
+        })
 
     }
+   /* onTakePhoto()
+    {
+        this.loadingCtrl.create({
+            keyboardClose :true,
+            message: 'waiting ...'
+        }).then(loadingEl =>
+        {
+            loadingEl.present();
+            return this.HTTP.get('http://54.169.202.105:5000/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20',{},{
+                'Content-Type' : 'application/json'
+            })
+                .then(res =>
+                {
+
+                    console.log('test item ',res.data);
+
+                })
+                .catch(err => console.log('err',err));
+        });
+    }*/
+
+    /* onClose(url){
+
+         this.route.navigateByUrl('/'+url+'/'+this.uuid);
+
+     }*/
 
 
 }

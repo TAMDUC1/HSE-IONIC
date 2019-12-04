@@ -2,6 +2,14 @@
   width: 80%;
 
 }
+
+.horizontal-scroll {
+  white-space: nowrap;
+  height: auto;
+  overflow-X: scroll;
+  overflow-y: auto;
+
+}
 .profile-form {
   width: 80%;
   margin: auto;
