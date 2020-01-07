@@ -13,10 +13,21 @@ export class SideMenuPage implements OnInit {
   pages = [
 
     {
-        title: 'Hệ thống kiểm ',
+        title: 'Hệ thống kiểm tra',
         url: '/side-menu/audit',
         icon: ''
-    },/*,
+    },
+    {
+        title: 'Tin tức',
+        url: '/side-menu/news',
+        icon: ''
+    },
+    {
+        title: 'Hệ thống từ khoá ',
+        url: '/side-menu/keywords',
+        icon: ''
+    },
+   /*,
     {
       title: 'City guide app',
       url: '/side-menu/travel',

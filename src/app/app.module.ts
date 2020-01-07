@@ -14,11 +14,13 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 // media
 
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/File/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { Media } from '@ionic-native/media/ngx';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
@@ -159,9 +161,12 @@ import {AuditItemEvaluateComponent} from './app-audit/audit-item-details/audit-i
       ImagePicker,
       MediaCapture,
       File,
+      FileOpener,
+      FileTransfer,
+      DocumentViewer,
       Media,
       StreamingMedia,
-      PhotoViewer
+      PhotoViewer,
   ],
   bootstrap: [AppComponent]
 })

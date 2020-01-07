@@ -7,7 +7,11 @@ import {
     MediaFile,
     CaptureError
 } from '@ionic-native/media-capture/ngx';
+import { Guid } from "guid-typescript";
+
+import { ActivatedRoute} from '@angular/router';
 import {HTTP} from '@ionic-native/http/ngx';
+import { Res} from './Res';
 /*
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 */
@@ -16,19 +20,30 @@ import { File, FileEntry } from '@ionic-native/File/ngx';
 import { Media, MediaObject } from '@ionic-native/media/ngx';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { HttpClient } from '@angular/common/http';
-import { finalize } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { finalize, take } from 'rxjs/operators';
+import {DataService} from '../../../services/audit/data.service';
 
 const MEDIA_FOLDER_NAME = 'my_media';
+const headerDict = {
+    'Content-Type': 'application/json',
+};
 
+const httpOptions = {
+    headers: new HttpHeaders(headerDict)
+};
 @Component({
   selector: 'app-lv-media',
   templateUrl: './lv-media.component.html',
   styleUrls: ['./lv-media.component.scss'],
 })
 export class LvMediaComponent implements OnInit {
-
+    uuid;
+    filesArr;
+    dataBack = [];
+    typeProblem;
     files = [];
+    message: string = "";
 
     constructor(
         private imagePicker: ImagePicker,
@@ -36,7 +51,9 @@ export class LvMediaComponent implements OnInit {
         private file: File,
         private media: Media,
         private HTTP :HTTP,
-       // private transfer: FileTransfer,
+        private dataService: DataService,
+
+        // private transfer: FileTransfer,
         private streamingMedia: StreamingMedia,
         private photoViewer: PhotoViewer,
         private actionSheetController: ActionSheetController,
@@ -46,9 +63,11 @@ export class LvMediaComponent implements OnInit {
         private toastController: ToastController,
         private loadingController: LoadingController,
         private http: HttpClient,
+        private route: ActivatedRoute,
+
     ) {}
     onCancel(){
-        this.modalCtrl.dismiss(null,'cancel');
+        this.modalCtrl.dismiss(this.dataBack,'cancel');
 
     }
 
@@ -63,6 +82,9 @@ export class LvMediaComponent implements OnInit {
                     this.file.createDir(path, MEDIA_FOLDER_NAME, false);
                 }
             );
+           /* this.route.paramMap.subscribe(paramMap =>{
+               this.uuid = paramMap.get('uuid');
+            })*/
         });
     }
     loadFiles() {
@@ -209,23 +231,24 @@ export class LvMediaComponent implements OnInit {
     deleteFile(f: FileEntry) {
         const path = f.nativeURL.substr(0, f.nativeURL.lastIndexOf('/') + 1);
         this.file.removeFile(path, f.name).then(() => {
+
             this.loadFiles();
         }, err => console.log('error remove: ', err));
     }
-    startUpload(imgEntry) {
+    startUpload(imgEntry,index) {
         const path = imgEntry.nativeURL;
-     //   const path = imgEntry.nativeURL.substr(0, imgEntry.nativeURL.lastIndexOf('/') + 1);
+        const path2 = imgEntry.nativeURL.substr(0, imgEntry.nativeURL.lastIndexOf('/') + 1);
 
         this.file.resolveLocalFilesystemUrl(path)
             .then(entry =>
             {
-                ( < FileEntry > entry).file(file => this.readFile(file))
+                ( < FileEntry > entry).file(file => this.readFile(file,index))
             })
             .catch(err => {
                 this.presentToast('Error while reading file.');
             });
     }
-    readFile(file: any) {
+    readFile(file: any,index) {
         console.log('read file');
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -235,13 +258,14 @@ export class LvMediaComponent implements OnInit {
             });
 
             formData.append('file', imgBlob, file.name);
-            console.log('formdata', formData);
-            this.uploadImageData(formData);
+            this.uploadImageData(formData,file.type,index);
         };
         reader.readAsArrayBuffer(file);
     }
 
-    async uploadImageData(formData: FormData) {
+    async uploadImageData(formData: FormData,type,index) {
+        console.log('formdata', formData);
+
         const loading = await this.loadingController.create({
             message: 'Uploading image...',
         });
@@ -278,8 +302,56 @@ export class LvMediaComponent implements OnInit {
                     loading.dismiss();
                 })
             )
-            .subscribe(res => {
-                if (res['success']) {
+            .subscribe((res : any) => {
+                if (res) {
+                    const temp = res;
+                    var data = {
+                        ext : "",
+                        attr :"",
+                        lang : "",
+                        name : temp.name,
+                        path : temp.path,
+                        type : type,
+                        title : "",
+                        typeProblem: this.typeProblem
+                    };
+                   var data2 = JSON.stringify(data);
+                    var requestObject = {
+                        uuid : this.uuidv4(),
+                        data : data2,
+                        workflow : null,
+                        module : temp.module,
+                        model : temp.model,
+                        modelUuid : this.uuid
+                    } ;
+                 /* var obj2 =  JSON.stringify(requestObject);
+                    this.HTTP.setDataSerializer('json');
+                    this.HTTP.setDataSerializer( "utf8" );*/    //https://stackoverflow.com/questions/51417208/ionic-native-http-call-with-content-type-text-plan
+
+                    this.http.post("http://54.169.202.105:5000/api/CoreFileUploads",requestObject,httpOptions)
+                        .subscribe(
+                            data => {
+                                var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
+                                var temp = JSON.parse(JSON.stringify(data));
+                                temp.data = JSON.parse(temp.data);
+                                var path = imgUrl.concat(temp.data.path);
+                                path = path.concat('/');
+                                var databack = {
+                                    name : temp.data.name,
+                                    path : path.concat(temp.data.name),
+                                    typeProblem : temp.data.typeProblem,
+                                    uuid : this.uuid
+                                };
+                                // add to service observer
+                                this.dataService.File.pipe(take(1)).subscribe(file =>{
+                                    temp = file.concat(databack);
+                                    this.dataService.setFile(this.uuid,temp);
+                                });
+                                this.deleteFile(this.files[index]);// delete after upload
+                                this.message ="Bạn Đã Gửi Thành Công" },
+                            error =>{console.log("error",error)}
+                        )
+                    ;
                     this.presentToast('File upload thành công.')
                 } else {
                     this.presentToast('File upload thất bại.')
@@ -294,4 +366,12 @@ export class LvMediaComponent implements OnInit {
         });
         toast.present();
     }
+    uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
+        {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
 }

@@ -24,13 +24,26 @@
   </ion-item>
   -->
   <ion-slides [options]="sliderOpts" #slider>
-    <ion-slide *ngFor="let image of filesArr ">
-      <div class="swiper-zoom-container" *ngIf="image.typeProblem == nd">
-        <img src="{{ image.path }}">
+    <ion-slide *ngFor="let image of filesArr, let i = index ">
+
+      <ion-grid>
+        <ion-row>
+          <div class="swiper-zoom-container" *ngIf="image.typeProblem == nd">
+            <img src="{{ image.path }}">
+            <!--
+                    <ion-button>test</ion-button>
+            -->
+          </div>
+        </ion-row>
+        <ion-row >
+            <ion-button  color="red" fill="outline"  (click)="presentAlert(image.uuid,i)">Delete</ion-button>
+
+
 <!--
-        <ion-button>test</ion-button>
+          <ion-button (click)="onDelete(image.uuid)">delete</ion-button>
 -->
-      </div>
+        </ion-row>
+      </ion-grid>
     </ion-slide>
     <!-- <ion-slide>
         <div class="swiper-zoom-container">

@@ -239,6 +239,14 @@
   --ion-color-shade: #546e7a;
   --ion-color-tint: #708a97;
 }
+.ion-color-red {
+  --ion-color-base: red;
+  --ion-color-base-rgb: 96,125,139;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255,255,255;
+  --ion-color-shade: #FF7986;
+  --ion-color-tint: #FFE3E4;
+}
 .ion-color-grey1 {
   --ion-color-base: #E8E8E8;
   --ion-color-base-rgb: 232,232,232;

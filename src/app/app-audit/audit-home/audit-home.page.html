@@ -1,19 +1,21 @@
 <ion-header>
-  <ion-toolbar color="realgreen-invert">
+  <ion-toolbar color="bluegrey">
     <ion-buttons slot="start">
       <ion-button (click)="toggleSideMenu()">
-        <ion-icon class="menu-icon"  name="md-menu" color="realgreen" slot="start"></ion-icon>
+        <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title color="realgreen" class="main-b-header7">Hệ thống kiểm tra</ion-title>
+    <ion-title color="light" class="main-b-header7">Hệ thống kiểm tra</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onOpenModal()">
-        <ion-icon class="menu-icon"  name="apps" color="realgreen" slot="end"></ion-icon>
+        <ion-icon class="menu-icon"  name="apps" color="light" slot="end"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar >
-  <ion-toolbar color="realgreen-invert">
-    <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="onOpenModal()" search-icon="ion-pin" ></ion-searchbar>
+  <ion-toolbar color="light">
+    <ion-searchbar color="" placeholder="Lọc danh sách "
+                   [(ngModel)]="searchTerm"
+                   search-icon="ion-pin" ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -32,11 +34,19 @@
           <ion-button fill="clear" slot="primary"  color="primary" [routerLink]="['/','tabs','tab2','audits-detail',audit.uuid]"> Process</ion-button>
         </div>
       </ion-card>-->
-      <ion-card class="real-card-audit slide-up"  *ngFor="let audit of CompArrs"   (click)="openDetail('side-menu/audit/tabs/tab1/audit-detail',audit.uuid)" >
+      <ion-card color="" class="real-card-audit slide-up"  *ngFor="let audit of filteredCompArrs , let i = index"    (click)="openDetail('side-menu/audit/tabs/tab1/audit-detail',audit.uuid)" >
+<!--
         <div class="ribbon pop-in">Done</div>
+    -->
+        <ion-card-header>
+            <ion-label><ion-text color="bluegrey"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+            <ion-card-subtitle>{{audit.data.comp.addr.vi}}</ion-card-subtitle>
+        </ion-card-header>
         <ion-card-content class="card1">
 
-          <ion-label><ion-text color="realgreen"><h2 class="main-b-header7">{{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+<!--
+          <ion-label><ion-text color="bluegrey"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+-->
 
           <!--<ion-item lines="none">
             <ion-button fill="outline" expand="block" slot="end" color="success"  [routerLink]="['/','side-menu','audit']" >
@@ -49,4 +59,7 @@
 
     </ion-list>
   </div>
+    <!--<ion-button color="primary" (click)="getHTTP3()">
+    Test
+    </ion-button>-->
 </ion-content>

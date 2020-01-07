@@ -80,8 +80,7 @@ export class AuditItemDetailsPage implements OnInit
           this.singleAudit = this.router.snapshot.data['singleAudit'];
           console.log('single audit kkkk', this.singleAudit);
           this.singleAudit.data.checkList.forEach(e =>{
-              console.log('eee',e.name);
-              console.log('eeee',this.nnName);
+
               if(e.name == this.nnName){
                   console.log('e name',e.name);
                   e.field.forEach((el)=>{

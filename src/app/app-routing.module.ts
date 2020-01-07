@@ -166,6 +166,8 @@ const routes: Routes = [
   { path: 'modal', loadChildren: './ui-components/modal/modal.module#ModalPageModule' },
   { path: 'modal-detail', loadChildren: './ui-components/modal-detail/modal-detail.module#ModalDetailPageModule' },
   { path: 'audit-item-details', loadChildren: './app-audit/audit-item-details/audit-item-details.module#AuditItemDetailsPageModule' },
+  { path: 'keywords-home', loadChildren: './app-hse-keywords/keywords-home/keywords-home.module#KeywordsHomePageModule' },
+  { path: 'news-home', loadChildren: './app-news/news-home/news-home.module#NewsHomePageModule' },
 
 
 

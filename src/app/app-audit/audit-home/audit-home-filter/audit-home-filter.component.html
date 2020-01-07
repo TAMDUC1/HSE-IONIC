@@ -1,5 +1,5 @@
 <ion-header no-border>
-  <ion-toolbar>
+  <ion-toolbar color="bluegrey">
     <ion-title >Lọc nâng cao</ion-title>
     <ion-buttons slot="start">
       <ion-back-button color="green"></ion-back-button>
@@ -11,3 +11,54 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<ion-content fullscreen>
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-label>year</ion-label>
+      </ion-list-header>
+      <ion-item >
+        <ion-label>All</ion-label>
+        <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
+      </ion-item>
+      <ion-item *ngFor="let c of filterDate">
+        <ion-label>{{c}}</ion-label>
+        <ion-radio slot="start" color="bluegrey" value="{{c}}" checked></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-label>Status</ion-label>
+      </ion-list-header>
+      <ion-item >
+        <ion-label>All</ion-label>
+        <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Done</ion-label>
+        <ion-radio slot="start" color="bluegrey" value="done" checked></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Prepare</ion-label>
+        <ion-radio slot="start" color="bluegrey" value="prepare" checked></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-label>Field</ion-label>
+      </ion-list-header>
+      <ion-item >
+        <ion-label>All</ion-label>
+        <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
+      </ion-item>
+      <ion-item >
+        <ion-label>Khai thac</ion-label>
+        <ion-radio slot="start" color="bluegrey" value="khai thac" checked></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="bluegrey">
+    <ion-buttons slot="start">
+      <ion-button (click)="toggleSideMenu()">
+        <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="light" class="main-b-header7">Trang tin tức</ion-title>
+
+  </ion-toolbar >
+  <ion-toolbar color="light">
+    <ion-searchbar color="" placeholder="search"
+                   search-icon="ion-pin" ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
+     <ion-refresher-content>
+     </ion-refresher-content>
+   </ion-refresher>-->
+
+  <!--  <ng-container  *ngFor="let doc of filteredDocArrs , let i = index" (click)="viewDoc(doc.uuid)">
+      <ion-item *ngIf="doc.ext == 'pdf'">
+        {{doc.title}}
+      </ion-item>
+    </ng-container>-->
+  <!--<ion-item *ngFor="let new of dowloadNews , let i = index">
+    {{new.title}}
+  </ion-item>-->
+  <ion-content fullscreen=""  no-paddding >
+    <ion-card mode="ios"  *ngFor="let new of dowloadNews , let i = index" (click)="openNewDetail(i)">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img [src]="new.image">
+        </ion-avatar>
+        <ion-label>
+          <h3>{{new.title}}</h3>
+          <p>{{new.desc}}</p>
+        </ion-label>
+      </ion-item>
+     <!-- <ion-slides pager>
+        <ng-container *ngFor="let images of  feed.images | slice:1">
+          <ion-slide  [ngStyle]="{'background' : 'url(' + images.url + ')'}">
+          </ion-slide>
+        </ng-container>
+      </ion-slides>-->
+
+      <!--<ion-card-content>
+        <ion-card-title>
+          <h3 class="main_header4">  {{new.title}}</h3>
+        </ion-card-title>
+        <p>
+          {{new.detail}}
+        </p>
+      </ion-card-content>-->
+
+     <!-- <ion-row>
+        <ion-col>
+          <ion-button fill="clear" size="small" color="dark">
+            <ion-icon slot="start" name="ios-chatboxes" color="gray"></ion-icon>
+            {{feed.comment}}
+          </ion-button>
+          <ion-button fill="clear" size="small" color="dark">
+            <ion-icon slot="start" name="ios-heart" color="gray"></ion-icon>
+            {{feed.like}}
+          </ion-button>
+        </ion-col>
+
+        <ion-col center class="ion-text-right">
+          <ion-button fill="clear" size="small" color="dark">
+            REPLY
+          </ion-button>
+        </ion-col>
+      </ion-row>-->
+
+    </ion-card>
+ <!-- <ion-item>
+    <img style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"  [src]="image.path"   (click)="openImageViewer(i,c.name+c.state)"/>
+
+  </ion-item>-->
+
+</ion-content>

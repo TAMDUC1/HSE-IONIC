@@ -8,7 +8,7 @@ import {HTTP} from '@ionic-native/http/ngx';
   styleUrls: ['./audit-home-filter.component.scss'],
 })
 export class AuditHomeFilterComponent implements OnInit {
-
+  filterDate;
   constructor(private modalCtrl: ModalController,
             //  private HTTP :HTTP,
   ) { }

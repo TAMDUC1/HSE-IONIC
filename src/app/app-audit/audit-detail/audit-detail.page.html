@@ -1,6 +1,6 @@
 <ion-header  >
-  <ion-toolbar color="realgreen-invert">
-    <ion-title color="realgreen" class="main-b-header7">Audit Detail </ion-title>
+  <ion-toolbar color="bluegrey">
+    <ion-title color="light" class="main-b-header7">Audit Detail</ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -11,21 +11,21 @@
       </ion-button>
     </ion-buttons>-->
   </ion-toolbar >
-  <ion-toolbar color="realgreen-invert">
+  <ion-toolbar color="light">
     <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="openSearchModal()" search-icon="ion-pin" ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
+  <ion-list-header color="white" >
+    Danh sách lĩnh vực kiểm tra
+  </ion-list-header>
   <div class="profile-form"  *ngFor="let c of temp?.checkList">
     <ion-card class="info-card-2" >
       <ion-list>
-        <ion-list-header color="white" >
-          Danh sách lĩnh vực kiểm tra
-        </ion-list-header>
         <ng-container *ngFor="let d of c?.field" >
         <ion-item *ngIf="d.checked" (click)="onOpenModal(c.name,d.name)">
-          <ion-label color="green">
+          <ion-label color="bluegrey">
             {{d.name}}
           </ion-label>
         </ion-item>

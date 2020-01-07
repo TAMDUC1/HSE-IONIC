@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="bluegrey">
+    <ion-buttons slot="start">
+      <ion-button (click)="toggleSideMenu()">
+        <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="light" class="main-b-header7">Hệ thống số hoá tài liệu</ion-title>
+
+  </ion-toolbar >
+  <ion-toolbar color="light">
+    <ion-searchbar color="" placeholder="Từ Khoá"
+                   [(ngModel)]="searchTerm"
+                   search-icon="ion-pin" ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
+     <ion-refresher-content>
+     </ion-refresher-content>
+   </ion-refresher>-->
+
+<!--  <ng-container  *ngFor="let doc of filteredDocArrs , let i = index" (click)="viewDoc(doc.uuid)">
+    <ion-item *ngIf="doc.ext == 'pdf'">
+      {{doc.title}}
+    </ion-item>
+  </ng-container>-->
+  <ion-item *ngFor="let doc of filteredDocArrs , let i = index" (click)="viewDoc(doc.uuid)">
+           {{doc.title}}
+  </ion-item>
+
+</ion-content>

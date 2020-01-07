@@ -33,8 +33,20 @@ const routes: Routes = [
       //************ APPS ***********/
       {
         path: 'audit',
-        loadChildren: '../app-audit/audit-tabs/audit-tabs.module#AuditTabsPageModule'
-      },/*,
+        loadChildren: '../app-audit/audit-tabs/audit-tabs.module#AuditTabsPageModule',
+        canActivate: [UserGuard]
+
+      },
+      {
+        path: 'keywords',
+        loadChildren: '../app-hse-keywords/keywords-home/keywords-home.module#KeywordsHomePageModule',
+        canActivate: [UserGuard]
+
+      },
+      {
+        path: 'news',
+        loadChildren: '../app-news/news-home/news-home.module#NewsHomePageModule'
+      },  /*,
       {
         path: 'travel',
         loadChildren: '../app-travel/travel-tabs/travel-tabs.module#TravelTabsPageModule'
