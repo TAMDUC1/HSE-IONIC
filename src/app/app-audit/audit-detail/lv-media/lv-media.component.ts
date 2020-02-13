@@ -8,7 +8,7 @@ import {
     CaptureError
 } from '@ionic-native/media-capture/ngx';
 import { Guid } from "guid-typescript";
-
+import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute} from '@angular/router';
 import {HTTP} from '@ionic-native/http/ngx';
 import { Res} from './Res';
@@ -36,13 +36,16 @@ const httpOptions = {
   selector: 'app-lv-media',
   templateUrl: './lv-media.component.html',
   styleUrls: ['./lv-media.component.scss'],
+
 })
 export class LvMediaComponent implements OnInit {
     uuid;
     filesArr;
     dataBack = [];
     typeProblem;
-    files = [];
+   files = [];
+
+   // files = new BehaviorSubject([]);
     message: string = "";
 
     constructor(
@@ -87,10 +90,39 @@ export class LvMediaComponent implements OnInit {
             })*/
         });
     }
+   /* addData(foo: any): void {
+        this.files.next([...this.files.getValue(), ...foo])
+    }*/
     loadFiles() {
         this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
             res => {
+                //this.files = [];
+               // this.ref.detectChanges();
+                /*res.forEach(e =>{
+                    if(this.files.length > 0){
+                        this.files.forEach(el=>{
+                            if(e.name != el.name){
+                                this.files.push(e);
+                                this.ref.detectChanges();
+                            }
+                        });
+                    }
+                    else {
+                        this.files = res;
+                        this.ref.detectChanges();
+                    }
+
+                });*/
+               // this.addData(res);
                 this.files = res;
+               // this.ref.detectChanges();
+              //  res.splice(0, this.files.length -1);
+               // this.files = [...this.files,...res];
+              //  this.files = res;
+               // console.log(' files: ', res);
+               //  this.ref.markForCheck();
+               // this.selectMedia();
+
             },
             err => console.log('error loading files: ', err)
         );
@@ -143,7 +175,7 @@ export class LvMediaComponent implements OnInit {
                 }
             }
         );
-
+      //  this.ref.detectChanges();
         // If you get problems on Android, try to ask for Permission first
         // this.imagePicker.requestReadPermission().then(result => {
         //   console.log('requestReadPermission: ', result);
@@ -160,7 +192,7 @@ export class LvMediaComponent implements OnInit {
             },
             (err: CaptureError) => console.error(err)
         );
-
+       // this.ref.detectChanges();
     }
 
     recordAudio() {
@@ -211,6 +243,7 @@ export class LvMediaComponent implements OnInit {
                 console.log('error: ', error);
             }
         );
+        this.ref.detectChanges();
     }
 
     openFile(f: FileEntry) {

@@ -9,7 +9,6 @@
     </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
-
     <ion-item-group *ngFor="let c of content[0],let i = index">
         <ion-item *ngIf="c.checked">
             <ion-label color="bluegrey" (click)="expand(i)"> {{c.name}}</ion-label>
@@ -60,10 +59,9 @@
                                     <ion-button slot="end" (click)="openItemDetail('side-menu/audit/tabs/tab1/audit-item-details',nnName,lvName,c.name)">Edit</ion-button>
                         -->
 
-                            <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
-                                        (click)="openMedia(c.name+c.state)">Media
-                            </ion-button>
-
+                        <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
+                                    (click)="openMedia(c.name+c.state)">Media
+                        </ion-button>
 
 
                         <ion-button slot="end" mode="ios" color="bluegrey" fill="outline"
