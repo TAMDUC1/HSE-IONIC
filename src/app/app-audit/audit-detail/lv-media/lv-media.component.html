@@ -1,6 +1,6 @@
 <ion-header no-border>
     <ion-toolbar color="bluegrey">
-        <ion-title color="light"> Media</ion-title>
+        <ion-title color="light"> File</ion-title>
         <ion-buttons slot="end">
             <ion-button color="medium" (click)="onCancel()">
                 <ion-icon slot="icon-only" name="ios-arrow-down"></ion-icon>
@@ -12,7 +12,9 @@
     <ion-list>
         <ion-item-sliding *ngFor="let f of files  ; let i = index">
             <ion-item>
+<!--
                 <ion-icon name="image" slot="start" *ngIf="f.name.endsWith('jpg')"></ion-icon>
+-->
                 <ion-icon name="videocam" slot="start"
                           *ngIf="f.name.endsWith('MOV') || f.name.endsWith('mp4')"></ion-icon>
                 <ion-icon name="mic" slot="start" *ngIf="f.name.endsWith('wav')"></ion-icon>
@@ -24,22 +26,24 @@
                     <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
                 </ion-button>
             </ion-item>
-
             <ion-item-options side="start">
                 <ion-item-option (click)="deleteFile(f)" color="danger">
                     <ion-icon name="trash" slot="icon-only"></ion-icon>
                 </ion-item-option>
             </ion-item-options>
-
         </ion-item-sliding>
+       <!-- <ion-grid >
+            <ion-button   mode="ios" color="bluegrey" fill="outline" expand="block" class="ion-margin-top"  (click)="uploadAll()">
+                Upload All
+            </ion-button>
+        </ion-grid>-->
     </ion-list>
 </ion-content>
-
 <ion-footer>
     <ion-toolbar color="bluegrey-invert">
         <ion-button fill="clear" expand="full" color="bluegrey" (click)="selectMedia()">
             <ion-icon slot="start" name="document"></ion-icon>
-            Select Media
+            Chọn File
         </ion-button>
     </ion-toolbar>
 </ion-footer>

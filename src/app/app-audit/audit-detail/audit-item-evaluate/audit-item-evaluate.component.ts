@@ -39,6 +39,11 @@ export class AuditItemEvaluateComponent implements OnInit {
     }
 
     onEditToBackendNative() {
+       /* if(this.form.value.description ===""){
+            console.log('empty');
+
+        }*/
+        console.log('this.lastDescription',this.lastDescription);
         this.loadingCtrl.create({
             keyboardClose: true,
             message: 'waiting ...'
@@ -58,24 +63,20 @@ export class AuditItemEvaluateComponent implements OnInit {
                                     el.children.forEach((nd) => {
                                         if (nd.name == this.ndName) {          // noi dung kiem tra
 
-                                            nd.description = this.form.value.description;
+                                          //  nd.description = this.form.value.description;
 
-                                            /*if (this.form.value.description === '') {
-                                                console.log('empty');
-                                            }else{
+                                            if (this.form.value.description === "") {
+                                                nd.description = this.lastDescription;
+                                            }
+                                            else{
                                                 nd.description = this.form.value.description;
-                                            }*/
-                                            nd.state = this.form.value.evaluate;
-
-                                            /* if (this.form.value.description) {
-                                                 nd.description = this.lastDescription;
-                                             }else{
-                                             }
-
-                                             if (this.form.value.evaluate) {
-                                                 nd.description = this.lastEvaluate;
-                                             }else{
-                                             }*/
+                                            }
+                                            if (this.form.value.evaluate === "") {
+                                                nd.state = this.lastEvaluate;
+                                            }
+                                            else{
+                                                nd.state = this.form.value.evaluate;
+                                            }
                                         }
                                     });
                                 }
@@ -93,15 +94,27 @@ export class AuditItemEvaluateComponent implements OnInit {
                                 if (data.status == 200) {
 
                                     this.ndDescription = this.form.value.description;
-                                    //this.requestObject.data = JSON.parse(this.requestObject.data);
                                     this.dataService.setData(2, this.requestObject);
                                     this.dataService.setSingleAudit(this.requestObject);
-                                    // var temp= JSON.parse(this.dataService.getData(2).data.checkList);
-                                    //   console.log('test save data lai.....',temp);
+                                    var description = '';
+                                    var evaluate = '';
+                                    if (this.form.value.description === "") {
+                                       description  = this.lastDescription;
+                                    }
+                                    else{
+                                        description = this.form.value.description;
+                                    }
+
+                                    if (this.form.value.evaluate === "") {
+                                        evaluate = this.lastEvaluate;
+                                    }
+                                    else{
+                                        evaluate = this.form.value.evaluate;
+                                    }
                                     setTimeout(() => {
                                         loadingEl.dismiss();
                                         this.presentAlert();
-                                        this.onSubmit();
+                                        this.onSubmit(description,evaluate);
                                     }, 1000);
                                 } else {
                                     this.presentAlertFail();
@@ -118,9 +131,9 @@ export class AuditItemEvaluateComponent implements OnInit {
 
     async presentAlertFail() {
         const alert = await this.alertCtrl.create({
-            header: 'Alert',
-            subHeader: 'Status',
-            message: 'updated failed!!!',
+            header: 'Thông báo',
+            subHeader: '',
+            message: ' Update thất bại!!!',
             buttons: ['OK']
         });
 
@@ -129,20 +142,20 @@ export class AuditItemEvaluateComponent implements OnInit {
 
     async presentAlert() {
         const alert = await this.alertCtrl.create({
-            header: 'Alert',
-            subHeader: 'Status',
-            message: 'updated confirm!!!',
+            header: 'Thông báo',
+            subHeader: '',
+            message: 'Update thành công !!!',
             buttons: ['OK']
         });
 
         await alert.present();
     } ;
 
-    onSubmit() {
+    onSubmit(Description,evaluate) {
         this.modalCtrl.dismiss({
             ndName: this.ndName,
-            ndDescription: this.form.value.description,
-            ndState: this.form.value.evaluate
+            ndDescription: Description,
+            ndState: evaluate
         }, 'save');
     }
 

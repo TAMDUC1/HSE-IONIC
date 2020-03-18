@@ -1,6 +1,5 @@
 <ion-split-pane>
-  <ion-menu contentId="content">
- 
+  <ion-menu contentId="content" >
     <!-- <ion-header>
           <ion-item lines="none">
               <ion-thumbnail slot="start">
@@ -25,9 +24,21 @@
 
     <div id="menu-ios"  class="sideMenu-header"  color="bluegrey">
         <div class="menu-header">
-            <img class="user-avatar round" src = "https://pbs.twimg.com/profile_images/1148952014036054016/xxv7lLvp.jpg"/>
-            <p class="name" color="bluegrey" >PVN</p>
-            <p class="email" color="bluegrey" >Tập đoàn dầu khí Việt Nam </p>
+          <!--http://54.169.202.105:5000/content/uploads/2019/11/16/82a611-120011.jpg
+          https://pbs.twimg.com/profile_images/1148952014036054016/xxv7lLvp.jpg-->
+            <img class="user-avatar round" src = "http://54.169.202.105:5000/content/uploads/2019/11/16/82a611-120011.jpg"/>
+          <p  style="color: #0bb8cc">
+            PVN
+          </p>
+          <p  style="color: #0bb8cc">
+            Tập đoàn dầu khí Việt Nam
+          </p>
+         <!-- <ion-label color="bluegrey" >
+            PVN
+          </ion-label>
+          <ion-label color="bluegrey" >
+            Tập đoàn dầu khí Việt Nam
+          </ion-label>-->
         </div>
     </div>
         <ion-content>
@@ -46,14 +57,12 @@
         </ion-item>
  
       </ion-list>-->
- 
       <div *ngFor="let p of pages" class="ion-padding-right">
- 
         <!-- Standard Menu Item -->
         <ion-menu-toggle *ngIf="p.url">
           <ion-item [routerLink]="p.url" routerDirection="root" routerLinkActive="active">
             <ion-icon [name]="p.icon" slot="start"></ion-icon>
-            <ion-label>
+            <ion-label color="bluegrey" >
               {{ p.title }}
             </ion-label>
           </ion-item>
@@ -63,7 +72,7 @@
         <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.parent-active]="p.open" detail="false">
           <ion-icon slot="start" name="ios-arrow-forward" size="small" *ngIf="!p.open"></ion-icon>
           <ion-icon slot="start" name="ios-arrow-down" size="small" *ngIf="p.open"></ion-icon>
-          <ion-label>{{ p.title }}</ion-label>
+          <ion-label color="bluegrey">{{ p.title }}</ion-label>
         </ion-item>
    
         <!-- Children List for clicked Item -->
@@ -72,24 +81,18 @@
             <ion-item *ngFor="let sub of p.children" class="sub-item" [routerLink]="sub.url" routerDirection="root"
               routerLinkActive="active">
               <ion-icon [name]="sub.icon" slot="start"></ion-icon>
-              <ion-label>
+              <ion-label color="bluegrey">
                 {{ sub.title }}
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-   
       </div>
-
-
       <!-- <ion-item tappable routerLink="/login" routerDirection="root">
         <ion-icon name="log-out" slot="start"></ion-icon>
         Logout
       </ion-item> -->
     </ion-content>
- 
   </ion-menu>
- 
   <ion-router-outlet id="content" main></ion-router-outlet>
- 
 </ion-split-pane>

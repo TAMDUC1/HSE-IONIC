@@ -43,7 +43,7 @@ export class LvMediaComponent implements OnInit {
     filesArr;
     dataBack = [];
     typeProblem;
-   files = [];
+    files = [];
 
    // files = new BehaviorSubject([]);
     message: string = "";
@@ -93,9 +93,37 @@ export class LvMediaComponent implements OnInit {
    /* addData(foo: any): void {
         this.files.next([...this.files.getValue(), ...foo])
     }*/
+    uploadAll(){
+        console.log('upload all');
+    }
     loadFiles() {
         this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
             res => {
+                console.log('res',res);
+                this.files = [];
+                res.forEach(e=>{
+                    this.files = this.files.concat(e);
+                    this.ref.detectChanges();
+
+                });
+
+                /* if(this.files.length > 0){
+                     res.forEach(e=>{
+                         this.files.forEach(el => {//loop
+                             if(el.name == e.name){
+
+                             }
+                             else{
+                                 this.files.concat(el);
+                             }
+                         })
+                     })
+                 }else{
+                     res.forEach(e=>{
+                         this.files.concat(e);
+                     })
+                 }*/
+
                 //this.files = [];
                // this.ref.detectChanges();
                 /*res.forEach(e =>{
@@ -114,15 +142,9 @@ export class LvMediaComponent implements OnInit {
 
                 });*/
                // this.addData(res);
-                this.files = res;
+               // this.files = res;
+                console.log('this.file',this.files);
                // this.ref.detectChanges();
-              //  res.splice(0, this.files.length -1);
-               // this.files = [...this.files,...res];
-              //  this.files = res;
-               // console.log(' files: ', res);
-               //  this.ref.markForCheck();
-               // this.selectMedia();
-
             },
             err => console.log('error loading files: ', err)
         );
@@ -177,10 +199,10 @@ export class LvMediaComponent implements OnInit {
         );
       //  this.ref.detectChanges();
         // If you get problems on Android, try to ask for Permission first
-        // this.imagePicker.requestReadPermission().then(result => {
-        //   console.log('requestReadPermission: ', result);
-        //   this.selectMultiple();
-        // });
+       /*  this.imagePicker.requestReadPermission().then(result => {
+           console.log('requestReadPermission: ', result);
+           this.selectMultiple();
+         });*/
     }
 
     captureImage() {
@@ -227,7 +249,9 @@ export class LvMediaComponent implements OnInit {
 
         const ext = myPath.split('.').pop();
         const d = Date.now();
-        const newName = `${d}.${ext}`;
+       // const newName = `${d}.${ext}`;
+        const newName = `${this.uuidv4()}.${ext}`;
+
 
         const name = myPath.substr(myPath.lastIndexOf('/') + 1);
         const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
@@ -240,7 +264,7 @@ export class LvMediaComponent implements OnInit {
 
             },
             error => {
-                console.log('error: ', error);
+                console.log('error: asdad', error);
             }
         );
         this.ref.detectChanges();
@@ -367,13 +391,14 @@ export class LvMediaComponent implements OnInit {
                                 var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
                                 var temp = JSON.parse(JSON.stringify(data));
                                 temp.data = JSON.parse(temp.data);
+                                console.log('tempdata',temp.data);
                                 var path = imgUrl.concat(temp.data.path);
                                 path = path.concat('/');
                                 var databack = {
                                     name : temp.data.name,
                                     path : path.concat(temp.data.name),
                                     typeProblem : temp.data.typeProblem,
-                                    uuid : this.uuid
+                                    uuid : requestObject.uuid
                                 };
                                 // add to service observer
                                 this.dataService.File.pipe(take(1)).subscribe(file =>{

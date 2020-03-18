@@ -15,10 +15,10 @@
   <ion-list>
     <ion-radio-group>
       <ion-list-header>
-        <ion-label>year</ion-label>
+        <ion-label>Năm</ion-label>
       </ion-list-header>
       <ion-item >
-        <ion-label>All</ion-label>
+        <ion-label>Tất cả</ion-label>
         <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
       </ion-item>
       <ion-item *ngFor="let c of filterDate">
@@ -30,35 +30,23 @@
   <ion-list>
     <ion-radio-group>
       <ion-list-header>
-        <ion-label>Status</ion-label>
+        <ion-label>Trạng thái</ion-label>
       </ion-list-header>
       <ion-item >
-        <ion-label>All</ion-label>
+        <ion-label>Tất cả</ion-label>
         <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
       </ion-item>
       <ion-item>
-        <ion-label>Done</ion-label>
+        <ion-label>Hoàn thành kiểm tra</ion-label>
         <ion-radio slot="start" color="bluegrey" value="done" checked></ion-radio>
       </ion-item>
       <ion-item>
-        <ion-label>Prepare</ion-label>
+        <ion-label>Chuẩn bị</ion-label>
         <ion-radio slot="start" color="bluegrey" value="prepare" checked></ion-radio>
       </ion-item>
     </ion-radio-group>
   </ion-list>
-  <ion-list>
-    <ion-radio-group>
-      <ion-list-header>
-        <ion-label>Field</ion-label>
-      </ion-list-header>
-      <ion-item >
-        <ion-label>All</ion-label>
-        <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
-      </ion-item>
-      <ion-item >
-        <ion-label>Khai thac</ion-label>
-        <ion-radio slot="start" color="bluegrey" value="khai thac" checked></ion-radio>
-      </ion-item>
-    </ion-radio-group>
-  </ion-list>
+  <ion-button  mode="ios" color="bluegrey" fill="outline" expand="block" class="ion-margin-top"  (click)="onSubmit()">
+    Lọc
+  </ion-button>
 </ion-content>

@@ -88,7 +88,8 @@ export class AuditHomePage implements OnInit {
             audit.data.comp.title.vi.toLowerCase().indexOf(searchString.toLowerCase()) !== -1);
     }
 
-    onOpenModal() {
+
+     async  onOpenModal() {
         try {
             // this.dataService.setObj(nnName,lvName);// save nn va lv
             this.modalCtrl.create({
@@ -107,7 +108,16 @@ export class AuditHomePage implements OnInit {
                 }
             }).then(modalEl => {
                 modalEl.present();
+
             });
+
+           /* this.modalCtrl.dismiss()
+                .then((data) => {
+                    console.log(data);
+                });*/
+            /*this.modalCtrl.dismiss().then((data)=>{
+                console.log(data);
+            })*/
         } catch (err) {
             console.log('Error: ', err.message);
         }

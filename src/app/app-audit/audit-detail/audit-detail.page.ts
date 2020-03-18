@@ -24,6 +24,7 @@ export class AuditDetailPage implements OnInit {
     private checkList: string;
     private data = [];
     private temp;
+    private type = 'list';
     private tempArr = [];
     private uuid: string;
     agents: Observable<any[]>;

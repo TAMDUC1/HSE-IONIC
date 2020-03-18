@@ -271,9 +271,9 @@ export class AuditItemDetailsPage implements OnInit
     } ;
     async presentAlert() {
         const alert = await this.alertCtrl.create({
-            header: 'Alert',
-            subHeader: 'Status',
-            message: 'updated confirm!!!',
+            header: 'Thông báo',
+            subHeader: '',
+            message: 'update thành công !!!',
             buttons: ['OK']
         });
 

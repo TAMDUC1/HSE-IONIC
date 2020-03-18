@@ -17,4 +17,9 @@ export class AuditHomeFilterComponent implements OnInit {
     onCancel(){
         this.modalCtrl.dismiss(null,'cancel');
     }
+    onSubmit(){
+
+        this.modalCtrl.dismiss({year:2019,
+                                      status: 'done'},'save');
+    }
 }

@@ -53,6 +53,7 @@ export class AuditImageZoomComponent implements OnInit {
 
     onDelete(uuid, index) {
         var url = 'http://54.169.202.105:5000/api/CoreFileUploads/'.concat(uuid);
+        console.log(url);
         this.http.delete(url).subscribe(res => {
             console.log(res);
             this.filesArr.splice(index, 1);
@@ -63,9 +64,9 @@ export class AuditImageZoomComponent implements OnInit {
 
     async presentAlert(uuid, index) {
         const alert = await this.alertCtrl.create({
-            header: 'Alert',
-            subHeader: 'Status',
-            message: 'Xoá ???',
+            header: 'Cảnh báo',
+            subHeader: '',
+            message: 'Bạn muốn xoá ảnh ?',
             buttons: [{
                 text: 'Không xoá',
                 role: 'cancel',

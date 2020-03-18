@@ -64,6 +64,7 @@ export class LvModalComponent implements OnInit {
     lvName;
     ndName;
     content;
+    private type = 'all';
     private message: string;
     private state: string;
 
@@ -104,6 +105,7 @@ export class LvModalComponent implements OnInit {
         //http://54.169.202.105:5000/content/uploads/2019/11/16/82a611-120011.jpg
         this.dataService.File.subscribe((file) => {
             this.filesArr = file;
+            console.log('this.filesArr',this.filesArr);
         });
         /*var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
         this.files.data.forEach(e=>{

@@ -62,7 +62,7 @@
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-sqlite-storage": "^3.4.0",
     "core-js": "^2.5.4",
-    "firebase": "^6.2.3",
+    "firebase": "^7.8.1",
     "guid-typescript": "^1.0.9",
     "ionic4-rating": "^1.0.9",
     "ionicons": "git://github.com/ionic-team/ionicons.git#3.0",
