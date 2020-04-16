@@ -10,11 +10,7 @@ import {HTTP} from '@ionic-native/http/ngx';
 import { Storage } from '@ionic/storage';
 
 import {LvModalComponent} from '../audit-detail/lv-modal/lv-modal.component';
-import {AuditHomeFilterComponent} from './audit-home-filter/audit-home-filter.component';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map, tap} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
-
 interface Audit {
     attachment: string,
     companyId: number,
@@ -33,18 +29,20 @@ interface Audit {
 }
 
 @Component({
-    selector: 'app-audit-home',
-    templateUrl: './audit-home.page.html',
-    styleUrls: ['./audit-home.page.scss'],
+  selector: 'app-auditkt-home',
+  templateUrl: './auditkt-home.page.html',
+  styleUrls: ['./auditkt-home.page.scss'],
 })
-export class AuditHomePage implements OnInit {
+export class AuditktHomePage implements OnInit {
+
     private auditUrl: string = 'https://localhost:5001/api/HseAudits/';
     requestObject: any = null;
     public http;
     public audits;
     public audit: IAudit;
     public CompArrs = [];
-    public CompArrsKt = [];
+    public CompArrskt = [];
+
     page = 0;
     public dummy = {};
     filteredCompArrs = [];
@@ -81,7 +79,7 @@ export class AuditHomePage implements OnInit {
     ngOnInit() {
         //  this.loadData(true);
         this.getHTTP();
-        this.filteredCompArrs = this.CompArrs;
+        this.filteredCompArrs = this.CompArrskt;
         for (var _i = this.currentDate - 1; _i < this.currentDate + 1; _i++) {
             this.filterDate.push(_i);
         }
@@ -94,65 +92,11 @@ export class AuditHomePage implements OnInit {
     }
 
 
-     async  onOpenModal() {
-        try {
-            // this.dataService.setObj(nnName,lvName);// save nn va lv
-            this.modalCtrl.create({
-                component: AuditHomeFilterComponent,
-                backdropDismiss: false,
-                /* enterAnimation: myEnterAnimation,
-                 leaveAnimation: myLeaveAnimation,*/
-                // cssClass: 'from-top-modal-filter',
-                componentProps: {
-                    filterDate: this.filterDate
-                    /* uuid : this.uuid,
-                     nnName : nnName,
-                     lvName : lvName,
-                     ndName :'',
-                     content : tempChildren*/
-                }
-            }).then(modalEl => {
-                modalEl.present();
 
-            });
-
-           /* this.modalCtrl.dismiss()
-                .then((data) => {
-                    console.log(data);
-                });*/
-            /*this.modalCtrl.dismiss().then((data)=>{
-                console.log(data);
-            })*/
-        } catch (err) {
-            console.log('Error: ', err.message);
-        }
-    }
 
     getHTTP() {
-        this.httpClient.get<[Audit]>('http://54.169.202.105:5000/api/HseAudits').subscribe(res => {
-            res.forEach(e => {
-                if (e.kind == 1) {
-                    var temp = e;
-                    temp.data = JSON.parse(e.data);
-                    this.CompArrs.push(temp);
-                }
-                if (e.kind == 2) {
-                    var temp = e;
-                    temp.data = JSON.parse(e.data);
-                    this.CompArrsKt.push(temp);
-                }
-            });
-            // this.audits = this.CompArrs;
-            this.dataService.setData(1, this.CompArrs);// save audits
-            this.CompArrs.forEach(e => {
-                this.dataService.setData(1, this.CompArrs);
-            });
-            this.dataService.setData(3, this.CompArrsKt);// save audits
 
-            console.log('this compArrs', this.CompArrs);
-            console.log('this compArrs kt ', this.CompArrsKt);
-
-        });
+        this.CompArrskt = this.dataService.getData(3);
         /* const AuditsObservable = new Observable( observer =>{
              observer.next(this.CompArrs);
          });
@@ -267,21 +211,21 @@ export class AuditHomePage implements OnInit {
                     console.log('fileArrays',fileArrs);
                     this.dataService.setFile(uuid, fileArrs);
 
-              /*  this.files.data.forEach(e=>{
-                    var a = JSON.parse(e.data);
-                    var path = imgUrl.concat(a.path);
-                    path = path.concat('/');
-                    var file = {
-                        uuid : e.uuid,
-                        name : a.name,
-                        path : path.concat(a.name),
-                        typeProblem : a.typeProblem
-                    } ;
-                    //Str(e.data);
-                    this.filesArr.push(file);
-                    console.log('array file',this.filesArr);
+                    /*  this.files.data.forEach(e=>{
+                          var a = JSON.parse(e.data);
+                          var path = imgUrl.concat(a.path);
+                          path = path.concat('/');
+                          var file = {
+                              uuid : e.uuid,
+                              name : a.name,
+                              path : path.concat(a.name),
+                              typeProblem : a.typeProblem
+                          } ;
+                          //Str(e.data);
+                          this.filesArr.push(file);
+                          console.log('array file',this.filesArr);
 
-                });*/
+                      });*/
 
 
 
@@ -334,6 +278,7 @@ export class AuditHomePage implements OnInit {
              this.dummy = res[0];
          })*!/
      }*/
+
 
 
 }

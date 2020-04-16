@@ -91,13 +91,23 @@ import {AuditHomePage} from './app-audit/audit-home/audit-home.page';
 import {AuditTabsPageModule} from './app-audit/audit-tabs/audit-tabs.module';
 import {AuditHomePageModule} from './app-audit/audit-home/audit-home.module';
 
-import { IonicStorageModule } from '@ionic/storage';
+import { IonicStorageModule, Storage } from '@ionic/storage';
 import { Network } from '@ionic-native/network/ngx';
 import {ApiService} from './services/audit/api.service';
 import { DataService } from './services/audit/data.service';
 
 import {AuditItemEvaluateComponent} from './app-audit/audit-item-details/audit-item-evaluate/audit-item-evaluate.component';
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
+
+export function jwtOptionsFactory(storage) {
+    return {
+        tokenGetter: () => {
+            return storage.get('access_token');
+        },
+        whitelistedDomains: ['http://54.169.202.105:5000']
+    }
+}
 @NgModule({
   declarations: [AppComponent ], // Autosize
   entryComponents: [],
@@ -112,7 +122,14 @@ import {AuditItemEvaluateComponent} from './app-audit/audit-item-details/audit-i
     }),
     HttpClientModule,
     AppRoutingModule,
-
+    IonicStorageModule.forRoot(),
+    JwtModule.forRoot({
+          jwtOptionsProvider: {
+              provide: JWT_OPTIONS,
+              useFactory: jwtOptionsFactory,
+              deps: [Storage],
+          }
+      }),
     //******* Travel page module ********//
     /*TravelImageZoomPageModule,
     TravelMapPageModule,
@@ -148,7 +165,6 @@ import {AuditItemEvaluateComponent} from './app-audit/audit-item-details/audit-i
     AngularFirestoreModule,
     AngularFireStorageModule,
     IonicModule.forRoot(),
-    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,

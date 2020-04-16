@@ -28,6 +28,16 @@ const routes: Routes = [
                       loadChildren: '../audit-home/audit-home.module#AuditHomePageModule',
                   },
                   {
+                      path: 'auditkt',
+                      resolve:{
+                          files: FilesResolverService,
+                          audits : DataResolverService,
+                          singleAudit : SingleAuditResolverService,
+                          uuid : UuidResolverService,
+                      },
+                      loadChildren: '../auditkt-home/auditkt-home.module#AuditktHomePageModule',
+                  },
+                  {
                       path: 'audit-detail/:uuid',
                       resolve:{
                           files: FilesResolverService,

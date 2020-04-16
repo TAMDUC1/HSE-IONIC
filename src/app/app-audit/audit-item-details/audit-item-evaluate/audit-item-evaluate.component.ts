@@ -4,11 +4,13 @@ import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataService} from '../../../services/audit/data.service';
 import {HTTP} from '@ionic-native/http/ngx';
+
 @Component({
   selector: 'app-audit-item-evaluate',
   templateUrl: './audit-item-evaluate.component.html',
   styleUrls: ['./audit-item-evaluate.component.scss'],
 })
+
 export class AuditItemEvaluateComponent implements OnInit {
     form : FormGroup;
 //http://54.169.202.105:5000/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20
@@ -21,12 +23,13 @@ export class AuditItemEvaluateComponent implements OnInit {
     ndState : string;
     requestObject : any = null;
 
-    constructor(private modalCtrl : ModalController,
-              private dataService: DataService,
-              private router: Router,
-              private loadingCtrl :LoadingController,
-              private HTTP :HTTP,
-              private alertCtrl : AlertController,
+    constructor(
+        private modalCtrl : ModalController,
+        private dataService: DataService,
+        private router: Router,
+        private loadingCtrl :LoadingController,
+        private HTTP :HTTP,
+        private alertCtrl : AlertController,
 
     ) { }
 
@@ -106,9 +109,7 @@ export class AuditItemEvaluateComponent implements OnInit {
                     this.HTTP.put(auditSingleUrl,
                         this.requestObject,
                         {"Content-Type": "application/json"})
-
                         .then(data => {
-
                              //   console.log('day la data ',data);
                                 if(data.status == 200){
                                     this.ndDescription = this.form.value.description;
@@ -120,19 +121,13 @@ export class AuditItemEvaluateComponent implements OnInit {
                                         loadingEl.dismiss();
                                         this.presentAlert();
                                         this.onSubmit();
-
                                     },1000);
-
                                 }
                                 else{
                                     this.presentAlertFail();
-
                                     loadingEl.dismiss();
-
                                 }
-
                             }
-
                         )
                         .catch(err => console.log('day la loi',err));
                 })

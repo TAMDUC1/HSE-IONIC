@@ -17,9 +17,6 @@ export class AppComponent {
     this.initializeApp();
   }
 
-
-
-  
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -27,3 +24,4 @@ export class AppComponent {
     });
   }
 }
+//this.router.navigateByUrl('/side-menu/travel/tabs/tab1');

@@ -12,7 +12,8 @@ export const environment = {
     storageBucket: "gs://ionic-pwa-3d3c9.appspot.com/",
     messagingSenderId: "352809123105",
     appId: "1:352809123105:web:82aad4a801da11154f9260"
-  }
+  },
+    url: 'http://54.169.202.105:5000'
 };
 
 /*

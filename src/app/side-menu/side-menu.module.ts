@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SideMenuPage } from './side-menu.page';
 import { UserGuard } from '../services/user.guard';
+import {AuthGuardService} from '../services/auth-guard.service';
 const routes: Routes = [
   {
     path: '',
@@ -17,13 +18,20 @@ const routes: Routes = [
         loadChildren: '../app-auth/login/login.module#LoginPageModule'
       },
       {
+          path: 'login-jwt',
+          loadChildren: '../app-auth/login-jwt/login-jwt.module#LoginJwtPageModule'
+      },
+
+        {
         path: 'register',
         loadChildren: '../app-auth/register/register.module#RegisterPageModule'
       },
       {
         path: 'profile',
         loadChildren: '../app-auth/profile/profile.module#ProfilePageModule',
-        canActivate: [UserGuard]
+        //canActivate: [UserGuard],
+        canActivate: [AuthGuardService]
+
       },
       {
         path: 'forgot',
@@ -34,18 +42,28 @@ const routes: Routes = [
       {
         path: 'audit',
         loadChildren: '../app-audit/audit-tabs/audit-tabs.module#AuditTabsPageModule',
-        canActivate: [UserGuard]
+      //  canActivate: [UserGuard]
+          canActivate: [AuthGuardService]
+
+      },
+      {
+          path: 'auditkt',
+          loadChildren: '../app-audit/auditkt-home/auditkt-home.module#AuditktHomePageModule',
+          //  canActivate: [UserGuard]
+          canActivate: [AuthGuardService]
 
       },
       {
         path: 'keywords',
         loadChildren: '../app-hse-keywords/keywords-home/keywords-home.module#KeywordsHomePageModule',
-        canActivate: [UserGuard]
+      //  canActivate: [UserGuard]
+          canActivate: [AuthGuardService]
 
       },
       {
         path: 'news',
         loadChildren: '../app-news/news-home/news-home.module#NewsHomePageModule'
+
       },  /*,
       {
         path: 'travel',

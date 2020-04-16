@@ -168,6 +168,8 @@ const routes: Routes = [
   { path: 'audit-item-details', loadChildren: './app-audit/audit-item-details/audit-item-details.module#AuditItemDetailsPageModule' },
   { path: 'keywords-home', loadChildren: './app-hse-keywords/keywords-home/keywords-home.module#KeywordsHomePageModule' },
   { path: 'news-home', loadChildren: './app-news/news-home/news-home.module#NewsHomePageModule' },
+  { path: 'login-jwt', loadChildren: './app-auth/login-jwt/login-jwt.module#LoginJwtPageModule' },
+  { path: 'auditkt-home', loadChildren: './app-audit/auditkt-home/auditkt-home.module#AuditktHomePageModule' },
 
 
 

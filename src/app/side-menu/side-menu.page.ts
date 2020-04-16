@@ -17,6 +17,11 @@ export class SideMenuPage implements OnInit {
         url: '/side-menu/audit',
         icon: ''
     },
+      {
+          title: 'Hệ thống kiểm toán',
+          url: '/side-menu/auditkt',
+          icon: ''
+      },
     {
         title: 'Tin tức',
         url: '/side-menu/news',
@@ -61,11 +66,15 @@ export class SideMenuPage implements OnInit {
     {
       title: 'Xác thực',
       children: [
-        {
+       /* {
           title: 'Đăng nhập',
           url: '/side-menu/login'
-        },
+        },*/
         {
+            title: 'Đăng nhập jwt',
+            url: '/side-menu/login-jwt'
+        },
+       /* {
           title: 'Đăng ký',
           url: '/side-menu/register'
         },
@@ -76,7 +85,7 @@ export class SideMenuPage implements OnInit {
         {
           title: 'Forgot',
           url: '/side-menu/forgot'
-        },
+        },*/
       ]
     },
     //******************************//

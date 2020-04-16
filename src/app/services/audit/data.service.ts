@@ -21,6 +21,7 @@ export class DataService {
         lvName: ''
     };
     private ndName = '';
+    private authData = new BehaviorSubject({});
 
     constructor() {
     }
@@ -101,5 +102,14 @@ export class DataService {
 
     getFiles() {
         return this.files;
+    }
+
+    setAuthData(data){
+
+        this.authData.next(data);
+    }
+    getAuthData(){
+
+        return this.authData.asObservable();
     }
 }

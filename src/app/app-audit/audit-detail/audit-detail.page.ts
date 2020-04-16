@@ -25,11 +25,11 @@ export class AuditDetailPage implements OnInit {
     private data = [];
     private temp;
     private type = 'list';
-    private tempArr = [];
     private uuid: string;
     agents: Observable<any[]>;
     private singleAudit;
     private files = {};
+    private auditType ;
 
     /*  nnName: string; // nhom nganh
       lvName : string; // noi dung kiem tra
@@ -64,8 +64,13 @@ export class AuditDetailPage implements OnInit {
     ngOnInit() {
         // subscribe to get the lastest single audit
         this.dataService.getSingleAudit.subscribe((audit) => {
-            console.log('audit123', audit);
-            this.singleAudit = audit;
+            if(audit){
+                console.log('audit123', audit);
+
+                this.singleAudit = audit;
+
+
+            }
         });
 
         /*if(this.route.snapshot.data['singleAudit']){
@@ -80,12 +85,10 @@ export class AuditDetailPage implements OnInit {
         });
         if (this.route.snapshot.data['files']) {
             //  this.files = this.route.snapshot.data['files'];
-             console.log('file from resolve', this.files);
             //console.log('files  get from resolve', this.files);
         }
         if (this.route.snapshot.data['audits']) {
             this.data = this.route.snapshot.data['audits'];
-            //  console.log('this data newww', this.data);
         }
         this.agents = this.realestateService.getTopAgent(2);
 
@@ -96,23 +99,34 @@ export class AuditDetailPage implements OnInit {
                 this.uuid = paramMap.get('uuid');
                 this.dataService.setUuid(this.uuid);
                 console.log('uuid in detail page', this.uuid);
-                /*
-                            this.temp = this.data;
-                */
+                console.log('this.singleAudit.uuid ', this.singleAudit.uuid );
+               /* if(this.singleAudit.uuid == this.uuid){
+                    this.temp = this.singleAudit.data;
+                    console.log('this temp', this.temp);
+                }*/
+
                 this.data.forEach((e) => {
                     if (e.uuid == paramMap.get('uuid')) {
-                        this.temp = e.data;
-                        this.temp.checkList.forEach((f) => {
-                            f.field.forEach((g) => {
-                                g.children.forEach((h) => {
-                                    if (h.checked) {
-                                        g.checked = true;
-                                    }
+                        if(e.kind == 1){
+                            this.auditType = 1;
+                            this.temp = e.data;
+                            this.temp.checkList.forEach((f) => {
+                                f.field.forEach((g) => {
+                                    g.children.forEach((h) => {
+                                        if (h.checked) {
+                                            g.checked = true;
+                                        }
+                                    });
                                 });
                             });
-                        });
+                        }
+                        else{
+                            this.auditType = 2;
+                        }
                     }
                 });
+
+
             }
 
         });

@@ -1,56 +1,55 @@
 <ion-header  no-border>
-  <ion-toolbar color="bluegrey">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-   <!-- <ion-buttons slot="end">
-      <ion-button (click)="onClose('side-menu/audit/tabs/tab1')">
-        <ion-badge color="danger"></ion-badge>
-        <ion-icon color="dark" slot="icon-only" name="ios-close"></ion-icon>
-      </ion-button>
-    </ion-buttons>-->
-  </ion-toolbar >
-  <!--<ion-toolbar color="light">
-    <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="openSearchModal()" search-icon="ion-pin" ></ion-searchbar>
-  </ion-toolbar>-->
+    <ion-toolbar color="bluegrey">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <!-- <ion-buttons slot="end">
+           <ion-button (click)="onClose('side-menu/audit/tabs/tab1')">
+             <ion-badge color="danger"></ion-badge>
+             <ion-icon color="dark" slot="icon-only" name="ios-close"></ion-icon>
+           </ion-button>
+         </ion-buttons>-->
+    </ion-toolbar >
+    <!--<ion-toolbar color="light">
+      <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="openSearchModal()" search-icon="ion-pin" ></ion-searchbar>
+    </ion-toolbar>-->
 </ion-header>
 
 <ion-content no-padding>
-  <ion-list-header color="bluegrey" >
-    Danh sách lĩnh vực kiểm tra
-  </ion-list-header>
-  <ion-segment color="bluegrey" padding="1" [(ngModel)]= type>
-    <ion-segment-button value="list">
-      Danh sách
-    </ion-segment-button>
-    <ion-segment-button value="statistics">
-      Thống kê
-    </ion-segment-button>
+    <ion-list-header color="bluegrey" >
+        Danh sách lĩnh vực kiểm tra
+    </ion-list-header>
+    <ion-segment color="bluegrey" padding="1" [(ngModel)]= type>
+        <ion-segment-button value="list">
+            Danh sách
+        </ion-segment-button>
+        <ion-segment-button value="statistics">
+            Thống kê
+        </ion-segment-button>
 
-  </ion-segment>
-  <div [ngSwitch]=type>
+    </ion-segment>
+    <div [ngSwitch]=type>
+        <div *ngSwitchCase="'list'" >
+            <div class="profile-form"  *ngFor="let c of temp?.checkList" >
 
-    <div *ngSwitchCase="'list'" >
-      <div class="profile-form"  *ngFor="let c of temp?.checkList" >
+                <ion-card class="info-card-2" >
+                    <ion-list>
+                        <ng-container *ngFor="let d of c?.field,let i = index">
+                            <ion-item *ngIf="d.checked" (click)="onOpenModal(c.name,d.name)">
+                                <ion-label color="bluegrey">
+                                    {{i+1}}. {{d.name}}
+                                </ion-label>
+                            </ion-item>
+                        </ng-container>
+                    </ion-list>
+                </ion-card>
+            </div>
+        </div>
 
-        <ion-card class="info-card-2" >
-          <ion-list>
-            <ng-container *ngFor="let d of c?.field,let i = index">
-              <ion-item *ngIf="d.checked" (click)="onOpenModal(c.name,d.name)">
-                <ion-label color="bluegrey">
-                  {{i+1}}. {{d.name}}
-                </ion-label>
-              </ion-item>
-            </ng-container>
-          </ion-list>
-        </ion-card>
-      </div>
+        <div class="profile-form"  *ngSwitchCase="'statistics'">
+
+        </div>
     </div>
-
-    <div class="profile-form"  *ngSwitchCase="'statistics'">
-
-    </div>
-  </div>
 
 
 </ion-content>
