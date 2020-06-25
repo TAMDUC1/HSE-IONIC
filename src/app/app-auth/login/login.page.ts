@@ -111,7 +111,7 @@ public redirectPath: any;
 
       }, error => {
         //var errorMessage: string = error.message;
-        this.ionicComponentService.dismissLoading()
+        this.ionicComponentService.dismissLoading();
         console.log("Error:"+error.message);
         this.ionicComponentService.presentAlert(error.message)
 

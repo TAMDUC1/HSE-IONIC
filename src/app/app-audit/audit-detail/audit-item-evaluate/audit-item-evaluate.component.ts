@@ -39,11 +39,6 @@ export class AuditItemEvaluateComponent implements OnInit {
     }
 
     onEditToBackendNative() {
-       /* if(this.form.value.description ===""){
-            console.log('empty');
-
-        }*/
-        console.log('this.lastDescription',this.lastDescription);
         this.loadingCtrl.create({
             keyboardClose: true,
             message: 'waiting ...'
@@ -62,8 +57,6 @@ export class AuditItemEvaluateComponent implements OnInit {
                                 if (el.name == this.lvName) {           // linh vuc
                                     el.children.forEach((nd) => {
                                         if (nd.name == this.ndName) {          // noi dung kiem tra
-
-                                          //  nd.description = this.form.value.description;
 
                                             if (this.form.value.description === "") {
                                                 nd.description = this.lastDescription;
@@ -84,7 +77,6 @@ export class AuditItemEvaluateComponent implements OnInit {
                         }
                     });
                     this.requestObject.data = JSON.stringify(this.requestObject.data);
-                    // this.requestObject = JSON.stringify(this.requestObject);
                     this.HTTP.setDataSerializer('json');
                     console.log('test object put :', this.requestObject);
                     this.HTTP.put(auditSingleUrl,
@@ -160,6 +152,9 @@ export class AuditItemEvaluateComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('nnNAme',this.nnName);
+        console.log('lvNAme',this.lvName);
+
         this.form = new FormGroup({
             description: new FormControl('', {
                 updateOn: 'blur',
@@ -170,6 +165,7 @@ export class AuditItemEvaluateComponent implements OnInit {
                 validators: [Validators.required]
             }),
         });
+
     }
 
 }

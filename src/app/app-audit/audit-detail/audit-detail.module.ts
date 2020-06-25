@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { AuditDetailPage } from './audit-detail.page';
 import { LvModalComponent } from './lv-modal/lv-modal.component';
-import {AuditItemEvaluateComponent} from './audit-item-evaluate/audit-item-evaluate.component';
+import { AuditItemEvaluateComponent } from './audit-item-evaluate/audit-item-evaluate.component';
 import { AuditImageZoomComponent } from './audit-image-zoom/audit-image-zoom.component';
 import { LvMediaComponent} from './lv-media/lv-media.component';
 

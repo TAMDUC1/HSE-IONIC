@@ -81,7 +81,8 @@ export class AuditHomePage implements OnInit {
     ngOnInit() {
         //  this.loadData(true);
         this.getHTTP();
-        this.filteredCompArrs = this.CompArrs;
+       // this.filteredCompArrs = this.CompArrs;
+
         for (var _i = this.currentDate - 1; _i < this.currentDate + 1; _i++) {
             this.filterDate.push(_i);
         }
@@ -105,24 +106,12 @@ export class AuditHomePage implements OnInit {
                 // cssClass: 'from-top-modal-filter',
                 componentProps: {
                     filterDate: this.filterDate
-                    /* uuid : this.uuid,
-                     nnName : nnName,
-                     lvName : lvName,
-                     ndName :'',
-                     content : tempChildren*/
+
                 }
             }).then(modalEl => {
                 modalEl.present();
 
             });
-
-           /* this.modalCtrl.dismiss()
-                .then((data) => {
-                    console.log(data);
-                });*/
-            /*this.modalCtrl.dismiss().then((data)=>{
-                console.log(data);
-            })*/
         } catch (err) {
             console.log('Error: ', err.message);
         }
@@ -147,10 +136,18 @@ export class AuditHomePage implements OnInit {
             this.CompArrs.forEach(e => {
                 this.dataService.setData(1, this.CompArrs);
             });
+           // this.CompArrs = this.CompArrs.filter(e => e.data.checkList.length >0);
             this.dataService.setData(3, this.CompArrsKt);// save audits
 
             console.log('this compArrs', this.CompArrs);
-            console.log('this compArrs kt ', this.CompArrsKt);
+            if(this.CompArrs.length){
+                var filterComps = this.CompArrs.filter(function (e) {
+                    return e.data.checkList.length > 0;
+                });
+                this.CompArrs = filterComps;
+                this.filteredCompArrs = this.CompArrs;
+
+            }
 
         });
         /* const AuditsObservable = new Observable( observer =>{

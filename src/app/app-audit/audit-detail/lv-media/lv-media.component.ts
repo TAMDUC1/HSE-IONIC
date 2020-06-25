@@ -1,6 +1,8 @@
 import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import {ModalController,ToastController,LoadingController} from '@ionic/angular';
+// @ts-ignore
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+//import { ImagePicker } from '@ionic-native/image-picker';
 import { ActionSheetController, Platform } from '@ionic/angular';
 import {
     MediaCapture,

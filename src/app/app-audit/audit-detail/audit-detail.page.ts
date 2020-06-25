@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {NavController, ModalController} from '@ionic/angular';
+import {NavController, ModalController, LoadingController} from '@ionic/angular';
 import {Audit} from '../model/audit.model';
 import {ApiService} from '../../services/audit/api.service';
 import {DataService} from '../../services/audit/data.service';
@@ -30,6 +30,8 @@ export class AuditDetailPage implements OnInit {
     private singleAudit;
     private files = {};
     private auditType ;
+    private auditUrl = 'http://54.169.202.105:5000/api/HseAudits/';
+    requestObject: any = null;
 
     /*  nnName: string; // nhom nganh
       lvName : string; // noi dung kiem tra
@@ -43,10 +45,12 @@ export class AuditDetailPage implements OnInit {
         private apiService: ApiService,
         private dataService: DataService,
         private router: Router,
+        private loadingCtrl: LoadingController,
         private modalCtrl: ModalController,
         private HTTP: HTTP,
     ) {
     }
+
 
     ionViewWillEnter() {
         this.dataService.getSingleAudit.subscribe((audit) => {
@@ -110,14 +114,9 @@ export class AuditDetailPage implements OnInit {
                         if(e.kind == 1){
                             this.auditType = 1;
                             this.temp = e.data;
-                            this.temp.checkList.forEach((f) => {
-                                f.field.forEach((g) => {
-                                    g.children.forEach((h) => {
-                                        if (h.checked) {
-                                            g.checked = true;
-                                        }
-                                    });
-                                });
+                            this.temp.checkList = this.temp.checkList.filter(function(e){
+                                console.log(e);
+                                return e.type !='Lĩnh vực rủi ro';
                             });
                         }
                         else{
@@ -134,18 +133,18 @@ export class AuditDetailPage implements OnInit {
 
 
     getChild(nnName, lvName) {
-        var tempChildren = [];
+        var tempChildren = {};
         this.temp.checkList.forEach((e) => {
-            if (e.name == nnName) {
-                e.field.forEach((el) => {
-                    if (el.name == lvName) {
+            if (e.title.vi == nnName) {
+                e.children.forEach(el => {
+                    console.log('el',el);
+                    if (el.title.vi == lvName) {
                         el.children = el.children.map(elChild => ({...elChild, ...{expanded: false}}));
-                        tempChildren.push(el.children);
+                        tempChildren =el;
                     }
                 });
             }
         });
-        console.log('new expanded child   ', tempChildren);
         return Promise.resolve(tempChildren);
     }
 
@@ -169,9 +168,6 @@ export class AuditDetailPage implements OnInit {
             this.modalCtrl.create({
                 component: LvModalComponent,
                 backdropDismiss: false,
-                /* enterAnimation: myEnterAnimation,
-                 leaveAnimation: myLeaveAnimation,*/
-                // cssClass: 'from-middle-modal',
                 componentProps: {
                     uuid: this.uuid,
                     nnName: nnName,
@@ -182,11 +178,27 @@ export class AuditDetailPage implements OnInit {
                 }
             }).then(modalEl => {
                 modalEl.present();
-            });
+                return modalEl.onDidDismiss();
+            }).then(resultData =>{
+                console.log(resultData.data, resultData.role);
+                if(resultData.role ==='save'){
+                    this.temp.checkList.forEach(e =>{
+                        if(e.title.vi === resultData.data.lv){
+                            e.children.forEach(el =>{
+                                if(el.title.vi === resultData.data.title){
+                                    el.description = resultData.data.desciption;
+                                    el.state = resultData.data.state;
+                                }
+                            })
+                        }
+                    })
+                }
+            })
 
         } catch (err) {
             console.log('Error: ', err.message);
         }
+
 
 
     }

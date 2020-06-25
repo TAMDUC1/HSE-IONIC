@@ -16,7 +16,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // media
 
+// @ts-ignore
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+//import { ImagePicker } from '@ionic-native/image-picker';
 import { File } from '@ionic-native/File/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';

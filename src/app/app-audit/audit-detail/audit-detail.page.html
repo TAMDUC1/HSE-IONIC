@@ -17,9 +17,9 @@
 
 <ion-content no-padding>
     <ion-list-header color="bluegrey" >
-        Danh sách lĩnh vực kiểm tra
+        Danh sách CheckList kiểm tra
     </ion-list-header>
-    <ion-segment color="bluegrey" padding="1" [(ngModel)]= type>
+    <!--<ion-segment color="bluegrey" padding="1" [(ngModel)]= type>
         <ion-segment-button value="list">
             Danh sách
         </ion-segment-button>
@@ -27,12 +27,30 @@
             Thống kê
         </ion-segment-button>
 
-    </ion-segment>
-    <div [ngSwitch]=type>
-        <div *ngSwitchCase="'list'" >
+    </ion-segment>-->
+<!--
+    [ngSwitch]=type
+-->
+    <div >
+        <div> <!--*ngSwitchCase="'list'" -->
             <div class="profile-form"  *ngFor="let c of temp?.checkList" >
-
-                <ion-card class="info-card-2" >
+                <ion-card class="info-card-2" ng-if="c.title.vi !='Rủi ro'">
+                    <ion-list>
+                        <ion-item>
+                            <ion-label color="bluegrey">
+                                 Lĩnh vực: {{c.title.vi}}
+                            </ion-label>
+                        </ion-item>
+                        <ng-container *ngFor="let d of c?.children,let i = index">
+                            <ion-item  (click)="onOpenModal(c.title.vi,d.title.vi)">
+                                <ion-label>
+                                     {{d.title.vi}}
+                                </ion-label>
+                            </ion-item>
+                        </ng-container>
+                    </ion-list>
+                </ion-card>
+                <!--<ion-card class="info-card-2" >
                     <ion-list>
                         <ng-container *ngFor="let d of c?.field,let i = index">
                             <ion-item *ngIf="d.checked" (click)="onOpenModal(c.name,d.name)">
@@ -42,14 +60,12 @@
                             </ion-item>
                         </ng-container>
                     </ion-list>
-                </ion-card>
+                </ion-card>-->
             </div>
         </div>
 
-        <div class="profile-form"  *ngSwitchCase="'statistics'">
+      <!--  <div class="profile-form"  *ngSwitchCase="'statistics'">
 
-        </div>
+        </div>-->
     </div>
-
-
 </ion-content>

@@ -1,6 +1,5 @@
 <ion-header no-border>
     <ion-toolbar color="bluegrey">
-        <ion-title color="light"> Lĩnh vực {{lvName}}</ion-title>
         <ion-buttons slot="end">
             <ion-button color="light" (click)="onCancel()">
                 <ion-icon slot="icon-only" name="ios-arrow-down"></ion-icon>
@@ -9,361 +8,144 @@
     </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
-    <ion-list-header color="bluegrey" >
-        Nôi dung kiểm tra trong lĩnh vực {{lvName}}<br>
-    </ion-list-header>
+    <div>
+        <ion-card >
+            <ion-card-header>
+                <ion-card-subtitle>{{content.title.vi}}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <form [formGroup]="form" >
+                    <ion-list lines="none">
+                        <ion-item>
+                            <ion-textarea type="text" formControlName="description" rows=6 [value] = content.description></ion-textarea>
+                        </ion-item>
+                        <ion-item color="#0ec254">
+                            <ion-label style="color: #3b493e">Đánh giá</ion-label>
+                            <ion-select [value]= content.state ok-text="ok" style="color: #78927e"  cancel-text="huy" formControlName="evaluate">
+                                <ion-select-option value="ok" style="color: #78927e">Đạt</ion-select-option>
+                                <ion-select-option value="not"style="color: #78927e">Không đạt</ion-select-option>
+                                <ion-select-option value="noapply"style="color: #78927e">Không áp dụng</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <div class="horizontal-scroll">
+                            <ul style="white-space:nowrap">
+                                <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
 
-    <ion-segment color="bluegrey" padding="1" [(ngModel)]= type>
-        <ion-segment-button value="all">
-            Tất cả
-        </ion-segment-button>
-        <ion-segment-button value="ok">
-            Đạt
-        </ion-segment-button>
-        <ion-segment-button value="not">Không đạt
-        </ion-segment-button>
-        <ion-segment-button value="noapply">Không áp dụng
-        </ion-segment-button>
-    </ion-segment>
-    <div [ngSwitch]=type>
-        <div *ngSwitchCase="'all'" >
-            <ion-item-group *ngFor="let c of content[0],let i = index">
-                <ion-item *ngIf="c.checked">
-                    <ion-label color="bluegrey" (click)="expand(i)"> {{i+1}}. {{c.name}} </ion-label>
-                    <!--<ion-item  *ngIf="c.state == 'ok'">
-                        <ion-icon color="primary" name="ios-checkmark"></ion-icon>
-                    </ion-item>
-                    <ion-item  *ngIf="c.state == 'not'">
-                        <ion-icon color="primary" name="ios-checkmark"></ion-icon>
-                    </ion-item>
-                    <ion-item  *ngIf="c.state == 'noapply'">
-                        <ion-icon color="primary" name="ios-checkmark"></ion-icon>
-                    </ion-item>-->
-                    <!--
-                                <ion-icon color="primary" name="ios-checkmark" ng-if="c.state === 'ok'"></ion-icon>
-                    -->
-                    <!--<ion-buttons slot="end">
-                        <ion-button color="bluegrey" (click)="expand(i)">
-                            <ion-icon slot="icon-only" name="ios-arrow-dropright"></ion-icon>
-                        </ion-button>
-                    </ion-buttons>-->
-                </ion-item>
-                <ion-card [@EnterLeave]="'flyIn'" *ngIf="c.expanded">
-                    <ion-card-header>
-                        <ion-card-subtitle>Đánh gía chi tiết</ion-card-subtitle>
-                        <!--
-                                <ion-card-title></ion-card-title>
-                        -->
+                                    <img (click)="openImageViewer(i)"
+                                         style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
+                                         [src]="image.path" />
 
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-list>
-                            <ion-item>
-                                <ion-text color="bluegrey">
-                                    {{c.description}}
-                                </ion-text>
-                            </ion-item>
-                            <ion-item lines="none">
-                                <!--
-                                            <ion-icon name="ios-pin-outline" slot="start" color=""></ion-icon>
-                                -->
-                                <ion-label>
-                                    <ion-text color="dark">
-                                        <h2 class="main-header8">Trạng thái</h2>
-                                    </ion-text>
-                                    <h2 *ngIf="c.state == 'ok'">Đạt</h2>
-                                    <h2 *ngIf="c.state == 'not'">Không Đạt</h2>
-                                    <h2 *ngIf="c.state == 'noapply'">Không áp dụng</h2>
-                                </ion-label>
-                            </ion-item>
-                            <div class="horizontal-scroll">
-                                <ul style="white-space:nowrap">
-                                    <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
-
-                                        <img *ngIf="image.typeProblem == c.name+c.state"
-                                             style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
-                                             [src]="image.path" (click)="openImageViewer(i,c.name+c.state)"/>
-
-                                    </ng-container>
-                                </ul>
-                                <!--<div class="img-gallery margin" *ngFor="let image of filesArr ,let i = index" >
-                                  <img  *ngIf = "image.typeProblem == c.name+c.state" [src]="image.path"   (click)="openImageViewer(i)"/>
-                                </div>-->
-                            </div>
-                            <ion-item>
-                                <!--
-                                            <ion-button slot="end" (click)="openItemDetail('side-menu/audit/tabs/tab1/audit-item-details',nnName,lvName,c.name)">Edit</ion-button>
-                                -->
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
-                                            (click)="openMedia(c.name+c.state)">File
-                                </ion-button>
-
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline"
-                                            (click)="openModal(c.name,c.description,c.state)">Thay Đổi
-                                </ion-button>
-                            </ion-item>
-                        </ion-list>
-                    </ion-card-content>
-                </ion-card>
-                <!--<ion-item [@EnterLeave]="'flyIn'"  *ngIf="c.expanded">
-
-                  <ion-label >{{c.description}}</ion-label>
-                </ion-item>
-                <ion-item [@EnterLeave]="'flyIn'" *ngIf="c.expanded">
-                  <ion-label color="green" >{{c.state}}</ion-label>
-                </ion-item>-->
-            </ion-item-group>
-        </div>
-        <div *ngSwitchCase="'ok'" >
-            <ion-item-group *ngFor="let c of content[0],let i = index">
-                <ion-item *ngIf="c.checked">
-                    <div *ngIf="c.state == 'ok'" >
-                        <ion-label color="bluegrey" (click)="expand(i)"> {{c.name}} </ion-label>
-                    </div>
-                </ion-item>
-                <ion-card [@EnterLeave]="'flyIn'" *ngIf="c.expanded && c.state == 'ok'">
-                    <ion-card-header>
-                        <ion-card-subtitle>Đánh gía chi tiết</ion-card-subtitle>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-list>
-                            <ion-item>
-                                <ion-text color="bluegrey">
-                                    {{c.description}}
-                                </ion-text>
-                            </ion-item>
-                            <ion-item lines="none">
-                                <!--
-                                            <ion-icon name="ios-pin-outline" slot="start" color=""></ion-icon>
-                                -->
-                                <ion-label>
-                                    <ion-text color="dark">
-                                        <h2 class="main-header8">Trạng thái</h2>
-                                    </ion-text>
-                                    <h2 *ngIf="c.state == 'ok'">Đạt</h2>
-                                    <h2 *ngIf="c.state == 'not'">Không Đạt</h2>
-                                    <h2 *ngIf="c.state == 'noapply'">Không áp dụng</h2>
-                                </ion-label>
-                            </ion-item>
-                            <div class="horizontal-scroll">
-                                <ul style="white-space:nowrap">
-                                    <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
-
-                                        <img *ngIf="image.typeProblem == c.name+c.state"
-                                             style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
-                                             [src]="image.path" (click)="openImageViewer(i,c.name+c.state)"/>
-
-                                    </ng-container>
-                                </ul>
-                                <!--<div class="img-gallery margin" *ngFor="let image of filesArr ,let i = index" >
-                                  <img  *ngIf = "image.typeProblem == c.name+c.state" [src]="image.path"   (click)="openImageViewer(i)"/>
-                                </div>-->
-                            </div>
-                            <ion-item>
-                                <!--
-                                            <ion-button slot="end" (click)="openItemDetail('side-menu/audit/tabs/tab1/audit-item-details',nnName,lvName,c.name)">Edit</ion-button>
-                                -->
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
-                                            (click)="openMedia(c.name+c.state)">File
-                                </ion-button>
-
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline"
-                                            (click)="openModal(c.name,c.description,c.state)">Thay Đổi
-                                </ion-button>
-                            </ion-item>
-                        </ion-list>
-                    </ion-card-content>
-                </ion-card>
-                <!--<ion-item [@EnterLeave]="'flyIn'"  *ngIf="c.expanded">
-
-                  <ion-label >{{c.description}}</ion-label>
-                </ion-item>
-                <ion-item [@EnterLeave]="'flyIn'" *ngIf="c.expanded">
-                  <ion-label color="green" >{{c.state}}</ion-label>
-                </ion-item>-->
-            </ion-item-group>
-        </div>
-        <div *ngSwitchCase="'not'" >
-
-            <ion-item-group *ngFor="let c of content[0],let i = index">
-                <ion-item *ngIf="c.checked">
-                    <div *ngIf="c.state == 'not'" >
-                        <ion-label color="bluegrey" (click)="expand(i)"> {{c.name}} </ion-label>
-                    </div>
-                </ion-item>
-                <ion-card [@EnterLeave]="'flyIn'" *ngIf="c.expanded && c.state == 'not'">
-                    <ion-card-header>
-                        <ion-card-subtitle>Đánh gía chi tiết</ion-card-subtitle>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-list>
-                            <ion-item>
-                                <ion-text color="bluegrey">
-                                    {{c.description}}
-                                </ion-text>
-                            </ion-item>
-                            <ion-item lines="none">
-                                <!--
-                                            <ion-icon name="ios-pin-outline" slot="start" color=""></ion-icon>
-                                -->
-                                <ion-label>
-                                    <ion-text color="dark">
-                                        <h2 class="main-header8">Trạng thái</h2>
-                                    </ion-text>
-                                    <h2 *ngIf="c.state == 'ok'">Đạt</h2>
-                                    <h2 *ngIf="c.state == 'not'">Không Đạt</h2>
-                                    <h2 *ngIf="c.state == 'noapply'">Không áp dụng</h2>
-                                </ion-label>
-                            </ion-item>
-                            <div class="horizontal-scroll">
-                                <ul style="white-space:nowrap">
-                                    <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
-
-                                        <img *ngIf="image.typeProblem == c.name+c.state"
-                                             style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
-                                             [src]="image.path" (click)="openImageViewer(i,c.name+c.state)"/>
-
-                                    </ng-container>
-                                </ul>
-                                <!--<div class="img-gallery margin" *ngFor="let image of filesArr ,let i = index" >
-                                  <img  *ngIf = "image.typeProblem == c.name+c.state" [src]="image.path"   (click)="openImageViewer(i)"/>
-                                </div>-->
-                            </div>
-                            <ion-item>
-                                <!--
-                                            <ion-button slot="end" (click)="openItemDetail('side-menu/audit/tabs/tab1/audit-item-details',nnName,lvName,c.name)">Edit</ion-button>
-                                -->
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
-                                            (click)="openMedia(c.name+c.state)">File
-                                </ion-button>
-
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline"
-                                            (click)="openModal(c.name,c.description,c.state)">Thay Đổi
-                                </ion-button>
-                            </ion-item>
-                        </ion-list>
-                    </ion-card-content>
-                </ion-card>
-                <!--<ion-item [@EnterLeave]="'flyIn'"  *ngIf="c.expanded">
-
-                  <ion-label >{{c.description}}</ion-label>
-                </ion-item>
-                <ion-item [@EnterLeave]="'flyIn'" *ngIf="c.expanded">
-                  <ion-label color="green" >{{c.state}}</ion-label>
-                </ion-item>-->
-            </ion-item-group>
-        </div>
-        <div *ngSwitchCase="'noapply'" >
-            <ion-item-group *ngFor="let c of content[0],let i = index">
-                <ion-item *ngIf="c.checked">
-                    <div *ngIf="c.state == 'noapply'" >
-                        <ion-label color="bluegrey" (click)="expand(i)"> {{c.name}} </ion-label>
-                    </div>
-                </ion-item>
-                <ion-card [@EnterLeave]="'flyIn'" *ngIf="c.expanded && c.state == 'noapply'">
-                    <ion-card-header>
-                        <ion-card-subtitle>Đánh gía chi tiết</ion-card-subtitle>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-list>
-                            <ion-item>
-                                <ion-text color="bluegrey">
-                                    {{c.description}}
-                                </ion-text>
-                            </ion-item>
-                            <ion-item lines="none">
-                                <!--
-                                            <ion-icon name="ios-pin-outline" slot="start" color=""></ion-icon>
-                                -->
-                                <ion-label>
-                                    <ion-text color="dark">
-                                        <h2 class="main-header8">Trạng thái</h2>
-                                    </ion-text>
-                                    <h2 *ngIf="c.state == 'ok'">Đạt</h2>
-                                    <h2 *ngIf="c.state == 'not'">Không Đạt</h2>
-                                    <h2 *ngIf="c.state == 'noapply'">Không áp dụng</h2>
-                                </ion-label>
-                            </ion-item>
-                            <div class="horizontal-scroll">
-                                <ul style="white-space:nowrap">
-                                    <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
-
-                                        <img *ngIf="image.typeProblem == c.name+c.state"
-                                             style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
-                                             [src]="image.path" (click)="openImageViewer(i,c.name+c.state)"/>
-
-                                    </ng-container>
-                                </ul>
-                                <!--<div class="img-gallery margin" *ngFor="let image of filesArr ,let i = index" >
-                                  <img  *ngIf = "image.typeProblem == c.name+c.state" [src]="image.path"   (click)="openImageViewer(i)"/>
-                                </div>-->
-                            </div>
-                            <ion-item>
-                                <!--
-                                            <ion-button slot="end" (click)="openItemDetail('side-menu/audit/tabs/tab1/audit-item-details',nnName,lvName,c.name)">Edit</ion-button>
-                                -->
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
-                                            (click)="openMedia(c.name+c.state)">File
-                                </ion-button>
-
-
-                                <ion-button slot="end" mode="ios" color="bluegrey" fill="outline"
-                                            (click)="openModal(c.name,c.description,c.state)">Thay Đổi
-                                </ion-button>
-                            </ion-item>
-                        </ion-list>
-                    </ion-card-content>
-                </ion-card>
-                <!--<ion-item [@EnterLeave]="'flyIn'"  *ngIf="c.expanded">
-
-                  <ion-label >{{c.description}}</ion-label>
-                </ion-item>
-                <ion-item [@EnterLeave]="'flyIn'" *ngIf="c.expanded">
-                  <ion-label color="green" >{{c.state}}</ion-label>
-                </ion-item>-->
-            </ion-item-group>
-        </div>
-
+                                </ng-container>
+                            </ul>
+                            <!--<div class="img-gallery margin" *ngFor="let image of filesArr ,let i = index" >
+                              <img  *ngIf = "image.typeProblem == c.name+c.state" [src]="image.path"   (click)="openImageViewer(i)"/>
+                            </div>-->
+                        </div>
+                    </ion-list>
+                </form>
+            </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-header>
+                <ion-card-subtitle>File</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-list>
+                    <ion-item-sliding *ngFor="let f of files  ; let i = index">
+                        <ion-item>
+                            <!--
+                                            <ion-icon name="image" slot="start" *ngIf="f.name.endsWith('jpg')"></ion-icon>
+                            -->
+                            <ion-icon name="videocam" slot="start"
+                                      *ngIf="f.name.endsWith('MOV') || f.name.endsWith('mp4')"></ion-icon>
+                            <ion-icon name="mic" slot="start" *ngIf="f.name.endsWith('wav')"></ion-icon>
+                            <ion-label class="ion-text-wrap" (click)="openFile(f)">
+                                {{ f.name }}
+                                <p>{{ f.fullPath }}</p>
+                            </ion-label>
+                            <ion-button slot="end" fill="clear" (click)="startUpload(f,i,content.title.vi)">
+                                <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+                            </ion-button>
+                        </ion-item>
+                        <ion-item-options side="start">
+                            <ion-item-option (click)="deleteFile(f)" color="danger">
+                                <ion-icon name="trash" slot="icon-only"></ion-icon>
+                            </ion-item-option>
+                        </ion-item-options>
+                    </ion-item-sliding>
+                    <!-- <ion-grid >
+                         <ion-button   mode="ios" color="bluegrey" fill="outline" expand="block" class="ion-margin-top"  (click)="uploadAll()">
+                             Upload All
+                         </ion-button>
+                     </ion-grid>-->
+                </ion-list>
+            </ion-card-content>
+            <ion-toolbar color="bluegrey-invert">
+                <ion-button fill="clear" expand="full" color="bluegrey" (click)="selectMedia()">
+                    <ion-icon slot="start" name="document"></ion-icon>
+                    Chọn File
+                </ion-button>
+            </ion-toolbar>
+        </ion-card>
+        <!--<ion-fab style="margin-bottom: 30px " vertical="bottom" horizontal="end" edge slot="fixed">
+            <ion-fab-button  color="bluegrey" (click)="onEditToBackendNative()">Lưu</ion-fab-button>
+        </ion-fab>-->
     </div>
+ <!--   <div [ngSwitch]=type>
+        <div *ngSwitchCase="'all'" >
+            <ion-item *ngIf="content.checked">
+                <ion-label color="bluegrey" (click)="expand(i)"> {{content.title.vi}} </ion-label>
+            </ion-item>
+            <ion-card [@EnterLeave]="'flyIn'" *ngIf="content.expanded">
+                <ion-card-header>
+                    <ion-card-subtitle>Đánh gía chi tiết</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-list>
+                        <ion-item>
+                            <ion-text color="bluegrey">
+                                {{content.description}}
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-label>
+                                <ion-text color="dark">
+                                    <h2 class="main-header8">Trạng thái</h2>
+                                </ion-text>
+                                <h2 *ngIf="content.state == 'ok'">Đạt</h2>
+                                <h2 *ngIf="content.state == 'not'">Không Đạt</h2>
+                                <h2 *ngIf="content.state == 'noapply'">Không áp dụng</h2>
+                            </ion-label>
+                        </ion-item>
+                        <div class="horizontal-scroll">
+                            <ul style="white-space:nowrap">
+                                <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
+                                    <img *ngIf="image.typeProblem == c.title.vi+c.state"
+                                         style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
+                                         [src]="image.path" (click)="openImageViewer(i,content.title.vi+content.state)"/>
 
-    <!--<ion-card *ngFor="lec.descriontent[0],let i = index ">
-      <ion-toolbar>
-        <div style="color: green;padding-left:5px ">
-          {{i + 1}}. {{c.name}}
+                                </ng-container>
+                            </ul>
+                        </div>
+                        <ion-item>
+                            <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
+                                        (click)="openMedia(content.title.vi+content.state)">File
+                            </ion-button>
+                            <ion-button slot="end" mode="ios" color="bluegrey" fill="outline"
+                                        (click)="openModal(content.title.vi,content.description,content.state)">Thay Đổi
+                            </ion-button>
+                        </ion-item>
+                    </ion-list>
+                </ion-card-content>
+            </ion-card>
         </div>
-        <ion-buttons slot="end">
-          <ion-button color="medium" (click)="expand(i)">
-            <ion-icon slot="icon-only"  name="ios-arrow-down"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-      <ion-card-content *ngIf="c.expanded">
-        Test
-      </ion-card-content>
-    </ion-card>-->
-    <!--
-      <ion-list>
-    &lt;!&ndash;
-        // (click)="openItemDetail('side-menu/audit/tabs/tab1/audit-item-details',nnName,lvName,c.name)"
-    &ndash;&gt;
-
-       &lt;!&ndash; <ion-item (click)="expand(i)" *ngFor="let c of content[0],let i = index ">
-
-         &lt;!&ndash; <ion-label color="green">
-            {{i + 1}}. {{c.name}}
-          </ion-label>&ndash;&gt;
-        </ion-item>&ndash;&gt;
-      </ion-list>
-    -->
-    <!--<ion-card class="info-card-2">
-
-    </ion-card>-->
+    </div>-->
 </ion-content>
+<ion-footer>
+    <ion-toolbar color="bluegrey-invert">
+        <ion-button fill="clear" expand="full" color="bluegrey" (click)="onEditToBackendNative()">
+            Lưu
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>
 
