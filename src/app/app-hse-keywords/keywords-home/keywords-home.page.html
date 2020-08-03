@@ -11,23 +11,25 @@
   <ion-toolbar color="light">
     <ion-searchbar color="" placeholder="Từ Khoá"
                    [(ngModel)]="searchTerm"
+                   (ngModelChange)="filterDoc($event)"
                    search-icon="ion-pin" ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <!-- <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
-     <ion-refresher-content>
-     </ion-refresher-content>
-   </ion-refresher>-->
-
-<!--  <ng-container  *ngFor="let doc of filteredDocArrs , let i = index" (click)="viewDoc(doc.uuid)">
-    <ion-item *ngIf="doc.ext == 'pdf'">
-      {{doc.title}}
-    </ion-item>
-  </ng-container>-->
-  <ion-item *ngFor="let doc of filteredDocArrs , let i = index" (click)="viewDoc(doc.uuid)">
-           {{doc.title}}
+  <ion-item [hidden]="searchTerm !== '' || searchTerm !== null" *ngFor="let doc of filteredDocArrs , let i = index" (click)="viewDoc(doc.uuid)">
+           {{doc.title.vi}}
   </ion-item>
-
+  <div [hidden]="searchTerm == '' || searchTerm == null" class="row" *ngFor="let doc of filteredDocArrs , let i = index">
+    <div class="col-2">{{doc.nd}}</div>
+    <div class="col-4">
+      <ul>
+        <li (click)="viewDoc(doc.uuid)">{{doc.title.vi}}</li>
+        <ul>
+          <li *ngFor="let k of doc.keyWord">{{k.text}}</li>
+        </ul>
+      </ul>
+    </div>
+    <div class="col-2">{{doc.tags.join(',')}}</div>
+  </div>
 </ion-content>

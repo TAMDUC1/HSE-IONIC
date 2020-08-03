@@ -9,13 +9,13 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-item lines="none">
+   <!-- <ion-item lines="none">
         <ion-label>
             <ion-text color="bluegrey">
                 <h1 class="main-header1" >Đăng nhập</h1>
             </ion-text>
         </ion-label>
-    </ion-item>
+    </ion-item>-->
 
     <form [formGroup]="credentialsForm" (ngSubmit)="onSubmit()">
         <div class="login-form">
@@ -38,13 +38,13 @@
 
 
 
-            <ion-button mode="ios" fill="clear"  color="realgreen" expand="block" type="submit"   >
+            <ion-button mode="ios"  color="realgreen" expand="block" type="submit"   >
                 Đăng nhập
             </ion-button>
 
-            <ion-button mode="ios" color="red" expand="block" type="button" class="ion-margin-top" (click)="logOut()">
+           <!-- <ion-button mode="ios" color="red" expand="block" type="button" class="ion-margin-top" (click)="logOut()">
                 Logout
-            </ion-button>
+            </ion-button>-->
             <!--<ion-text color="dark">
                     <h2 text-center class="ion-margin-bottom main-header8">
                         By clicking Sign up you agree to the following Terms ans Conditions without reservation

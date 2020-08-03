@@ -28,9 +28,9 @@ export class AuditDetailPage implements OnInit {
     private uuid: string;
     agents: Observable<any[]>;
     private singleAudit;
-    private files = {};
+    private files : any;
     private auditType ;
-    private auditUrl = 'http://54.169.202.105:5000/api/HseAudits/';
+    private auditUrl = 'http://222.255.252.41/api/HseAudits/';
     requestObject: any = null;
 
     /*  nnName: string; // nhom nganh
@@ -149,8 +149,10 @@ export class AuditDetailPage implements OnInit {
     }
 
     async onOpenModal(nnName, lvName) {
-
-        var fileString = 'http://54.169.202.105:5000/api/CoreFileUploads/'.concat(this.uuid);
+        console.log('this.file 2020',this.files);
+        var tempFiles = this.files.filter(e => e.typeProblem === lvName);
+        console.log('tempFiles',tempFiles);
+        var fileString = 'http://222.255.252.41/api/CoreFileUploads/'.concat(this.uuid);
         this.HTTP.get(fileString, {}, {
             'Content-Type': 'application/json'
         }).then(res => {
@@ -174,7 +176,7 @@ export class AuditDetailPage implements OnInit {
                     lvName: lvName,
                     ndName: '',
                     content: tempChildren,
-                    files: this.files
+                    files: tempFiles
                 }
             }).then(modalEl => {
                 modalEl.present();
@@ -194,12 +196,9 @@ export class AuditDetailPage implements OnInit {
                     })
                 }
             })
-
         } catch (err) {
             console.log('Error: ', err.message);
         }
-
-
 
     }
 

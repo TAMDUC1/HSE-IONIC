@@ -3,6 +3,7 @@ import {IonicComponentService} from '../../services/ionic-component.service';
 import {HTTP} from '@ionic-native/http/ngx';
 import {ModalController, ToastController} from '@ionic/angular';
 import {NewDetailComponent} from './new-detail/new-detail.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-news-home',
@@ -24,8 +25,9 @@ export class NewsHomePage implements OnInit {
       this.loadNews();
   }
   loadNews(){
-          let url = 'http://54.169.202.105:5000';
-          this.HTTP.get('http://54.169.202.105:5000/api/Posts',{},{
+
+          let url = environment.url;
+          this.HTTP.get(environment.apiPost,{},{
               'Content-Type' : 'application/json'
           }).then(res =>{
               this.requestNews = JSON.parse(res.data);
@@ -56,7 +58,7 @@ export class NewsHomePage implements OnInit {
   openNewDetail(index){
         console.log(this.dowloadNews[index]);
         var re = /..\/..\//gm;
-        var newstr = this.dowloadNews[index].detail.replace(re, "http://54.169.202.105:5000");
+        var newstr = this.dowloadNews[index].detail.replace(re, "http://222.255.252.41");
         console.log('new string',newstr);
       // open modal detail
       try {

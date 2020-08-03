@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {AlertController, ModalController, NavParams} from '@ionic/angular';
 import {HttpClient} from '@angular/common/http';
+import {DataService} from '../../../services/audit/data.service';
 
 @Component({
     selector: 'app-audit-image-zoom',
@@ -19,6 +20,8 @@ export class AuditImageZoomComponent implements OnInit {
         private navParams: NavParams,
         private http: HttpClient,
         private alertCtrl: AlertController,
+        private dataService: DataService,
+
     ) {
         this.sliderOpts = {
             initialSlide: this.navParams.get('index'),
@@ -52,11 +55,12 @@ export class AuditImageZoomComponent implements OnInit {
     }
 
     onDelete(uuid, index) {
-        var url = 'http://54.169.202.105:5000/api/CoreFileUploads/'.concat(uuid);
-        console.log(url);
+        var url = 'http://222.255.252.41/api/CoreFileUploads/'.concat(uuid);
         this.http.delete(url).subscribe(res => {
-            console.log(res);
-            this.filesArr.splice(index, 1);
+            var temp = JSON.parse(JSON.stringify(res));
+            console.log(temp.uuid);
+           // this.filesArr.splice(index, 1);
+            this.dataService.deleteFile(temp.uuid);
             this.onCancel();
             // this.filesArr
         });
@@ -66,7 +70,7 @@ export class AuditImageZoomComponent implements OnInit {
         const alert = await this.alertCtrl.create({
             header: 'Cảnh báo',
             subHeader: '',
-            message: 'Bạn muốn xoá ảnh ?',
+            message: 'Bạn muốn xoá ?',
             buttons: [{
                 text: 'Không xoá',
                 role: 'cancel',
@@ -87,6 +91,7 @@ export class AuditImageZoomComponent implements OnInit {
     } ;
 
     ngOnInit() {
+        console.log('files', this.filesArr);
     }
 
 }

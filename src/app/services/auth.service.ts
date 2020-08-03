@@ -64,7 +64,7 @@ export class AuthService {
     }
 
     login(credentials) {
-        return this.http.post('http://54.169.202.105:5000/api/Auth/Login', credentials,{ responseType: 'text' })
+        return this.http.post('http://222.255.252.41/api/Auth/Login', credentials,{ responseType: 'text' })
             .pipe(
                 tap(res => {
                     console.log('res',res);

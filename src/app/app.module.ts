@@ -107,7 +107,7 @@ export function jwtOptionsFactory(storage) {
         tokenGetter: () => {
             return storage.get('access_token');
         },
-        whitelistedDomains: ['http://54.169.202.105:5000']
+        whitelistedDomains: ['http://54.169.202.105:99']
     }
 }
 @NgModule({

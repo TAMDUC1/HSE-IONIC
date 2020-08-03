@@ -9,6 +9,7 @@ import { IAudit } from '../../app-audit/audit';
 import { NetworkService,ConnectionStatus } from '../network.service';
 import { OfflineManagerService } from '../offline-manager.service';
 import { HTTP } from '@ionic-native/http/ngx';
+import { environment} from '../../../environments/environment';
 
 const API_STORAGE_KEY = 'specialkey';
 const headerDict = {
@@ -56,7 +57,7 @@ export class ApiService {
         '',
         '');
 
-    private auditUrl : string ='http://54.169.202.105:5000/api/HseAudits/';
+    private auditUrl : string ='http://222.255.252.41/api/HseAudits/';
 
     // dummy url get
     private dummyUrl : string = 'http://dummy.restapiexample.com/api/v1/employees';

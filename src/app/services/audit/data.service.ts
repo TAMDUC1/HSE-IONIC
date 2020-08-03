@@ -60,7 +60,15 @@ export class DataService {
         //console.log('data save trong bo nho de dung',this.data);
 
     }
+    deleteFile(uuid){
+        const Arr: any[] = this.fileObserver.getValue();
 
+        Arr.forEach((e,index) => {
+            if (e.uuid_img === uuid) { Arr.splice(index, 1); }
+        });
+
+        this.fileObserver.next(Arr);
+    }
     setFile(uuid, arr) {
         /*this.File.subscribe((file) => {
             if (file.length) {

@@ -34,6 +34,7 @@
                                     <img (click)="openImageViewer(i)"
                                          style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
                                          [src]="image.path" />
+                                    <ion-item *ngIf="image.name.endsWith('MOV')"> file ghi âm</ion-item>
 
                                 </ng-container>
                             </ul>
@@ -45,24 +46,21 @@
                 </form>
             </ion-card-content>
         </ion-card>
-        <ion-card>
-            <ion-card-header>
-                <ion-card-subtitle>File</ion-card-subtitle>
-            </ion-card-header>
+        <ion-card *ngIf = "files.length > 0">
             <ion-card-content>
                 <ion-list>
                     <ion-item-sliding *ngFor="let f of files  ; let i = index">
                         <ion-item>
-                            <!--
-                                            <ion-icon name="image" slot="start" *ngIf="f.name.endsWith('jpg')"></ion-icon>
-                            -->
                             <ion-icon name="videocam" slot="start"
                                       *ngIf="f.name.endsWith('MOV') || f.name.endsWith('mp4')"></ion-icon>
                             <ion-icon name="mic" slot="start" *ngIf="f.name.endsWith('wav')"></ion-icon>
-                            <ion-label class="ion-text-wrap" (click)="openFile(f)">
+                            <ion-label class="ion-text-wrap" >
                                 {{ f.name }}
                                 <p>{{ f.fullPath }}</p>
                             </ion-label>
+                            <ion-button slot="end" fill="clear" (click)="openFile(f)">
+                                Xem
+                            </ion-button>
                             <ion-button slot="end" fill="clear" (click)="startUpload(f,i,content.title.vi)">
                                 <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
                             </ion-button>
@@ -73,79 +71,25 @@
                             </ion-item-option>
                         </ion-item-options>
                     </ion-item-sliding>
-                    <!-- <ion-grid >
-                         <ion-button   mode="ios" color="bluegrey" fill="outline" expand="block" class="ion-margin-top"  (click)="uploadAll()">
-                             Upload All
-                         </ion-button>
-                     </ion-grid>-->
                 </ion-list>
             </ion-card-content>
-            <ion-toolbar color="bluegrey-invert">
-                <ion-button fill="clear" expand="full" color="bluegrey" (click)="selectMedia()">
-                    <ion-icon slot="start" name="document"></ion-icon>
-                    Chọn File
-                </ion-button>
-            </ion-toolbar>
         </ion-card>
-        <!--<ion-fab style="margin-bottom: 30px " vertical="bottom" horizontal="end" edge slot="fixed">
-            <ion-fab-button  color="bluegrey" (click)="onEditToBackendNative()">Lưu</ion-fab-button>
-        </ion-fab>-->
     </div>
- <!--   <div [ngSwitch]=type>
-        <div *ngSwitchCase="'all'" >
-            <ion-item *ngIf="content.checked">
-                <ion-label color="bluegrey" (click)="expand(i)"> {{content.title.vi}} </ion-label>
-            </ion-item>
-            <ion-card [@EnterLeave]="'flyIn'" *ngIf="content.expanded">
-                <ion-card-header>
-                    <ion-card-subtitle>Đánh gía chi tiết</ion-card-subtitle>
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-list>
-                        <ion-item>
-                            <ion-text color="bluegrey">
-                                {{content.description}}
-                            </ion-text>
-                        </ion-item>
-                        <ion-item lines="none">
-                            <ion-label>
-                                <ion-text color="dark">
-                                    <h2 class="main-header8">Trạng thái</h2>
-                                </ion-text>
-                                <h2 *ngIf="content.state == 'ok'">Đạt</h2>
-                                <h2 *ngIf="content.state == 'not'">Không Đạt</h2>
-                                <h2 *ngIf="content.state == 'noapply'">Không áp dụng</h2>
-                            </ion-label>
-                        </ion-item>
-                        <div class="horizontal-scroll">
-                            <ul style="white-space:nowrap">
-                                <ng-container class="img-gallery" *ngFor="let image of filesArr ,let i = index">
-                                    <img *ngIf="image.typeProblem == c.title.vi+c.state"
-                                         style="display: inline; border-radius: 10px;width:100px;height: 60px;margin-right: 10px"
-                                         [src]="image.path" (click)="openImageViewer(i,content.title.vi+content.state)"/>
-
-                                </ng-container>
-                            </ul>
-                        </div>
-                        <ion-item>
-                            <ion-button slot="end" mode="ios" color="bluegrey" fill="outline" *ngIf="c.state"
-                                        (click)="openMedia(content.title.vi+content.state)">File
-                            </ion-button>
-                            <ion-button slot="end" mode="ios" color="bluegrey" fill="outline"
-                                        (click)="openModal(content.title.vi,content.description,content.state)">Thay Đổi
-                            </ion-button>
-                        </ion-item>
-                    </ion-list>
-                </ion-card-content>
-            </ion-card>
-        </div>
-    </div>-->
 </ion-content>
 <ion-footer>
     <ion-toolbar color="bluegrey-invert">
-        <ion-button fill="clear" expand="full" color="bluegrey" (click)="onEditToBackendNative()">
-            Lưu
-        </ion-button>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" expand="full" color="bluegrey" (click)="selectMedia()">
+                <ion-icon slot="start" name="document"></ion-icon>
+                Đính Kèm File
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button fill="clear" expand="full" color="bluegrey" (click)="onEditToBackendNative()">
+                Lưu
+            </ion-button>
+        </ion-buttons>
+
     </ion-toolbar>
 </ion-footer>
 

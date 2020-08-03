@@ -355,7 +355,7 @@ export class LvMediaComponent implements OnInit {
             .catch(err => console.log('day la loi',err));*/
 
 
-        this.http.post("http://54.169.202.105:5000/api/DocumentsUpload", formData)
+        this.http.post("http://222.255.252.41/api/DocumentsUpload", formData)
             .pipe(
                 finalize(() => {
                     loading.dismiss();
@@ -387,10 +387,10 @@ export class LvMediaComponent implements OnInit {
                     this.HTTP.setDataSerializer('json');
                     this.HTTP.setDataSerializer( "utf8" );*/    //https://stackoverflow.com/questions/51417208/ionic-native-http-call-with-content-type-text-plan
 
-                    this.http.post("http://54.169.202.105:5000/api/CoreFileUploads",requestObject,httpOptions)
+                    this.http.post("http://222.255.252.41/api/CoreFileUploads",requestObject,httpOptions)
                         .subscribe(
                             data => {
-                                var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
+                                var imgUrl = 'http://222.255.252.41/uploads/';
                                 var temp = JSON.parse(JSON.stringify(data));
                                 temp.data = JSON.parse(temp.data);
                                 console.log('tempdata',temp.data);

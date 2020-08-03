@@ -100,7 +100,7 @@ export class AuditItemDetailsPage implements OnInit
               }
           })
       }
-      /*this.HTTP.get('http://54.169.202.105:5000/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20',{},{
+      /*this.HTTP.get('http://222.255.252.41/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20',{},{
           'Content-Type' : 'application/json'
       }).then(res=> {
           res.data = JSON.parse(res.data);
@@ -311,7 +311,7 @@ export class AuditItemDetailsPage implements OnInit
         }).then(loadingEl =>
         {
             loadingEl.present();
-            return this.HTTP.get('http://54.169.202.105:5000/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20',{},{
+            return this.HTTP.get('http://222.255.252.41/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20',{},{
                 'Content-Type' : 'application/json'
             })
                 .then(res =>

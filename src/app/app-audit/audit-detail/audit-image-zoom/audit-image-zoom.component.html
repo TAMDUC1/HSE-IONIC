@@ -8,13 +8,13 @@
   <ion-slides [options]="sliderOpts" #slider>
     <ion-slide *ngFor="let image of filesArr, let i = index ">
       <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-        <ion-fab-button (click)="presentAlert(image.uuid,i)" color="red">
+        <ion-fab-button (click)="presentAlert(image.uuid_img,i)" color="red">
           <ion-icon name="ios-close-circle-outline"  >Delete</ion-icon>
         </ion-fab-button>
       </ion-fab>
       <ion-grid>
         <ion-row>
-          <div class="swiper-zoom-container" *ngIf="image.typeProblem == nd">
+          <div class="swiper-zoom-container">
             <img src="{{ image.path }}">
           </div>
         </ion-row>

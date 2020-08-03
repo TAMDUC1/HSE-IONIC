@@ -41,11 +41,33 @@ export class KeywordsHomePage implements OnInit {
       private toastController: ToastController,
       private loadingCtrl : LoadingController
   ) { }
-
+    tags = [
+        {tag: 'vbpq', title: 'Văn bản pháp quy'},
+        {tag: 'vbtd', title: 'Văn bản Tập đoàn'},
+        {tag: 'nckh', title: 'Tài liệu nghiên cứu'},
+        {tag: 'pccn', title: 'Phòng chống cháy nổ'},
+        {tag: 'atvsld', title: 'An toàn vệ sinh lao động'},
+        {tag: 'atbx', title: 'An toàn bức xạ'},
+        {tag: 'atxd', title: 'An toàn trong xây dựng'},
+        {tag: 'athh', title: 'An toàn hàng hải'},
+        {tag: 'atsk', title: 'An toàn sức khỏe'},
+        {tag: 'uckc', title: 'Ứng cứu khẩn cấp'},
+        {tag: 'bvmt', title: 'Bảo vệ môi trường'},
+        {tag: 'cuqt', title: 'Công ước quốc tế'},
+        {tag: 'luat', title: 'Luật'},
+        {tag: 'nghi-dinh', title: 'Nghị định'},
+        {tag: 'qdtt', title: 'Quyết định Thủ tướng'},
+        {tag: 'thong-tu', title: 'Thông tư'},
+        {tag: 'qcvn', title: 'QCVN/TCVN'},
+        {tag: 'cvbn', title: 'Công văn Bộ, Ngành'},
+        {tag: 'hdtd', title: 'Hướng dẫn của Tập đoàn'}
+    ];
+    lstKeywordNomarl = [];
+    lstKeywordStandard = [];
+    lstDocFormatTable = [];
   ngOnInit() {
       this.getHTTP();
       this.getDoc();
-      this.filteredDocArrs = this.dowloadDoc;
   }
     changeLanguage(alias){
         var str = alias;
@@ -101,14 +123,13 @@ export class KeywordsHomePage implements OnInit {
         }).then((overlay)=>{
             this.loading = overlay;
             this.loading.present();
-
         });
-        var url = 'http://54.169.202.105:5000/api/CoreFileUploads1/'.concat(uuid);
-        var urlDoc = 'http://54.169.202.105:5000/content/uploads/';
+        console.log('path',this.file.dataDirectory);
+        var url = 'http://222.255.252.41/api/CoreFileUploads1/'.concat(uuid);
+        var urlDoc = 'http://222.255.252.41/content/uploads/';
         this.HTTP.get(url,{},{
             'Content-Type' : 'application/json'
-        })
-            .then(
+        }).then(
             res =>{
                 var tempRes = JSON.parse(res.data);
                 var tempo = JSON.parse(tempRes[0].data);
@@ -117,11 +138,15 @@ export class KeywordsHomePage implements OnInit {
                     tempo.path = tempo.path.replace(/\\/g, '/');
                     var link = tempo.path.concat(tempo.name);
                     urlDoc = urlDoc.concat(link);
+                    console.log('url',urlDoc);
+
                     let path = this.file.dataDirectory;
                     const transfer = this.ft.create();
                     //`${path}
+                  //  let path2 = path + uuid + ".pdf";
                     transfer.download(urlDoc,path + uuid + ".pdf").then(entry =>{
                         let url = entry.toURL();
+                        console.log('url',url);
                         if(this.platform.is('ios')){
                             this.loading.dismiss();
                             this.document.viewDocument(url,'application/pdf',{});
@@ -148,55 +173,200 @@ export class KeywordsHomePage implements OnInit {
         //this.menuCtrl.toggle(); //Add this method to your button click function
     }
     getDoc(){
-        this.HTTP.get('http://54.169.202.105:5000/api/CmsDocuments',{},{
+        this.HTTP.get('http://222.255.252.41/api/CmsDocuments',{},{
             'Content-Type' : 'application/json'
         }).then(res =>{
             this.requestDoc = JSON.parse(res.data);
-            this.requestDoc.forEach((e)=>
-            {
-                e.data = JSON.parse(e.data);
-                var temp = {
-                    uuid : e.uuid,
-                    title : e.data.title.vi,
+            let i = 1;
+            this.requestDoc.forEach((d) => {
+                let document = JSON.parse(d.data);
+                let doc = {
+                    id: i++,
+                    uuid: d.uuid,
+                    title_locase: this.changeLanguage(document.title.vi),
+                    title_lc: {
+                        vi: this.changeLanguage(document.title.vi),
+                    },
+                    title: {
+                        vi: document.title.vi
+                    },
+                    tags: document.tags ? document.tags.vi : [],
+                    desc: document.desc ? this.changeLanguage(document.desc.vi) : '',
+                    keyWord: []
                 };
-                this.dowloadDoc.push(temp);
 
+                if (doc.tags.length > 0){
+                    doc.tags = doc.tags.map(t => {
+                        let tag = this.tags.find(t1 => t1.tag == t);
+                        if(tag != null){
+                            return tag.title;
+                        }else{
+                            return '';
+                        }
+                    })
+                }
+
+                if (document.items && document.items.length > 0){
+                    document.items.forEach((i) => {
+                        if(i.children && i.children.length > 0){
+                            i.children.forEach((c) => {
+                                doc.keyWord.push({
+                                    text: c.text,
+                                    page: c.page,
+                                    keyWordArr: c.keyWordArr || []
+                                });
+                            });
+                        }
+                    });
+                }
+                this.lstDocFormatTable.push(doc);
             });
-            console.log('doc',this.dowloadDoc);
-
+            if(this.searchTerm == '' || this.searchTerm == null){
+                this.filteredDocArrs = this.lstDocFormatTable;
+            }
         }).catch(err => console.log (err))
     }
+
     getHTTP(refresh = false, refresher?){
-        this.HTTP.get('http://54.169.202.105:5000/api/CoreCategories/c2107326-f6e5-424b-99bb-5084cbd871ed',{},{
+        this.HTTP.get('http://222.255.252.41/api/CoreCategories/730f8474-9ebf-48fe-8461-8ce376bc72ce',{},{
             'Content-Type' : 'application/json'
         }).then(res => {
-                this.requestObject = JSON.parse(res.data);
-                var tempData = JSON.parse(this.requestObject.data);
-                this.requestObject = tempData.items;
-                console.log(this.requestObject);
-                this.requestObject.forEach((e)=>
-                {
-                  var tempObject = {
-                      child : [],
-                      docList : [],
-                      name :''
-                  };
-                  tempObject.docList = e.list;
-                  tempObject.name = e.title.vi;
-                  e.children.forEach(el => {
-                      var str = this.changeLanguage(el.title.vi);
-                      var keyS = str.trim();
-                      tempObject.child.push(keyS);
-                  });
-                  this.compareArrs.push(tempObject);
-                });
-                console.log('CompareArr',this.compareArrs);
-
+                if(res.data!== null){
+                    this.requestObject = JSON.parse(res.data);
+                    let lstKey = JSON.parse(this.requestObject.data);
+                    lstKey.items.forEach((obj) => {
+                        if(obj.children && obj.children.length > 0){
+                            obj.children.forEach((c) => {
+                                let key = {
+                                    parent_id: obj.id,
+                                    parent_title: obj.title.vi,
+                                    type: 'lv', /*lĩnh vực*/
+                                    id: c.id,
+                                    title: {
+                                        vi: c.title.vi
+                                    },
+                                    title_lc: {
+                                        vi: this.changeLanguage(c.title.vi)
+                                    }
+                                };
+                                this.lstKeywordStandard.push(key);
+                                if (c.children && c.children.length > 0){
+                                    c.children.forEach((c1) => {
+                                        let key1 = {
+                                            lv_parent_id: obj.id,
+                                            lv_parent_title: obj.title.vi,
+                                            st_parent_id: c.id,
+                                            st_parent_title: c.title.vi,
+                                            st_parent_title_lc: this.changeLanguage(c.title.vi),
+                                            type: 'st', /*Standard*/
+                                            id: c1.id,
+                                            title_lc: {
+                                                vi: this.changeLanguage(c1.title.vi)
+                                            },
+                                            title: {
+                                                vi: c1.title.vi
+                                            }
+                                        };
+                                        this.lstKeywordNomarl.push(key1);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
             }
-        )
-            .catch(err => this.requestObject = err)
-        ;
+        ).catch(err => this.requestObject = err);
     }
+
+    filterDoc(){
+        if(this.searchTerm == '' || this.searchTerm == null){
+            this.filteredDocArrs = this.lstDocFormatTable;
+        }else{
+            let searchKey = this.changeLanguage(this.searchTerm);
+            let searchResults = [];
+            let lstKeyS = this.lstKeywordStandard.filter(l=> {
+                return l.title_lc.vi.indexOf(searchKey) >= 0;
+            });
+            searchResults = searchResults.concat(lstKeyS);
+            let lstKeyN = this.lstKeywordNomarl.filter(l=> {
+                return l.title_lc.vi.indexOf(searchKey) >= 0;
+            });
+            searchResults = searchResults.concat(lstKeyN);
+            if (searchResults.length > 0){
+                searchResults.forEach(sr => {
+                    this.lstDocFormatTable.forEach(obj => {
+                        let result = Object.assign({}, obj);
+                        if (obj.title_lc.vi.indexOf(searchKey) >= 0 && !this.filteredDocArrs.find(r => r.uuid == result.uuid && r.nd == obj.title.vi)){
+                            result.keyWord = result.keyWord.filter(ff => {
+                                return ff.keyWordArr.indexOf(obj.title_locase) >= 0;
+                            });
+                            result.nd = obj.title.vi;
+                            result.page = 1;
+                            this.filteredDocArrs.push(result);
+                        }
+                        if (obj.keyWord.length > 0){
+                            obj.keyWord.forEach(obj1 => {
+                                if(obj1.keyWordArr && obj1.keyWordArr.length > 0 ){
+                                    obj1.keyWordArr.forEach(k => {
+                                        if(sr.type === "st"){
+                                            if (k.indexOf(sr.st_parent_title) >= 0 && !this.filteredDocArrs.find(r => r.uuid == result.uuid && r.nd == sr.st_parent_title)){
+                                                result.keyWord = result.keyWord.filter(ff => {
+                                                    return ff.keyWordArr.indexOf(sr.st_parent_title) >= 0;
+                                                });
+                                                result.nd = sr.st_parent_title;
+                                                result.page = obj1.page;
+                                                this.filteredDocArrs.push(result);
+                                            }
+                                        }
+                                        else if (sr.type === "lv"){
+                                            if (k.indexOf(sr.title.vi) >= 0 && !this.filteredDocArrs.find(r => r.uuid == result.uuid && r.nd == sr.title.vi)){
+                                                result.keyWord = result.keyWord.filter(ff => {
+                                                    return ff.keyWordArr.indexOf(sr.title.vi) >= 0;
+                                                });
+                                                result.nd = sr.title.vi;
+                                                result.page = obj1.page;
+                                                this.filteredDocArrs.push(result);
+                                            }
+                                        }
+                                    });
+                                }
+                            })
+                        }
+                    });
+                });
+            }
+            if(searchResults.length == 0){
+                this.lstDocFormatTable.forEach(obj => {
+                    let result = Object.assign({}, obj);
+                    if (obj.title_lc.vi.indexOf(searchKey) >= 0 && !this.filteredDocArrs.find(r => r.uuid == result.uuid && r.nd == obj.title.vi)){
+                        result.keyWord = result.keyWord.filter(ff => {
+                            return ff.keyWordArr.indexOf(obj.title.vi) >= 0;
+                        });
+                        result.nd = obj.title.vi;
+                        result.page = 1;
+                        this.filteredDocArrs.push(result);
+                    }
+                    if (obj.keyWord.length > 0){
+                        obj.keyWord.forEach(obj1 => {
+                            if(obj1.keyWordArr && obj1.keyWordArr.length > 0 ){
+                                obj1.keyWordArr.forEach(k => {
+                                    if (k.indexOf(searchKey) >= 0 && !this.filteredDocArrs.find(r => r.uuid == result.uuid && r.nd == searchKey)){
+                                        result.keyWord = result.keyWord.filter(ff => {
+                                            return ff.keyWordArr.indexOf(searchKey) >= 0;
+                                        });
+                                        result.nd = searchKey;
+                                        result.page = obj1.page;
+                                        this.filteredDocArrs.push(result);
+                                    }
+                                });
+                            }
+                        })
+                    }
+                });
+            }
+        }
+    }
+
     async presentToast(text) {
         const toast = await this.toastController.create({
             message: text,

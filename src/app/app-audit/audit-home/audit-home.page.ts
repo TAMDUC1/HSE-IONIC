@@ -8,7 +8,6 @@ import {NetworkService} from '../../services/network.service';
 import {DataService} from '../../services/audit/data.service';
 import {HTTP} from '@ionic-native/http/ngx';
 import { Storage } from '@ionic/storage';
-
 import {LvModalComponent} from '../audit-detail/lv-modal/lv-modal.component';
 import {AuditHomeFilterComponent} from './audit-home-filter/audit-home-filter.component';
 import {HttpClient} from '@angular/common/http';
@@ -118,7 +117,7 @@ export class AuditHomePage implements OnInit {
     }
 
     getHTTP() {
-        this.httpClient.get<[Audit]>('http://54.169.202.105:5000/api/HseAudits').subscribe(res => {
+        this.httpClient.get<[Audit]>('http://222.255.252.41/api/HseAudits').subscribe(res => {
             res.forEach(e => {
                 if (e.kind == 1) {
                     var temp = e;
@@ -150,26 +149,12 @@ export class AuditHomePage implements OnInit {
             }
 
         });
-        /* const AuditsObservable = new Observable( observer =>{
-             observer.next(this.CompArrs);
-         });
-         return AuditsObservable;*/
-        /* return this.httpClient
-             .get<[Audit]>('http://54.169.202.105:5000/api/HseAudits')
-             .pipe(
-              tap(resData =>{
-                  console.log('test ...',resData);
-                 /!* const Audits = [];
-                  for (const e in resData){
-                      console.log(e);
-                  }*!/
-              })
-          );*/
+
 
     }
 
     getHTTP3() {
-        this.httpClient.get<[Audit]>('http://54.169.202.105:5000/api/HseAudits').subscribe(res => {
+        this.httpClient.get<[Audit]>('http://222.255.252.41/api/HseAudits').subscribe(res => {
             res.forEach(e => {
                 if (e.kind == 1) {
                     var temp = e;
@@ -183,7 +168,7 @@ export class AuditHomePage implements OnInit {
     }
 
     /* getHTTP2(refresh = false, refresher?){
-         this.HTTP.get('http://54.169.202.105:5000/api/HseAudits',{},{
+         this.HTTP.get('http://222.255.252.41/api/HseAudits',{},{
              'Content-Type' : 'application/json'
          }).then(res => {
              console.log('ressssss',res);
@@ -218,7 +203,7 @@ export class AuditHomePage implements OnInit {
 
     openDetail(url, uuid) {
         console.log('nice', uuid);
-        var string = 'http://54.169.202.105:5000/api/HseAudits/'.concat(uuid);
+        var string = 'http://222.255.252.41/api/HseAudits/'.concat(uuid);
         this.HTTP.get(string, {}, {
             'Content-Type': 'application/json'
         }).then(res => {
@@ -229,59 +214,32 @@ export class AuditHomePage implements OnInit {
 
         });
         // luu file vao service
-        //http://54.169.202.105:5000/api/CoreFileUploads
-        var fileString = 'http://54.169.202.105:5000/api/CoreFileUploads/'.concat(uuid);
+        //http://222.255.252.41/api/CoreFileUploads
+        var fileString = 'http://222.255.252.41/api/CoreFileUploads/'.concat(uuid);
         this.HTTP.get(fileString, {}, {
             'Content-Type': 'application/json'
         })
             .then(res => {
                     var a = res.data;
                     a = JSON.parse(a);
-                    /*res.data.forEach( e =>{
-                        JSON.parse(e);
-                    });*/
                     this.dataService.setFiles(uuid, a);
-                    // set file observer
-                    console.log('list file a', a);
                     this.dataService.setFile(uuid, a);
-                    var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
-                    console.log('aaa',a);
+                    var imgUrl = 'http://222.255.252.41/content/uploads/';
                     var fileArrs = [];
                     a.forEach((e)=>{
                         var data = JSON.parse(e.data);
                         var path = imgUrl.concat(data.path);
                         path = path.concat('/');
-
                         var file = {
                             uuid : e.modelUuid,
+                            uuid_img : e.uuid,
                             name : data.name,
                             path : path.concat(data.name),
                             typeProblem : data.typeProblem
                         } ;
-                        console.log('file',file);
                         fileArrs.push(file);
                     });
-                    console.log('fileArrays',fileArrs);
                     this.dataService.setFile(uuid, fileArrs);
-
-              /*  this.files.data.forEach(e=>{
-                    var a = JSON.parse(e.data);
-                    var path = imgUrl.concat(a.path);
-                    path = path.concat('/');
-                    var file = {
-                        uuid : e.uuid,
-                        name : a.name,
-                        path : path.concat(a.name),
-                        typeProblem : a.typeProblem
-                    } ;
-                    //Str(e.data);
-                    this.filesArr.push(file);
-                    console.log('array file',this.filesArr);
-
-                });*/
-
-
-
 
                 }
             );
@@ -296,41 +254,5 @@ export class AuditHomePage implements OnInit {
         });
 
     }
-    onSearch() {
-
-    }
-
-    /* loadData(refresh = false, refresher?)
-     {
-         this.apiService.getAllAudits().subscribe((res: IAudit[]) => {
-             console.log('data',res);
-             var temp =[];
-             res.forEach((e)=>{
-                 //  console.log(e.uuid);
-                // this.audit = e;
-                 e.data = JSON.parse(e.data);
-                 if(e.kind == 1){
-                     temp.push(e);
-                     this.CompArrs.push(e);
-                 }
-
-             });
-
-             // console.log('temp',temp);
-             this.audits = res;
-             this.dataService.setData(1,this.audits);
-
-             // console.log('data2',this.audits);
-
-             if(refresher){
-                 refresher.target.complete();
-             }
-         })
-        /!* this.apiService.getAllDummy().subscribe((res)=>{
-             console.log('dummy',res);
-             this.dummy = res[0];
-         })*!/
-     }*/
-
 
 }

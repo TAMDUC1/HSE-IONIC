@@ -13,7 +13,11 @@ export const environment = {
     messagingSenderId: "352809123105",
     appId: "1:352809123105:web:82aad4a801da11154f9260"
   },
-    url: 'http://54.169.202.105:5000'
+    url: 'http://222.255.252.41',
+    apiPost : 'http://222.255.252.41/api/Posts' ,
+    apiAudit : 'http://222.255.252.41/api/HseAudits/',
+    upload: 'http://222.255.252.41/content/uploads/',
+    coreFileUpload: 'http://222.255.252.41/api/CoreFileUploads/'
 };
 
 /*

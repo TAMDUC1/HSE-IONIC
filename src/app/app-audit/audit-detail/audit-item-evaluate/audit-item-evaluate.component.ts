@@ -21,8 +21,8 @@ export class AuditItemEvaluateComponent implements OnInit {
     ndDescription: string;
     ndState: string;
     requestObject: any = null;
-//http://54.169.202.105:5000/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20
-    private auditUrl = 'http://54.169.202.105:5000/api/HseAudits/';
+//http://222.255.252.41/api/CoreFileUploads/b7f448dc-1451-477a-87f9-9214d1621c20
+    private auditUrl = 'http://222.255.252.41/api/HseAudits/';
 
     constructor(private modalCtrl: ModalController,
                 private dataService: DataService,

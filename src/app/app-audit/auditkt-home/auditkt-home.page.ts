@@ -102,7 +102,7 @@ export class AuditktHomePage implements OnInit {
          });
          return AuditsObservable;*/
         /* return this.httpClient
-             .get<[Audit]>('http://54.169.202.105:5000/api/HseAudits')
+             .get<[Audit]>('http://222.255.252.41/api/HseAudits')
              .pipe(
               tap(resData =>{
                   console.log('test ...',resData);
@@ -116,7 +116,7 @@ export class AuditktHomePage implements OnInit {
     }
 
     getHTTP3() {
-        this.httpClient.get<[Audit]>('http://54.169.202.105:5000/api/HseAudits').subscribe(res => {
+        this.httpClient.get<[Audit]>('http://222.255.252.41/api/HseAudits').subscribe(res => {
             res.forEach(e => {
                 if (e.kind == 1) {
                     var temp = e;
@@ -130,7 +130,7 @@ export class AuditktHomePage implements OnInit {
     }
 
     /* getHTTP2(refresh = false, refresher?){
-         this.HTTP.get('http://54.169.202.105:5000/api/HseAudits',{},{
+         this.HTTP.get('http://222.255.252.41/api/HseAudits',{},{
              'Content-Type' : 'application/json'
          }).then(res => {
              console.log('ressssss',res);
@@ -165,7 +165,7 @@ export class AuditktHomePage implements OnInit {
 
     openDetail(url, uuid) {
         console.log('nice', uuid);
-        var string = 'http://54.169.202.105:5000/api/HseAudits/'.concat(uuid);
+        var string = 'http://222.255.252.41/api/HseAudits/'.concat(uuid);
         this.HTTP.get(string, {}, {
             'Content-Type': 'application/json'
         }).then(res => {
@@ -176,8 +176,8 @@ export class AuditktHomePage implements OnInit {
 
         });
         // luu file vao service
-        //http://54.169.202.105:5000/api/CoreFileUploads
-        var fileString = 'http://54.169.202.105:5000/api/CoreFileUploads/'.concat(uuid);
+        //http://222.255.252.41/api/CoreFileUploads
+        var fileString = 'http://222.255.252.41/api/CoreFileUploads/'.concat(uuid);
         this.HTTP.get(fileString, {}, {
             'Content-Type': 'application/json'
         })
@@ -191,7 +191,7 @@ export class AuditktHomePage implements OnInit {
                     // set file observer
                     console.log('list file a', a);
                     this.dataService.setFile(uuid, a);
-                    var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
+                    var imgUrl = 'http://222.255.252.41/uploads/';
                     console.log('aaa',a);
                     var fileArrs = [];
                     a.forEach((e)=>{

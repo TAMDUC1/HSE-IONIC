@@ -89,7 +89,7 @@ export class LvModalComponent implements OnInit,OnChanges {
     private state: string;
     requestObject: any = null;
 
-    private auditUrl = 'http://54.169.202.105:5000/api/HseAudits/';
+    private auditUrl = 'http://222.255.252.41/api/HseAudits/';
 
     //private files = {};
 
@@ -272,7 +272,7 @@ export class LvModalComponent implements OnInit,OnChanges {
 
     ionViewWillEnter() {
         this.dataService.File.subscribe((file) => {
-            this.filesArr = file;
+            this.filesArr = file.filter(e => e.typeProblem === this.lvName);
         });
     }
 
@@ -291,19 +291,16 @@ export class LvModalComponent implements OnInit,OnChanges {
                     this.file.createDir(path, MEDIA_FOLDER_NAME, false);
                 }
             );
-            /* this.route.paramMap.subscribe(paramMap =>{
-                this.uuid = paramMap.get('uuid');
-             })*/
         });
-        //http://54.169.202.105:5000/content/uploads/2019/11/16/82a611-120011.jpg
-        this.dataService.File.subscribe((file) => {
+        //http://222.255.252.41/uploads/2019/11/16/82a611-120011.jpg
+       /* this.dataService.File.subscribe((file) => {
             this.filesArr = file;
-           /* this.filesArr = this.filesArr.filter(e =>{
+            this.filesArr = this.filesArr.filter(e => e.typeProblem === this.lvName);
+           /!* this.filesArr = this.filesArr.filter(e =>{
                 return e.ty
-            })*/
+            })*!/
             console.log('this.filesArr',this.filesArr);
-        });
-        console.log('content',this.content);
+        });*/
         this.lastDescription = this.content.description;
         this.lastEvaluate = this.content.state;
         this.form = new FormGroup(
@@ -318,7 +315,7 @@ export class LvModalComponent implements OnInit,OnChanges {
         console.log('lvNAme',this.lvName);
         console.log('description',this.form.value.description);
         console.log('evaluate',this.form.value.evaluate);
-        /*var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
+        /*var imgUrl = 'http://222.255.252.41/uploads/';
         this.files.data.forEach(e=>{
             var a = JSON.parse(e.data);
             var path = imgUrl.concat(a.path);
@@ -334,7 +331,7 @@ export class LvModalComponent implements OnInit,OnChanges {
             console.log('array file',this.filesArr);
 
         });*/
-        /* var file_url = 'http://54.169.202.105:5000/api/CoreFileUploads/'.concat(this.uuid);
+        /* var file_url = 'http://222.255.252.41/api/CoreFileUploads/'.concat(this.uuid);
          this.HTTP.get(file_url,{},{
              'Content-Type' : 'application/json'
          }).then(res=> {
@@ -388,46 +385,47 @@ export class LvModalComponent implements OnInit,OnChanges {
         });
     }
 
-    openImageViewer(image, nd) {
+    openImageViewer(index, nd) {
         this.modalCtrl.create({
             component: AuditImageZoomComponent,
             componentProps: {
                 filesArr: this.filesArr,
-                index: image,
+                index: index,
                 nd: nd
             }
         }).then(modal => {
             modal.present();
+            console.log(this.filesArr);
         });
     }
     async selectMedia() {
         const actionSheet = await this.actionSheetController.create({
-            header: 'What would you like to add?',
+           // header: 'What would you like to add?',
             buttons: [
                 {
-                    text: 'Capture Image',
+                    text: 'Chụp Ảnh',
                     handler: () => {
                         this.captureImage();
                     }
                 },
                 {
-                    text: 'Record Video',
+                    text: 'Quay Phim',
                     handler: () => {
                         this.recordVideo();
                     }
                 },
                 {
-                    text: 'Record Audio',
+                    text: 'Ghi Âm',
                     handler: () => {
                         this.recordAudio();
                     }
                 },
-                {
+              /*  {
                     text: 'Load multiple',
                     handler: () => {
                         this.pickImages();
                     }
-                },
+                },*/
                 {
                     text: 'Cancel',
                     role: 'cancel'
@@ -470,14 +468,14 @@ export class LvModalComponent implements OnInit,OnChanges {
     pickImages() {
         this.imagePicker.getPictures({}).then(
             results => {
-                console.log('results',results);
+                console.log('results',results );
 
                 for (var i = 0; i < results.length; i++) {
                     this.copyFileToLocalDir(results[i]);
                 }
             }
         );
-        console.log('this.imageArr',this.imageArr);
+        //console.log('this.imageArr uuuuu',this.imageArr);
         //  this.ref.detectChanges();
         // If you get problems on Android, try to ask for Permission first
         /*  this.imagePicker.requestReadPermission().then(result => {
@@ -537,7 +535,6 @@ export class LvModalComponent implements OnInit,OnChanges {
         const name = myPath.substr(myPath.lastIndexOf('/') + 1);
         const copyFrom = myPath.substr(0, myPath.lastIndexOf('/') + 1);
         const copyTo = this.file.dataDirectory + MEDIA_FOLDER_NAME;
-
         this.file.copyFile(copyFrom, name, copyTo, newName).then(
             success => {
                 this.loadFiles();
@@ -552,8 +549,10 @@ export class LvModalComponent implements OnInit,OnChanges {
     }
 
     openFile(f: FileEntry) {
+        console.log(f);
         if (f.name.indexOf('.wav') > -1) {
             // We need to remove file:/// from the path for the audio plugin to work
+            console.log(f,'wav');
             const path =  f.nativeURL.replace(/^file:\/\//, '');
             const audioFile: MediaObject = this.media.create(path);
             audioFile.play();
@@ -575,10 +574,7 @@ export class LvModalComponent implements OnInit,OnChanges {
     }
 
     startUpload(imgEntry,index,typeProblem) {
-        console.log('typeProblem',typeProblem);
         const path = imgEntry.nativeURL;
-       // const path2 = imgEntry.nativeURL.substr(0, imgEntry.nativeURL.lastIndexOf('/') + 1);
-
         this.file.resolveLocalFilesystemUrl(path)
             .then(entry =>
             {
@@ -611,40 +607,30 @@ export class LvModalComponent implements OnInit,OnChanges {
             message: 'Uploading image...',
         });
         await loading.present();
-        /*this.HTTP.put(auditSingleUrl,
-            this.requestObject,
-            {"Content-Type": "application/json"})
-            .then(data => {
-                    if(data.status == 200){
-                        this.ndDescription = this.form.value.description;
-                        //this.requestObject.data = JSON.parse(this.requestObject.data);
-                        this.dataService.setData(2,this.requestObject);
-                        // var temp= JSON.parse(this.dataService.getData(2).data.checkList);
-                        //   console.log('test save data lai.....',temp);
-                        setTimeout(()=>{
-                            loadingEl.dismiss();
-                            this.presentAlert();
-                            this.onSubmit();
-                        },1000);
-                    }
-                    else{
-                        this.presentAlertFail();
-                        loadingEl.dismiss();
-                    }
-                }
-            )
-            .catch(err => console.log('day la loi',err));*/
-        this.http.post("http://54.169.202.105:5000/api/DocumentsUpload", formData)
+        this.http.post("http://222.255.252.41/api/DocumentsUpload", formData)
             .pipe(
                 finalize(() => {
                     loading.dismiss();
                 })
             )
             .subscribe((res : any) => {
+                if(type.indexOf('jpeg')){
+                    type = 'jpeg';
+                }
+                /*if(type.indexOf('jpg')){
+                    type = 'jpg';
+                }*/
+               /* if(type.indexOf('wav')){
+                    type = 'wav';
+                }
+                if(type.indexOf('MOV')){
+                    type = 'MOV';
+                }*/
+               // f.name.indexOf('.wav'
                 if (res) {
                     const temp = res;
                     var data = {
-                        ext : "",
+                        ext : type,
                         attr :"",
                         lang : "",
                         name : temp.name,
@@ -666,10 +652,11 @@ export class LvModalComponent implements OnInit,OnChanges {
                        this.HTTP.setDataSerializer('json');
                        this.HTTP.setDataSerializer( "utf8" );*/    //https://stackoverflow.com/questions/51417208/ionic-native-http-call-with-content-type-text-plan
 
-                    this.http.post("http://54.169.202.105:5000/api/CoreFileUploads",requestObject,httpOptions)
+                    this.http.post("http://222.255.252.41/api/CoreFileUploads",requestObject,httpOptions)
                         .subscribe(
                             data => {
-                                var imgUrl = 'http://54.169.202.105:5000/content/uploads/';
+                                console.log('data 2020',data);
+                                var imgUrl = 'http://222.255.252.41/content/uploads/';
                                 var temp = JSON.parse(JSON.stringify(data));
                                 temp.data = JSON.parse(temp.data);
                                 var path = imgUrl.concat(temp.data.path);
@@ -678,18 +665,22 @@ export class LvModalComponent implements OnInit,OnChanges {
                                     name : temp.data.name,
                                     path : path.concat(temp.data.name),
                                     typeProblem : typeProblem,
-                                    uuid : requestObject.uuid
+                                    uuid : requestObject.uuid,
+                                    uuid_img : temp.uuid
                                 };
                                 // add to service observer
                                 this.dataService.File.pipe(take(1)).subscribe(file =>{
                                     temp = file.concat(databack);
                                     this.dataService.setFile(this.uuid,temp);
                                 });
+                                console.log('requestObject',requestObject);
                                 this.deleteFile(this.files[index]);// delete after upload
                                 this.message ="Bạn Đã Gửi Thành Công" },
+
                             error =>{console.log("error",error)}
                         )
                     ;
+                    console.log('data',data);
                     this.presentToast('File upload thành công.')
                 } else {
                     this.presentToast('File upload thất bại.')
@@ -714,17 +705,16 @@ export class LvModalComponent implements OnInit,OnChanges {
     loadFiles() {
         this.file.listDir(this.file.dataDirectory, MEDIA_FOLDER_NAME).then(
             res => {
-                console.log('res',res);
+                console.log('resrrrr',res);
                 this.files = [];
                 this.imageArr = [];
                 res.forEach(e=>{
                     this.files = this.files.concat(e);
                     this.ref.detectChanges();
-
                 });
-                this.files = this.files.filter( (e)=>{
+               /* this.files = this.files.filter( (e)=>{
                    return e.typeProblem == this.content.title.vi;
-                });
+                });*/
                 /* if(this.files.length > 0){
                      res.forEach(e=>{
                          this.files.forEach(el => {//loop

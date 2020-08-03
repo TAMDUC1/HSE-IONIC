@@ -17,11 +17,11 @@ export class SideMenuPage implements OnInit {
         url: '/side-menu/audit',
         icon: ''
     },
-      {
+      /*{
           title: 'Hệ thống kiểm toán',
           url: '/side-menu/auditkt',
           icon: ''
-      },
+      },*/
     {
         title: 'Tin tức',
         url: '/side-menu/news',
