@@ -8,41 +8,44 @@
 
     </ion-toolbar>
 </ion-header>-->
-<ion-content>
-    <div class="logo-box">
+<ion-content style="overflow: hidden;">
+    <div class="content_pvn">
+        <div class="logo-box">
 
-    </div>
-    <form [formGroup]="credentialsForm" (ngSubmit)="onSubmit()">
-        <div class="login-form">
-            <img src="../../../../assets/images/logo.png" alt="">
-            <ion-list lines="none" class="ion-margin-top">
-                <ion-item>
-                    <ion-icon slot="start" color="lightgrey" name="ios-mail-outline"></ion-icon>
-                    <ion-input formControlName="Username" type="email" placeholder="Tài khoản" ></ion-input>
-                </ion-item>
-
-                <ion-item>
-                    <ion-icon slot="start" color="lightgrey" name="ios-key-outline"></ion-icon>
-                    <ion-input formControlName="PasswordMobile" type="password" placeholder="Mật Khẩu" ></ion-input>
-                </ion-item>
-
-            </ion-list>
-            <!-- [disabled]="!credentialsForm.valid" -->
-
-
-
-            <ion-button mode="ios"  color="realgreen" expand="block" type="submit"   >
-                Đăng nhập
-            </ion-button>
-
-           <!-- <ion-button mode="ios" color="red" expand="block" type="button" class="ion-margin-top" (click)="logOut()">
-                Logout
-            </ion-button>-->
-            <!--<ion-text color="dark">
-                    <h2 text-center class="ion-margin-bottom main-header8">
-                        By clicking Sign up you agree to the following Terms ans Conditions without reservation
-                    </h2>
-                </ion-text>-->
         </div>
-    </form>
+        <form [formGroup]="credentialsForm" (ngSubmit)="onSubmit()">
+            <div class="login-form">
+                <img src="../../../../assets/images/logo.png" alt="">
+                <ion-list lines="none" class="ion-margin-top">
+                    <ion-item>
+                        <ion-icon slot="start" color="lightgrey" name="ios-mail-outline"></ion-icon>
+                        <ion-input formControlName="Username" type="email" placeholder="Tài khoản" ></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-icon slot="start" color="lightgrey" name="ios-key-outline"></ion-icon>
+                        <ion-input formControlName="PasswordMobile" type="password" placeholder="Mật Khẩu" ></ion-input>
+                    </ion-item>
+
+                </ion-list>
+                <!-- [disabled]="!credentialsForm.valid" -->
+
+
+
+                <ion-button mode="ios"  color="realgreen" expand="block" type="submit"   >
+                    Đăng nhập
+                </ion-button>
+
+                <!-- <ion-button mode="ios" color="red" expand="block" type="button" class="ion-margin-top" (click)="logOut()">
+                     Logout
+                 </ion-button>-->
+                <!--<ion-text color="dark">
+                        <h2 text-center class="ion-margin-bottom main-header8">
+                            By clicking Sign up you agree to the following Terms ans Conditions without reservation
+                        </h2>
+                    </ion-text>-->
+            </div>
+        </form>
+    </div>
+
 </ion-content>

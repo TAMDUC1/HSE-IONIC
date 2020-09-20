@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">hse</string>
+    <string name="title_activity_main">hse</string>
+    <string name="package_name">pvn.vn.hse</string>
+    <string name="custom_url_scheme">pvn.vn.hse</string>
+</resources>
