@@ -1,25 +1,17 @@
-<ion-header  no-border>
-    <ion-toolbar color="bluegrey">
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
+<ion-header>
+    <ion-toolbar color="pvn">
+        <ion-buttons style="color: white !important;" slot="start">
+            <ion-buttons >
+                <ion-back-button></ion-back-button>
+            </ion-buttons>
         </ion-buttons>
-        <!-- <ion-buttons slot="end">
-           <ion-button (click)="onClose('side-menu/audit/tabs/tab1')">
-             <ion-badge color="danger"></ion-badge>
-             <ion-icon color="dark" slot="icon-only" name="ios-close"></ion-icon>
-           </ion-button>
-         </ion-buttons>-->
+        <ion-title color="light" class="main-b-header7">Danh sách kiểm tra</ion-title>
     </ion-toolbar >
-    <!--<ion-toolbar color="light">
-      <ion-searchbar color="" placeholder="Lọc danh sách " (ionFocus)="openSearchModal()" search-icon="ion-pin" ></ion-searchbar>
-    </ion-toolbar>-->
 </ion-header>
 
 <ion-content no-padding>
-    <ion-list-header color="bluegrey" >
-        Danh sách CheckList kiểm tra
-    </ion-list-header>
-    <!--<ion-segment color="bluegrey" padding="1" [(ngModel)]= type>
+
+    <!--<ion-segment color="pvn" padding="1" [(ngModel)]= type>
         <ion-segment-button value="list">
             Danh sách
         </ion-segment-button>
@@ -36,31 +28,23 @@
             <div class="profile-form"  *ngFor="let c of temp?.checkList" >
                 <ion-card class="info-card-2" ng-if="c.title.vi !='Rủi ro'">
                     <ion-list>
-                        <ion-item>
-                            <ion-label color="bluegrey">
+                        <ion-item  (click)="onShow(c)">
+                          <!--  <i class="icon" ng-class="isGroupShown(c) ? 'ion-minus' : 'ion-plus'"></i>-->
+                            <ion-icon color="pvn" style="zoom: 0.8;" *ngIf="!isGroupShown(c)" name="arrow-forward"></ion-icon>
+                            <ion-icon color="pvn" style="zoom: 0.8;" *ngIf="isGroupShown(c)" name="arrow-down"></ion-icon>
+                            <ion-label style="font-weight: 700;"  color="pvn">
                                  Lĩnh vực: {{c.title.vi}}
                             </ion-label>
                         </ion-item>
                         <ng-container *ngFor="let d of c?.children,let i = index">
-                            <ion-item  (click)="onOpenModal(c.title.vi,d.title.vi)">
-                                <ion-label>
+                            <ion-item *ngIf="d.checked && isGroupShown(c)" (click)="onOpenModal(c.title.vi,d.title.vi)" class="item-accordion"  >
+                                <ion-label style="font-size: 15px">
                                      {{d.title.vi}}
                                 </ion-label>
                             </ion-item>
                         </ng-container>
                     </ion-list>
                 </ion-card>
-                <!--<ion-card class="info-card-2" >
-                    <ion-list>
-                        <ng-container *ngFor="let d of c?.field,let i = index">
-                            <ion-item *ngIf="d.checked" (click)="onOpenModal(c.name,d.name)">
-                                <ion-label color="bluegrey">
-                                    {{i+1}}. {{d.name}}
-                                </ion-label>
-                            </ion-item>
-                        </ng-container>
-                    </ion-list>
-                </ion-card>-->
             </div>
         </div>
 

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="bluegrey">
+  <ion-toolbar color="pvn">
     <ion-buttons slot="start">
       <ion-button (click)="toggleSideMenu()">
         <ion-icon class="menu-icon"  name="md-menu" color="light" slot="start"></ion-icon>
@@ -35,17 +35,14 @@
         </div>
       </ion-card>-->
       <ion-card color="" class="real-card-audit slide-up"  *ngFor="let audit of filteredCompArrs , let i = index"    (click)="openDetail('side-menu/audit/tabs/tab1/audit-detail',audit.uuid)" >
-<!--
-        <div class="ribbon pop-in">Done</div>
-    -->
         <ion-card-header>
-            <ion-label><ion-text color="bluegrey"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+            <ion-label><ion-text color="pvn"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
             <ion-card-subtitle>{{audit.data.comp.addr.vi}}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content class="card1">
 
 <!--
-          <ion-label><ion-text color="bluegrey"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
+          <ion-label><ion-text color="pvn"><h2 class="main-b-header7">{{i +1 }}. {{audit.data.comp.title.vi}}</h2></ion-text></ion-label>
 -->
 
           <!--<ion-item lines="none">

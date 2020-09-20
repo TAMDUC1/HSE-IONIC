@@ -15,7 +15,6 @@
 }
 .info-card-2{
   background-color: #fff;
-  padding: 10px 15px 25px 15px;
   border-radius: 0px  !important;
   // remove shadow //
   margin-left: 0px !important;
@@ -57,4 +56,20 @@ ion-col{
 .card1-padding{
   padding: 12px 10px !important;
   //margin: 0px !important;
+}
+.item-accordion {
+  line-height: 30px;
+  transition: 0.09s all linear;
+  padding: 0 15px;
+}
+.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.item-accordion.ng-hide-add,
+.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+.hidden {
+  display: none !important;
 }

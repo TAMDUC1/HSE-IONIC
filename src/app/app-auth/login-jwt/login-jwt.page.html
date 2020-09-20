@@ -1,4 +1,4 @@
-<ion-header no-border>
+<!--<ion-header no-border>
     <ion-toolbar color="">
         <ion-buttons slot="start">
             <ion-button (click)="toggleSideMenu()">
@@ -7,21 +7,14 @@
         </ion-buttons>
 
     </ion-toolbar>
-</ion-header>
+</ion-header>-->
 <ion-content>
-   <!-- <ion-item lines="none">
-        <ion-label>
-            <ion-text color="bluegrey">
-                <h1 class="main-header1" >Đăng nhập</h1>
-            </ion-text>
-        </ion-label>
-    </ion-item>-->
+    <div class="logo-box">
 
+    </div>
     <form [formGroup]="credentialsForm" (ngSubmit)="onSubmit()">
         <div class="login-form">
-            <ion-text color="dark">
-
-            </ion-text>
+            <img src="../../../../assets/images/logo.png" alt="">
             <ion-list lines="none" class="ion-margin-top">
                 <ion-item>
                     <ion-icon slot="start" color="lightgrey" name="ios-mail-outline"></ion-icon>

@@ -67,7 +67,7 @@ export class ModalPage implements OnInit {
   }
 
   //******** Full ***********//
-  openFullModal(image) {
+  openFullModal() {
     this.modalController.create({
       component: ModalDetailPage,
       componentProps: {

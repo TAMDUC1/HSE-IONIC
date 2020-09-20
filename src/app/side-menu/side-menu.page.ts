@@ -65,16 +65,17 @@ export class SideMenuPage implements OnInit {
     //******************************//
     {
       title: 'Xác thực',
-      children: [
-       /* {
+        url: '/side-menu/login-jwt'
+      /*children: [
+       /!* {
           title: 'Đăng nhập',
           url: '/side-menu/login'
-        },*/
+        },*!/
         {
-            title: 'Đăng nhập jwt',
+            title: 'Đăng nhập',
             url: '/side-menu/login-jwt'
         },
-       /* {
+       /!* {
           title: 'Đăng ký',
           url: '/side-menu/register'
         },
@@ -85,8 +86,8 @@ export class SideMenuPage implements OnInit {
         {
           title: 'Forgot',
           url: '/side-menu/forgot'
-        },*/
-      ]
+        },*!/
+      ]*/
     },
     //******************************//
     //********** ui layout *********//

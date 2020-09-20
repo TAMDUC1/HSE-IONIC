@@ -18,7 +18,8 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import {StreamingMedia} from '@ionic-native/streaming-media/ngx';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { environment} from '../../../../environments/environment';
+import {getFileReader} from '../../../app.module';
 
 const MEDIA_FOLDER_NAME = 'my_media';
 const headerDict = {
@@ -89,7 +90,7 @@ export class LvModalComponent implements OnInit,OnChanges {
     private state: string;
     requestObject: any = null;
 
-    private auditUrl = 'http://222.255.252.41/api/HseAudits/';
+    private auditUrl =  environment.apiAudit;
 
     //private files = {};
 
@@ -122,20 +123,7 @@ export class LvModalComponent implements OnInit,OnChanges {
     onCancel() {
 
         this.modalCtrl.dismiss(null, 'cancel');
-      /*  if(this.form.value.description != null || this.form.value.evaluate != null){
-            this.onEditToBackendNative();
-            this.modalCtrl.dismiss(null, 'cancel');
-            console.log('description',this.form.value.description);
-            console.log('evaluate',this.form.value.evaluate);
-        }
-        else{
-            this.modalCtrl.dismiss(null, 'cancel');
-            console.log('no Edit');
-            console.log('description',this.form.value.description);
-            console.log('evaluate',this.form.value.evaluate);
-            // this.form.value.description='';
-           // this.form.value.evaluate = '';
-        }*/
+
 
     }
     onEditToBackendNative() {
@@ -292,15 +280,7 @@ export class LvModalComponent implements OnInit,OnChanges {
                 }
             );
         });
-        //http://222.255.252.41/uploads/2019/11/16/82a611-120011.jpg
-       /* this.dataService.File.subscribe((file) => {
-            this.filesArr = file;
-            this.filesArr = this.filesArr.filter(e => e.typeProblem === this.lvName);
-           /!* this.filesArr = this.filesArr.filter(e =>{
-                return e.ty
-            })*!/
-            console.log('this.filesArr',this.filesArr);
-        });*/
+
         this.lastDescription = this.content.description;
         this.lastEvaluate = this.content.state;
         this.form = new FormGroup(
@@ -315,40 +295,7 @@ export class LvModalComponent implements OnInit,OnChanges {
         console.log('lvNAme',this.lvName);
         console.log('description',this.form.value.description);
         console.log('evaluate',this.form.value.evaluate);
-        /*var imgUrl = 'http://222.255.252.41/uploads/';
-        this.files.data.forEach(e=>{
-            var a = JSON.parse(e.data);
-            var path = imgUrl.concat(a.path);
-                path = path.concat('/');
-            var file = {
-                uuid : e.uuid,
-                name : a.name,
-                path : path.concat(a.name),
-                typeProblem : a.typeProblem
-                        } ;
-            //Str(e.data);
-            this.filesArr.push(file);
-            console.log('array file',this.filesArr);
 
-        });*/
-        /* var file_url = 'http://222.255.252.41/api/CoreFileUploads/'.concat(this.uuid);
-         this.HTTP.get(file_url,{},{
-             'Content-Type' : 'application/json'
-         }).then(res=> {
-                 res.data = JSON.parse(res.data);
-                 res.data.forEach(e => {
-                     e.data = JSON.parse(e.data);
-                     var temp = {
-                         path : e.data.path,
-                         name : e.data.name,
-                         typeProblem : e.data.typeProblem
-                     };
-                     this.files.push(temp);
-                     console.log('path idag ...',e.data.path);
-                 });
-                 //console.log('files ...',this.files);
-             }
-         );*/
     }
 
     openItemDetail(url, nnName, lvName, ndName) {
@@ -376,9 +323,6 @@ export class LvModalComponent implements OnInit,OnChanges {
                 typeProblem: typeProblem,
                 filesArr: this.filesArr,
 
-                /*filesArr: this.filesArr,
-                index: image,
-                nd : nd*/
             }
         }).then(modal => {
             modal.present();
@@ -419,13 +363,13 @@ export class LvModalComponent implements OnInit,OnChanges {
                     handler: () => {
                         this.recordAudio();
                     }
-                },
-              /*  {
+                }/*,
+                {
                     text: 'Load multiple',
                     handler: () => {
                         this.pickImages();
                     }
-                },*/
+                }*/,
                 {
                     text: 'Cancel',
                     role: 'cancel'
@@ -465,6 +409,7 @@ export class LvModalComponent implements OnInit,OnChanges {
             }
         });
     }
+
     pickImages() {
         this.imagePicker.getPictures({}).then(
             results => {
@@ -482,6 +427,7 @@ export class LvModalComponent implements OnInit,OnChanges {
             console.log('requestReadPermission: ', result);
             this.selectMultiple();
           });*/
+
     }
 
     captureImage() {
@@ -572,22 +518,26 @@ export class LvModalComponent implements OnInit,OnChanges {
             this.loadFiles();
         }, err => console.log('error remove: ', err));
     }
-
-    startUpload(imgEntry,index,typeProblem) {
+    async startUpload(imgEntry,index,typeProblem) {
+        console.log(imgEntry);
+        console.log('upload');
         const path = imgEntry.nativeURL;
         this.file.resolveLocalFilesystemUrl(path)
             .then(entry =>
             {
+                console.log(entry);
                 ( < FileEntry > entry).file(file => this.readFile(file,index,typeProblem))
             })
             .catch(err => {
                 this.presentToast('Error while reading file.');
             });
     }
-    readFile(file: any,index,typeProblem) {
-       // console.log('read file');
-        const reader = new FileReader();
+    async readFile(file: any,index,typeProblem) {
+        console.log(file);
+        console.log('read file');
+        const reader = getFileReader();
         reader.onloadend = () => {
+            console.log('vao day');
             const formData = new FormData();
             const imgBlob = new Blob([reader.result], {
                 type: file.type
@@ -607,7 +557,7 @@ export class LvModalComponent implements OnInit,OnChanges {
             message: 'Uploading image...',
         });
         await loading.present();
-        this.http.post("http://222.255.252.41/api/DocumentsUpload", formData)
+        this.http.post( environment.docUpload, formData)
             .pipe(
                 finalize(() => {
                     loading.dismiss();
@@ -652,11 +602,11 @@ export class LvModalComponent implements OnInit,OnChanges {
                        this.HTTP.setDataSerializer('json');
                        this.HTTP.setDataSerializer( "utf8" );*/    //https://stackoverflow.com/questions/51417208/ionic-native-http-call-with-content-type-text-plan
 
-                    this.http.post("http://222.255.252.41/api/CoreFileUploads",requestObject,httpOptions)
+                    this.http.post(environment.coreFileUpload ,requestObject,httpOptions)
                         .subscribe(
                             data => {
                                 console.log('data 2020',data);
-                                var imgUrl = 'http://222.255.252.41/content/uploads/';
+                                var imgUrl =environment.upload;
                                 var temp = JSON.parse(JSON.stringify(data));
                                 temp.data = JSON.parse(temp.data);
                                 var path = imgUrl.concat(temp.data.path);
@@ -712,47 +662,6 @@ export class LvModalComponent implements OnInit,OnChanges {
                     this.files = this.files.concat(e);
                     this.ref.detectChanges();
                 });
-               /* this.files = this.files.filter( (e)=>{
-                   return e.typeProblem == this.content.title.vi;
-                });*/
-                /* if(this.files.length > 0){
-                     res.forEach(e=>{
-                         this.files.forEach(el => {//loop
-                             if(el.name == e.name){
-
-                             }
-                             else{
-                                 this.files.concat(el);
-                             }
-                         })
-                     })
-                 }else{
-                     res.forEach(e=>{
-                         this.files.concat(e);
-                     })
-                 }*/
-
-                //this.files = [];
-                // this.ref.detectChanges();
-                /*res.forEach(e =>{
-                    if(this.files.length > 0){
-                        this.files.forEach(el=>{
-                            if(e.name != el.name){
-                                this.files.push(e);
-                                this.ref.detectChanges();
-                            }
-                        });
-                    }
-                    else {
-                        this.files = res;
-                        this.ref.detectChanges();
-                    }
-
-                });*/
-                // this.addData(res);
-                // this.files = res;
-                console.log('this.file',this.files);
-                // this.ref.detectChanges();
             },
             err => console.log('error loading files: ', err)
         );

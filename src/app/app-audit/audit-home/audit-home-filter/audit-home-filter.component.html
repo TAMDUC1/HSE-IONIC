@@ -1,6 +1,6 @@
 <ion-header no-border>
-  <ion-toolbar color="bluegrey">
-    <ion-title >Lọc nâng cao</ion-title>
+  <ion-toolbar color="pvn">
+    <ion-title color="light">Lọc nâng cao</ion-title>
     <ion-buttons slot="start">
       <ion-back-button color="green"></ion-back-button>
     </ion-buttons>
@@ -9,44 +9,42 @@
         <ion-icon slot="icon-only"  name="ios-arrow-down"></ion-icon>
       </ion-button>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
   <ion-list>
-    <ion-radio-group>
+    <ion-radio-group allow-empty-selection="true" name="radio-group-year" (ionChange) = "radioGroupChangeYear($event)" #radioGroup>
       <ion-list-header>
         <ion-label>Năm</ion-label>
       </ion-list-header>
       <ion-item >
         <ion-label>Tất cả</ion-label>
-        <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
+        <ion-radio slot="start" color="pvn" value="all" checked></ion-radio>
       </ion-item>
-      <ion-item *ngFor="let c of filterDate">
+      <ion-item *ngFor = "let c of filterDate" >
         <ion-label>{{c}}</ion-label>
-        <ion-radio slot="start" color="bluegrey" value="{{c}}" checked></ion-radio>
+        <ion-radio slot="start" color="pvn" value="{{c}}" checked></ion-radio>
       </ion-item>
     </ion-radio-group>
   </ion-list>
+
   <ion-list>
-    <ion-radio-group>
+    <ion-radio-group allow-empty-selection="true" name="radio-group" (ionChange)="radioGroupChange($event)" #radioGroup>
       <ion-list-header>
         <ion-label>Trạng thái</ion-label>
       </ion-list-header>
-      <ion-item >
-        <ion-label>Tất cả</ion-label>
-        <ion-radio slot="start" color="bluegrey" value="all" checked></ion-radio>
+
+      <ion-item *ngFor="let item of radio_list" (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
+                (ionBlur)="radioBlur()">
+        <ion-label>{{item.text}}</ion-label>
+        <ion-radio slot="start" name="{{item.name}}" value="{{item.value}}" checked="{{item.checked}}"
+                   color="{{item.color}}" disabled="{{item.disabled}}"></ion-radio>
       </ion-item>
-      <ion-item>
-        <ion-label>Hoàn thành kiểm tra</ion-label>
-        <ion-radio slot="start" color="bluegrey" value="done" checked></ion-radio>
-      </ion-item>
-      <ion-item>
-        <ion-label>Chuẩn bị</ion-label>
-        <ion-radio slot="start" color="bluegrey" value="prepare" checked></ion-radio>
-      </ion-item>
+
     </ion-radio-group>
   </ion-list>
-  <ion-button  mode="ios" color="bluegrey" fill="outline" expand="block" class="ion-margin-top"  (click)="onSubmit()">
+  <ion-button  mode="ios" color="pvn" fill="outline" expand="block" class="ion-margin-top"  (click)="onSubmit()">
     Lọc
   </ion-button>
 </ion-content>

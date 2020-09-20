@@ -15,7 +15,13 @@
 // Get ionic3 outline icon back for ionic 4
 // https://github.com/ionic-team/ionicons/issues/550
 
-
+.tilte_pvn {
+    margin-left: 10px;
+    white-space: nowrap;
+    height: auto;
+    overflow-X: scroll;
+    overflow-y: auto;
+}
 
 
 
@@ -559,7 +565,7 @@
 
 .info-card-2{
     background-color: #fff;
-    padding: 10px 15px 25px 15px;
+   // padding: 10px 15px 25px 15px;
     border-radius: 0px  !important;
     // remove shadow //
     margin-left: 0px !important;

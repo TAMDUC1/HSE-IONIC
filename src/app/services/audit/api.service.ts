@@ -57,10 +57,8 @@ export class ApiService {
         '',
         '');
 
-    private auditUrl : string ='http://222.255.252.41/api/HseAudits/';
+    private auditUrl : string = environment.apiAudit;
 
-    // dummy url get
-    private dummyUrl : string = 'http://dummy.restapiexample.com/api/v1/employees';
     constructor(private Http: HttpClient,
                 private  networkService: NetworkService,
                 private storage: Storage,
@@ -69,13 +67,6 @@ export class ApiService {
 
     )
     { }
-   /* getAllDummy(): Observable<DummyModel[]>{
-        return this.Http.get<DummyModel[]>(this.dummyUrl, httpOptions)
-            .pipe(
-                catchError(this.handleError)
-            )
-            ;
-    }*/
     getAllAudits(): Observable<IAudit[]>{
         return this.Http.get<IAudit[]>(this.auditUrl, httpOptions)
             .pipe(

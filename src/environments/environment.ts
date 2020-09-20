@@ -17,7 +17,8 @@ export const environment = {
     apiPost : 'http://222.255.252.41/api/Posts' ,
     apiAudit : 'http://222.255.252.41/api/HseAudits/',
     upload: 'http://222.255.252.41/content/uploads/',
-    coreFileUpload: 'http://222.255.252.41/api/CoreFileUploads/'
+    coreFileUpload: 'http://222.255.252.41/api/CoreFileUploads/',
+    docUpload: 'http://222.255.252.41/api/DocumentsUpload/'
 };
 
 /*

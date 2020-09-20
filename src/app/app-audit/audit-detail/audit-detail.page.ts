@@ -6,7 +6,8 @@ import {ApiService} from '../../services/audit/api.service';
 import {DataService} from '../../services/audit/data.service';
 import {Observable} from 'rxjs';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-
+//import { Animation, AnimationController } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
 import {RealestateService} from '../../services/realestate.service';
 import {LvModalComponent} from './lv-modal/lv-modal.component';
 import {myEnterAnimation} from '../../animation/enter';
@@ -21,18 +22,17 @@ import {HTTP} from '@ionic-native/http/ngx';
 export class AuditDetailPage implements OnInit {
     Audit = new Audit('', '', '', '', '', 0, 0, 0, 0, 0, new Date(),
         new Date(), '', '');
-    private checkList: string;
-    private data = [];
-    private temp;
-    private type = 'list';
-    private uuid: string;
-    agents: Observable<any[]>;
-    private singleAudit;
-    private files : any;
-    private auditType ;
-    private auditUrl = 'http://222.255.252.41/api/HseAudits/';
+     checkList: string;
+     data = [];
+     temp;
+     type = 'list';
+     uuid: string;
+     agents: Observable<any[]>;
+     singleAudit;
+     files : any;
+     auditType ;
+     auditUrl = environment.apiAudit;
     requestObject: any = null;
-
     /*  nnName: string; // nhom nganh
       lvName : string; // noi dung kiem tra
       ndName : string; // shouldbe noidung kiem tra
@@ -118,6 +118,11 @@ export class AuditDetailPage implements OnInit {
                                 console.log(e);
                                 return e.type !='Lĩnh vực rủi ro';
                             });
+                           // console.log('checkList',this.temp.checkList);
+                            this.temp.checkList.forEach(f =>{
+                                f["show"] = false;
+                            });
+                            console.log('checkList',this.temp.checkList);
                         }
                         else{
                             this.auditType = 2;
@@ -152,18 +157,14 @@ export class AuditDetailPage implements OnInit {
         console.log('this.file 2020',this.files);
         var tempFiles = this.files.filter(e => e.typeProblem === lvName);
         console.log('tempFiles',tempFiles);
-        var fileString = 'http://222.255.252.41/api/CoreFileUploads/'.concat(this.uuid);
+        var fileString = environment.coreFileUpload.concat(this.uuid);
         this.HTTP.get(fileString, {}, {
             'Content-Type': 'application/json'
         }).then(res => {
                 res.data = JSON.parse(res.data);
-                /*res.data.forEach( e =>{
-                    JSON.parse(e);
-                });*/
                 console.log('file data', res.data, 'uuid', this.uuid);
             }
         );
-
         try {
             var tempChildren = await this.getChild(nnName, lvName);
             this.dataService.setObj(nnName, lvName);// save nn va lv
@@ -178,7 +179,9 @@ export class AuditDetailPage implements OnInit {
                     content: tempChildren,
                     files: tempFiles
                 }
+
             }).then(modalEl => {
+
                 modalEl.present();
                 return modalEl.onDidDismiss();
             }).then(resultData =>{
@@ -201,16 +204,19 @@ export class AuditDetailPage implements OnInit {
         }
 
     }
-
     openItemDetail(url, nnName, lvName) {
-        //
         this.router.navigateByUrl('/' + url + '/' + this.uuid + '/' + nnName + '/' + lvName);
     }
 
     onClose(url) {
-
         this.router.navigateByUrl('/' + url);
-
+    }
+    onShow(c){
+        c.show = !c.show;
+        console.log(c);
+    }
+    isGroupShown(c){
+        return c.show;
     }
 
 }

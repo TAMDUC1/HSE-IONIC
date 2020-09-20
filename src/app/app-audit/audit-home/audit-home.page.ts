@@ -13,6 +13,7 @@ import {AuditHomeFilterComponent} from './audit-home-filter/audit-home-filter.co
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 interface Audit {
     attachment: string,
@@ -47,6 +48,8 @@ export class AuditHomePage implements OnInit {
     page = 0;
     public dummy = {};
     filteredCompArrs = [];
+    filteredCompArrs2 = [];
+
     public currentDate = new Date().getFullYear();
     filterDate = [];
 
@@ -109,15 +112,60 @@ export class AuditHomePage implements OnInit {
                 }
             }).then(modalEl => {
                 modalEl.present();
+                return modalEl.onDidDismiss();
+            }).then(resultData =>{
+                if(resultData.role ==='save'){
+                    console.log(resultData);
+                    console.log('this.filteredCompArrs2',this.filteredCompArrs2);
 
+                    var temp = this.filteredCompArrs2;
+                    if(resultData.data.status != 0 && resultData.data.year !=='all'){
+                        this.filteredCompArrs = temp.filter( function (a){
+                            return a.year == resultData.data.year  && a.data.currentStatusId == resultData.data.status;
+                        })
+                    }
+                    else if(resultData.data.status == 0 && resultData.data.year !=='all'){
+                        this.filteredCompArrs = temp.filter( function (a){
+                            return a.year == resultData.data.year ;
+                        })
+                    }
+                    else if(resultData.data.year =='all' && resultData.data.status != 0){
+                        this.filteredCompArrs = temp.filter( function (a){
+                            return a.data.currentStatusId == resultData.data.status;
+                        })
+                    }
+                    else{
+                        this.filteredCompArrs = temp;
+                    }
+                    if(this.filteredCompArrs.length <= 0){
+                        this.presentAlert();
+                    }
+                }
             });
         } catch (err) {
             console.log('Error: ', err.message);
         }
     }
+    async presentAlert() {
+        const alert = await this.alertController.create({
+            cssClass: 'my-custom-class',
+            header: 'Alert',
+            subHeader: 'Subtitle',
+            message: 'Không tìm thấy kết quả !!!',
+            buttons: [
+                {
+                    text: 'Hiện danh sách mặc định',
+                    handler: () => {
+                        this.filteredCompArrs = this.filteredCompArrs2;
+                    }
+                }
+            ]
+        });
 
+        await alert.present();
+    }
     getHTTP() {
-        this.httpClient.get<[Audit]>('http://222.255.252.41/api/HseAudits').subscribe(res => {
+        this.httpClient.get<[Audit]>( environment.apiAudit).subscribe(res => {
             res.forEach(e => {
                 if (e.kind == 1) {
                     var temp = e;
@@ -144,7 +192,12 @@ export class AuditHomePage implements OnInit {
                     return e.data.checkList.length > 0;
                 });
                 this.CompArrs = filterComps;
-                this.filteredCompArrs = this.CompArrs;
+                this.filteredCompArrs = this.CompArrs.sort(function (a,b) {
+                    return parseInt(a.data.dotKT)-parseInt(b.data.dotKT);
+                });
+
+                this.filteredCompArrs.reverse();
+                this.filteredCompArrs2 = this.filteredCompArrs.reverse();
 
             }
 
@@ -154,7 +207,7 @@ export class AuditHomePage implements OnInit {
     }
 
     getHTTP3() {
-        this.httpClient.get<[Audit]>('http://222.255.252.41/api/HseAudits').subscribe(res => {
+        this.httpClient.get<[Audit]>( environment.apiAudit).subscribe(res => {
             res.forEach(e => {
                 if (e.kind == 1) {
                     var temp = e;
@@ -167,34 +220,7 @@ export class AuditHomePage implements OnInit {
         });
     }
 
-    /* getHTTP2(refresh = false, refresher?){
-         this.HTTP.get('http://222.255.252.41/api/HseAudits',{},{
-             'Content-Type' : 'application/json'
-         }).then(res => {
-             console.log('ressssss',res);
-             this.requestObject = JSON.parse(res.data);
-             this.requestObject.forEach((e)=>
-             {
-                 //  console.log(e.uuid);
-                 // this.audit = e;
-                 e.data = JSON.parse(e.data);
-                 if(e.kind == 1){
-                     this.CompArrs.push(e);
-                 }
-                 if(refresher){
-                     refresher.target.complete();
-                 }
 
-             });
-             this.audits = this.requestObject;
-             this.dataService.setData(1,this.audits);// save audits
-
-
-         }
-         )
-         .catch(err => this.requestObject = err)
-         ;
-     }*/
     toggleSideMenu() {
         this.ionicComponentService.sideMenu();
         // this.test.getapiServiceHse();
@@ -203,7 +229,7 @@ export class AuditHomePage implements OnInit {
 
     openDetail(url, uuid) {
         console.log('nice', uuid);
-        var string = 'http://222.255.252.41/api/HseAudits/'.concat(uuid);
+        var string = environment.apiAudit.concat(uuid);
         this.HTTP.get(string, {}, {
             'Content-Type': 'application/json'
         }).then(res => {
@@ -214,8 +240,7 @@ export class AuditHomePage implements OnInit {
 
         });
         // luu file vao service
-        //http://222.255.252.41/api/CoreFileUploads
-        var fileString = 'http://222.255.252.41/api/CoreFileUploads/'.concat(uuid);
+        var fileString = environment.coreFileUpload.concat(uuid);
         this.HTTP.get(fileString, {}, {
             'Content-Type': 'application/json'
         })
@@ -224,7 +249,7 @@ export class AuditHomePage implements OnInit {
                     a = JSON.parse(a);
                     this.dataService.setFiles(uuid, a);
                     this.dataService.setFile(uuid, a);
-                    var imgUrl = 'http://222.255.252.41/content/uploads/';
+                    var imgUrl = environment.upload;
                     var fileArrs = [];
                     a.forEach((e)=>{
                         var data = JSON.parse(e.data);
